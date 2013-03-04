@@ -4,6 +4,12 @@ fgx.github.com
 
 ### Change Log
 
+2013-03-04 ~ Theo
+Addded new cookbook entry
+
+2013-03-04 ~ Theo
+Addded new cookbook entries
+
 2013-03-02 ~ Theo
 * Added FGx cap coorporate identity as png and ico
 * updated the home page text a bit
