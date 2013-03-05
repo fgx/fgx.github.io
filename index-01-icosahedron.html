@@ -6,7 +6,6 @@
 <link rel='icon'  href='favicon.ico' />
 </head>
 <body>
-<script src='http://mrdoob.github.com/three.js/examples/js/Detector.js'></script>
 <script src='http://mrdoob.github.com/three.js/build/three.min.js'></script>
 <script>
 
@@ -29,7 +28,7 @@
 		info.innerHTML='<h1><img src="fgx-cap-80x60.png"> FGx Open Source Projects</h1>' +
 			'<p>Home page: <a href="http://fgx.ch" target="_blank">fgx.ch</a></p>' +
 			
-			'<p><i>2013-03-05 ~ Home page source code uses a name space. New graphic top right...</i></p>' +
+			'<p><i>2013-03-02 ~ Home page beginning to wear the FGx livery...</i></p>' +
 			
 			'<h2>Code, Wiki, links and More...</h2>' +
 			
@@ -57,9 +56,7 @@
 
 			'<p>2013-03-05 ~ <a href="http://fgx.github.com/fgx-globe/cookbook/globe-circumscribe-airports-2k-only" target="_blank">globe-circumscribe-airports-2k-only</a>.</p>' +
 
-			'<p>What does a globe with 2,134 airports look like? Crowded in some places. Empty in other places. BTW, France sure has a lot of airports.</p>' +
-			
-			'<p>See the globe at the top right corner of this page for a subset of the features - this globe has no heads-up, etc..</p>' +
+			'<p>What does a globe with 2,134 airports look like? Crowded. BTW, France sure has a lot of airports.</p>' +
 			
 			'<p>2013-03-04 ~ <a href="http://fgx.github.com/fgx-globe/cookbook/open-geoff-file-show-only-nearby.html" target="_blank">Open Geoff\'s file show only nearby</a>. ' +
 			
@@ -155,94 +152,27 @@
 
 		FGx.scene = new THREE.Scene();
 
-		// FGx.geometry = new THREE.IcosahedronGeometry( 200, parseInt( Math.random() * 5 ) );
-		// FGx.material = new THREE.MeshBasicMaterial( { color: 0xffffff * Math.random(), wireframe: true, wireframeLinewidth: parseInt( Math.random() * 8) } );
-		FGx.objects = new THREE.Object3D();
-		
-		FGx.geometry = new THREE.IcosahedronGeometry( 200, 3 );
-		FGx.material = new THREE.MeshNormalMaterial();
-		
-		FGx.mesh = new THREE.Mesh( FGx.geometry, FGx.material );
-		FGx.objects.add( FGx.mesh );
+		FGx.geometry = new THREE.IcosahedronGeometry( 200, parseInt( Math.random() * 5 ) );
+		FGx.material = new THREE.MeshBasicMaterial( { color: 0xffffff * Math.random(), wireframe: true, wireframeLinewidth: parseInt( Math.random() * 8) } );
 
-		if ( ! Detector.webgl ) {
-			FGx.renderer = new THREE.CanvasRenderer( { antialias: true } );
-		} else {
-			FGx.renderer = new THREE.WebGLRenderer( { antialias: true } );
-		}
-		
-		// FGx.renderer = new THREE.CanvasRenderer();
+		FGx.mesh = new THREE.Mesh( FGx.geometry, FGx.material );
+		FGx.scene.add( FGx.mesh );
+
+		FGx.renderer = new THREE.CanvasRenderer();
 		FGx.renderer.setSize( 300, 300 );
 		FGx.renderer.domElement.style.cssText = 'border: solid red 0px; right: 0; position: absolute; top: 0;';
-		FGx.renderer.domElement.title = 'Each of the 2,123 cubes represents an airport';
 
 		document.body.appendChild( FGx.renderer.domElement );
-		
-		loadCSV('ap1000-ils.csv');
 	}
 
 	function animate() {
 		requestAnimationFrame( animate );
-		if ( FGx.objects ) {
-			FGx.objects.rotation.x = Date.now() * 0.00002;
-			FGx.objects.rotation.y = Date.now() * 0.0002;
-		}
+
+		FGx.mesh.rotation.x = Date.now() * 0.00002;
+		FGx.mesh.rotation.y = Date.now() * 0.0002;
+
 		FGx.renderer.render( FGx.scene, FGx.camera );
 	}
-	
-	function loadCSV( fname ) {
-		xmlhttp = new XMLHttpRequest();
-		xmlhttp.open( 'GET', fname, true );
-		xmlhttp.onreadystatechange = callback;
-		xmlhttp.send( null );
-	}
-	
-	var callbackCount = 0;
-	
-	function callback() {
-		if ( xmlhttp.readyState == 4  ) {
-			var dataLines = xmlhttp.responseText;
-			dataLines = dataLines.split(/\r\n|\n/);
-			var dataLength = dataLines.length;
-			var separator = ',';
-			data = [];
-			for ( var i = 0; i < dataLength; i++ ) {
-				data.push( dataLines[i].split( separator ) );
-			}
-			addAirports();
-		} else {
-			// callbackCount++;
-			console.log('waiting...');
-			// info.innerHTML = htm + ' Responses: ' + callbackCount;
-		}
-	}
-	
-	function addAirports() {
-		var ap;
-		var geometry = new THREE.CubeGeometry( 5, 5, 5);
-		var material = new THREE.MeshNormalMaterial();		
-		
-		for (var i = 1, len = data.length - 1; i < len; i++) {
-			ap = data[i];
-			cube = new THREE.Mesh( geometry, material );
-			cube.position = calcPosition( ap[2], ap[3], 201 );
-			cube.ap = ap;
-			FGx.objects.add( cube );			
-		}
-		FGx.scene.add( FGx.objects );
-	}	
-
-	function v(x,y,z){ return new THREE.Vector3(x,y,z); }
-	function cos(a){return Math.cos(a);} function sin(a){return Math.sin(a);}
-
-	function calcPosition( lat, lon, rad ) {
-		var pi = Math.PI, d2r = Math.PI / 180;
-		return  v(
-			rad * cos( lat * d2r ) * cos( pi - lon * d2r),
-			rad * sin( lat * d2r ),
-			rad * cos( lat * d2r ) * sin( pi - lon * d2r)
-		);
-	}	
 </script>
 </body>
 </html>
