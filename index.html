@@ -53,9 +53,9 @@
 
 			'<p>2013-03-05 ~ <a href="http://fgx.github.com/fgx-globe/cookbook/globe-circumscribe-airports.html" target="_blank">globe-circumscribe-airports.html</a>.</p>' +
 
-			'<p>As above with a nicer globe circomscribing user interface.</p>' + 
+			'<p>As above with a nicer globe circumscribing user interface.</p>' + 
 
-			'<p>2013-03-05 ~ <a href="http://fgx.github.com/fgx-globe/cookbook/globe-circumscribe-airports-2k-only" target="_blank">globe-circumscribe-airports-2k-only</a>.</p>' +
+			'<p>2013-03-05 ~ <a href="http://fgx.github.com/fgx-globe/cookbook/globe-circumscribe-airports-2k-only.html" target="_blank">globe-circumscribe-airports-2k-only</a>.</p>' +
 
 			'<p>What does a globe with 2,134 airports look like? Crowded in some places. Empty in other places. BTW, France sure has a lot of airports.</p>' +
 			
@@ -151,7 +151,7 @@
 		
 		
 		FGx.camera = new THREE.PerspectiveCamera( 75, 1, 1, 1000 );
-		FGx.camera.position.z = 350;
+		FGx.camera.position.set ( 0, 0, 350 );
 
 		FGx.scene = new THREE.Scene();
 
@@ -170,8 +170,7 @@
 		} else {
 			FGx.renderer = new THREE.WebGLRenderer( { antialias: true } );
 		}
-		
-		// FGx.renderer = new THREE.CanvasRenderer();
+
 		FGx.renderer.setSize( 300, 300 );
 		FGx.renderer.domElement.style.cssText = 'border: solid red 0px; right: 0; position: absolute; top: 0;';
 		FGx.renderer.domElement.title = 'Each of the 2,123 cubes represents an airport';
@@ -211,9 +210,7 @@
 			}
 			addAirports();
 		} else {
-			// callbackCount++;
 			console.log('waiting...');
-			// info.innerHTML = htm + ' Responses: ' + callbackCount;
 		}
 	}
 	
