@@ -9,10 +9,10 @@ FGx Open Source Projects
 * Geoff added as owner
 
 2013-03-04 ~ Theo
-Added new cookbook entry
+* Added new cookbook entry
 
 2013-03-04 ~ Theo
-Addded new cookbook entries
+* Added new cookbook entries
 
 2013-03-02 ~ Theo
 * Added FGx cap coorporate identity as png and ico
