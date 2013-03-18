@@ -4,11 +4,14 @@ FGx Open Source Projects
 
 ### Change Log
 
-2013-03-11 ~ Theo  
-* home page update fppr airports-runways-navaids r2
+2013-03-18 ~ Theo
+* home page update for airports-runways-navaids r2 - update
 
 2013-03-11 ~ Theo  
-* home page update fppr airports-runways-navaids
+* home page update for airports-runways-navaids r2
+
+2013-03-11 ~ Theo  
+* home page update for airports-runways-navaids
 
 2013-03-09 ~ Theo
 * Added copyright notice and license
