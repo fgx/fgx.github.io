@@ -1,6 +1,7 @@
 FGx Open Source Projects
 ========================
 
+[FGx copyright notice and license](https://github.com/fgx/fgx.github.com/blob/master/FGx%20copyright%20notice%20and%20license.md)
 
 ### Change Log
 
