@@ -4,8 +4,12 @@ FGx Open Source Projects
 
 ### Change Log
 
-2013-03-18 ~ Theo
+2013-03-20 ~ Theo
+* home page update for airports-runways-navaids r2.3 - update
+
+2013-03-19 ~ Theo
 * home page update for airports-runways-navaids r2.2 - update
+* generally cleaned up text
 
 2013-03-18 ~ Theo
 * home page update for airports-runways-navaids r2.1 - update
