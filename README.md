@@ -5,6 +5,9 @@ FGx Open Source Projects
 
 ### Change Log
 
+2013-04-26 ~ Thep
+* home page update for load-plane-3d and fgx-globe-r3
+
 2013-04-19 ~ Theo
 * home page update for j3qUE and other changes
 
