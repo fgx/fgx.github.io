@@ -5,6 +5,12 @@ FGx Open Source Projects
 
 ### Change Log
 
+2013-04-30 ~ Theo
+* home page update for fgx-globe-r3.3
+
+2013-04-28 ~ Theo
+* home page update for fgx-globe-r3.2
+
 2013-04-26 ~ Theo
 * home page update for fgx-globe-r3.1
 
