@@ -21,11 +21,12 @@
 
 	function init() {
 
-		document.body.style.cssText = 'font: 600 12pt monospace; max-width: 900px; min-width: 700px; margin: 0 auto; text-align: center';
+		//document.body.style.cssText = 'font: 600 12pt monospace; max-width: 900px; min-width: 700px; margin: 0; text-align: center; width: 10%; ';
+		document.body.style.cssText = 'font: 600 12pt monospace; margin: 0;  ';
 
 		var info = document.createElement( 'div' );
 		document.body.appendChild( info );
-		info.style.cssText = 'text-align: left;';
+		info.style.cssText = ' left: 28%; margin: auto; max-width: 900px; min-width: 600px; right: 50px; width: 100%; ';
 		info.innerHTML='<h1><img src="fgx-cap-80x60.png"> FGx Open Source Projects</h1>' +
 
 			'<p>Home page: <a href="http://fgx.ch" target="_blank">fgx.ch</a></p>' +
@@ -275,7 +276,7 @@
 
 			'The release adds headings being updated, plane and alitutude scaling, North and South Poles, inactive planes being grayed as well as a number of code clean-ups. ' +
 
-			'</p>';
+		'</p>';
 
 
 		FGx.camera = new THREE.PerspectiveCamera( 75, 1, 1, 1000 );
