@@ -1,6 +1,8 @@
 FGx Open Source Projects
 ========================
 
+FGx GitHub pages beta: [gx.github.io]( http://fgx.github.io/index-beta.html )
+
 [FGx copyright notice and license](https://github.com/fgx/fgx.github.com/blob/master/FGx%20copyright%20notice%20and%20license.md)
 
 ### Change Log
