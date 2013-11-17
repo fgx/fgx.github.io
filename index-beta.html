@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang=en>
+<head>
+<title>FGx</title>
+<meta charset=utf-8>
+<meta name=author content='Theo Armour'>
+</head>
+<body>
+<script src=http://fgx.github.io/sd/showdown.js ></script>
+<script src=http://fgx.github.io/libs/db2/doc-browser.js ></script>
+<script src=sd/showdown.js ></script>
+<script src=db2/doc-browser.js ></script>
+	<div id=txt >
+	
+		<h1>
+			<a href='' >FGx</a>
+		</h1>
+				
+		<p id=intro >
+			<a href=JavaScript:DS.displayMarkdown('readme.md',intro); >FGx Read Me on GitHub</a>
+		</p>
+			
+		<p>
+			Open Source Projects for FlightGear
+		</p>	
+				
+		<p id=ma>
+			<a href=JavaScript:DS.displayMarkdown('fgmap/README',ma); >FG Map</a><br>
+			FGx fork of git://pigeond.net/flightgear/fgmap.git
+		</p>
+
+		<p id=gl>
+			<a href=JavaScript:DS.displayMarkdown('fgx-globe/readme.md',gl); >Test Folder DEF</a><br>
+			Marketing teams input produce cross purposing in view of goal alignments due to knowledge paucity, necessitating workflow education and orientation. Media sourcing as an acquisition strategy is counterproductive in a internet environment in virtual component methodology. Imaging through ideals rather than real world branding, is a perilous undertaking with negative results. Branding strategies generating motion as activity without reproducible results is a ultimately futile effort if left in place.
+		</p>
+
+		<hr>
+-->		
+		<p>
+			<a href='https://github.com/fgx/fgx.github.com/blob/master/FGx%20copyright%20notice%20and%20license.md' target='_blank'>FGx Copyright and License</a>
+		</p>
+	
+	</div>		
+
+<script>
+
+	DS.menu.innerHTML = txt.innerHTML;
+	txt.innerHTML = '';
+	DS.init( 'https://github.com/jaanga/libs/tree/gh-pages/db/','readme.md', intro );
+	
+</script>
+</body>
+</html>
