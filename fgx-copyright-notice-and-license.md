@@ -1,4 +1,6 @@
-FGx Open Source Projects  
+FGx Open Source Projects  Copyright Notice and License
+======================================================
+
 Copyright &copy; 2013 FGx authors  
 
 This program is free software; you can redistribute it and/or  
