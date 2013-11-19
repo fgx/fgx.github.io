@@ -7,7 +7,7 @@ FGx GitHub pages beta: [fgx.github.io]( http://fgx.github.io/index-beta.html )
 
 You have two ways of viewing the FGx files:  
 
-* Code hosted on GitHub: [fgx.github.io]( http://jaanga.github.io/index.html#../../readme.md "view the files as apps." )  <input value="<< You are now probably here." size=28 style="font:bold 12pt monospace;border-width:0;" >  
+* Code hosted on GitHub: [fgx.github.io]( http://fgx.github.io/index.html "view the files as apps." )  <input value="<< You are now probably here." size=28 style="font:bold 12pt monospace;border-width:0;" >  
 * Source code on GitHub: [github.com/fgx]( https://github.com/fgx/fgx.github.io/blob/master/readme.md "View the files as source code." )  <scan style=display:none ><< You are now probably here.</scan>
 
 
