@@ -1,14 +1,14 @@
 FGx Open Source Projects
 ========================
 
-FGx GitHub pages beta: [fgx.github.io]( http://fgx.github.io/index-beta.html )
+FGx GitHub Pages beta: [fgx.github.io/index-beta.html]( http://fgx.github.io/index-beta.html )
 
 ## Project Links
 
 You have two ways of viewing the FGx files:  
 
-* Code hosted on GitHub: [fgx.github.io]( http://fgx.github.io/index.html "view the files as apps." )  <input value="<< You are now probably here." size=28 style="font:bold 12pt monospace;border-width:0;" >  
-* Source code on GitHub: [github.com/fgx]( https://github.com/fgx/fgx.github.io/blob/master/readme.md "View the files as source code." )  <scan style=display:none ><< You are now probably here.</scan>
+* Code hosted on GitHub: [fgx.github.io]( http://fgx.github.io/ "view the files as apps." ) <input value="<< You are now probably here." size=28 style="font:bold 12pt monospace;border-width:0;" >  
+* Source code on GitHub: [github.com/fgx]( https://github.com/fgx/fgx.github.io/ "View the files as source code." ) <scan style=display:none ><< You are now probably here.</scan>
 
 
 ## Copyright Notice and License
@@ -19,9 +19,9 @@ You have two ways of viewing the FGx files:
 
 2013-11-18 ~ Theo
 
-* Still working on beta. Still having issues on repose that are not mine. ;-)
+* Still working on beta. Still having issues on repos that are not mine. ;-)
 * Renamed fgx.github.com to fgx.github.io
-*
+* Adding links ti this read me
 
 
 2013-04-30 ~ Theo
