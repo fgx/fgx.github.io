@@ -3,9 +3,26 @@ FGx Open Source Projects
 
 FGx GitHub pages beta: [fgx.github.io]( http://fgx.github.io/index-beta.html )
 
+## Project Links
+
+You have two ways of viewing the FGx files:  
+
+* Code hosted on GitHub: [fgx.github.io]( http://jaanga.github.io/index.html#../../readme.md "view the files as apps." )  <input value="<< You are now probably here." size=28 style="font:bold 12pt monospace;border-width:0;" >  
+* Source code on GitHub: [github.com/fgx]( https://github.com/fgx/fgx.github.io/blob/master/readme.md "View the files as source code." )  <scan style=display:none ><< You are now probably here.</scan>
+
+
+## Copyright Notice and License
+
 [FGx copyright notice and license](https://github.com/fgx/fgx.github.com/blob/master/FGx%20copyright%20notice%20and%20license.md)
 
-### Change Log
+## Change Log
+
+2013-11-18 ~ Theo
+
+* Still working on beta. Still having issues on repose that are not mine. ;-)
+* Renamed fgx.github.com to fgx.github.io
+*
+
 
 2013-04-30 ~ Theo
 
