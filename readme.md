@@ -1,7 +1,7 @@
 FGx Open Source Projects
 ========================
 
-Home page: [fgx.ch]{ http://www.fgx.ch )
+Home page: [fgx.ch]( http://www.fgx.ch )
 
 FGx GitHub Pages beta: [fgx.github.io/index-beta.html]( http://fgx.github.io/index-beta.html )
 
