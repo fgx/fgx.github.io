@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang=en>
+<head>
+<title>Showdown Test</title>
+<meta charset=utf-8>
+<meta name=author content='Theo Armour'>
+</head>
+<body>
+<script src=http://jaanga.github.io/libs/md/showdown.js ></script>
+<script>
+// Thanks to  https://github.com/coreyti/showdown
+
+	document.body.style.cssText = ' font: 400 12pt sans-serif; ';
+	
+	var info = document.body.appendChild( document.createElement( 'div' ) );
+	info.innerHTML = '<h1 style=display:inline; >Showdown ~ Markdown to HTML </h1>' +
+		'<input type="text" id="inp" placeholder="Enter file name" size=80 /> ' +
+		'<a href=JavaScript:textarea.value=convertFile(inp.value); >Convert it</a>' +
+	'';
+
+	var textarea = document.body.appendChild( document.createElement( 'textarea' ) );
+	textarea.style.cssText = 'height: ' + (window.innerHeight - 100) + 'px; width: 40%; ';
+
+	var converter = new Showdown.converter(); // cannot seem to load extensions
+	var output = document.body.appendChild( document.createElement( 'div' ) );
+	output.style.cssText = 'left: 50%; position: absolute; top: 50px; width: 45%; ';		
+				
+	convertFile( 'showdown-test.md');
+	
+	function requestFile( fname ) {
+		var xmlHttp = null;
+		xmlHttp = new XMLHttpRequest();
+		xmlHttp.open( 'GET', fname, false );
+		xmlHttp.send( null );
+		return xmlHttp.responseText;
+	}
+
+	function convertFile( fname) {
+		if ( !!fname ) { 
+			var txt = requestFile( fname ); 
+		} else {
+			var txt = textarea.value.substr(0);
+		}	
+		textarea.value = txt; // why does textarea come up undefined?
+		output.innerHTML = converter.makeHtml( txt );	
+// console.log( new Date(), txt );		
+		
+	}
+</script>
+</body>
+</html>

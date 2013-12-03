@@ -3,73 +3,77 @@
 <head>
 <title>FGx</title>
 <meta charset=utf-8>
-<meta name=author content='Theo Armour'>
 </head>
 <body>
+<!--
 <script src=http://fgx.github.io/sd/showdown.js ></script>
 <script src=http://fgx.github.io/db2/doc-browser.js ></script>
-<!--
+-->
 <script src=sd/showdown.js ></script>
 <script src=db2/doc-browser.js ></script>
--->
+
 	<div id=txt >
-	
+
 		<h1>
-			<a href='' >FGx</a>
+	
+			<a href='' ><img src=http://fgx.github.io/fgx-cap-80x60.png>	FGx</a>
 		</h1>
-				
+
+		<p>
+			<i>Open Source Projects for <a href="http://flightgear.org" target="_blank">FlightGear</a>.
+			FlightGear is an open-source, multi-platform, cooperative flight simulator development project.</i>
+		</p>
+
 		<p id=intro >
 			<a href=JavaScript:DS.displayMarkdown('readme.md',intro); >FGx Read Me on GitHub</a>
 		</p>
-		
+
 		<p id=cl>
 			<a href=JavaScript:DS.displayMarkdown('fgx-copyright-notice-and-license.md',cl); >FGx Copyright and License</a><br>
-		</p>		
-			
+		</p>
+
 		<p>
-			<a href=https://github.com/fgx/fgx.github.io/ target="_blank">FGx source code on GitHub</a>
-		</p>			
-		<p>
-			Open Source Projects for FlightGear
-		</p>	
-				
-				
+			&raquo; <a href=https://github.com/fgx/fgx.github.io/ target="_blank" title="Opens in new tab">FGx source code on GitHub</a>
+		</p>
+
+
+
 		<p id=fgxx>
 			<a href=JavaScript:DS.displayMarkdown('./fgx/README.md',fgxx); >FGx</a><br>
 			The xPlatform Flightgear Launcher ~ C++
-		</p>	
+		</p>
 
 		<p id=ac>
 			<a href=JavaScript:DS.displayMarkdown('fgx-aircraft/readme.md',ac); >FGx AirCraft</a><br>
 			All the FlightGear aircraft in JSON format.
-		</p>			
+		</p>
 
 		<p id=in>
 			<a href=JavaScript:DS.displayMarkdown('fgx-installer/README.md',in); >FGx installer</a><br>
 			Aircraft Installer. WIP for integration into main launcher ~ C++
-		</p>	
+		</p>
 
 		<p id=mh>
 			<a href=JavaScript:DS.displayMarkdown('fgx-map-hacking/README.md',mh); >FGx Map Hacking</a><br>
 			FGx-Map - everything bundled - will be split soon. ~ JavaScript
-		</p>		
-		
-		
+		</p>
+
+
 		<p id=gb>
 			<a href=JavaScript:DS.displayMarkdown('fgxgobot/README.md',gb); >FGx Go Bot!</a><br>
 			FG Multi Player Network Bot - provides feeds of mpstatus, flights and tracks ( Experimental and written in Go )
-		</p>	
-		
+		</p>
+
 		<p id=gl>
 			<a href=JavaScript:DS.displayMarkdown('fgx-globe/readme.md',gl); >FGx Globe</a><br>
 			FGx Crossfeed data in 3D ~ JavaScript
-		</p>		
-		
+		</p>
+
 		<p id=ms>
 			<a href=JavaScript:DS.displayMarkdown('go-fgms/README.md',ms); >Go FG MS</a><br>
 			Attempt at writing the FlightGear Multi Player server in go lang
 		</p>
-		
+
 		<p id=sg>
 			<a href=JavaScript:DS.displayMarkdown('go-simgear/README',sg); >Go SimGear</a><br>
 			All the Simgear stuff
@@ -84,38 +88,36 @@
 			<a href=JavaScript:DS.displayMarkdown('fgx-navdata/README',nd); >FGx Nav Data</a><br>
 			FGx Data maybe this time around with AJAX ~ Python
 		</p>
-		
+
 		<p id=fd>
 			<a href=JavaScript:DS.displayMarkdown('fgx-fgdata/README',fd); >FGx FG Data</a><br>
 			FGxFlightGear data (stripped down) ~ Python
-		</p>		
+		</p>
 
 		<p id=gd>
 			<a href=JavaScript:DS.displayMarkdown('fgx-fgdata/README',gd); >FGData</a><br>
 			FGx - FlightGear data mirror for svn ~ Perl
-		</p>	
-		
+		</p>
+
 		<p id=ma>
 			<a href=JavaScript:DS.displayMarkdown('fgmap/README',ma); >FG Map</a><br>
 			FGx fork of git://pigeond.net/flightgear/fgmap.git ~ JavaScript
 		</p>
 
-
-
 		<hr>
-	
+
 		<p>
 			<a href='https://github.com/fgx/fgx.github.com/blob/master/FGx%20copyright%20notice%20and%20license.md' target='_blank'>FGx Copyright and License</a>
 		</p>
-	
-	</div>		
+
+	</div>
 
 <script>
 
 	DS.menu.innerHTML = txt.innerHTML;
 	txt.innerHTML = '';
-	DS.init( 'https://github.com/fgx/tree/master/','readme.md', intro );
-	
+	DS.init( 'https://github.com/fgx/fgx.github.io/blob/master/','readme.md', intro );
+
 </script>
 </body>
 </html>

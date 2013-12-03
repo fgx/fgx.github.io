@@ -2,7 +2,8 @@
 
 	DS.css = document.body.appendChild( document.createElement('style') );
 	DS.css.innerHTML = 'body { font: bold 12pt monospace; margin: 0; overflow: hidden; }' +
-		'h1, h2, h3, p { margin: 10px 0px; padding: 0px 25px;  }' +
+		'h1, h2, h3, p { margin: 0px 0px; padding: 0px 25px;  }' +
+		'h1 a {text-decoration: none; }' +
 		'p {padding: 5px 20px 5px 25px; }' +
 		'#githubio { display: block important!; }' +
 	'';	
@@ -17,7 +18,7 @@
 	DS.height = ' height: ' + (window.innerHeight * 0.88) + 'px;';
 
 	//DS.top = ' top: ' + (window.innerHeight * 0.08) + 'px;';
-	DS.top = ' top: 60px;';
+	DS.top = ' top: 80px;';
 	
 	DS.title = document.body.appendChild( document.createElement( 'h1' ) );
 	DS.title.style.cssText = ' left: 0; position: absolute; top: 10px;'

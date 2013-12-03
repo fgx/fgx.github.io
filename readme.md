@@ -5,6 +5,10 @@ Home page: [fgx.ch]( http://www.fgx.ch )
 
 FGx GitHub Pages beta: [fgx.github.io/index-beta.html]( http://fgx.github.io/index-beta.html )
 
+_Here's the issue with the beta: the GitHub Pages feature only works with data saved in a `gh-pages` branch of the repository. 
+If there is not a 'readme.md' in the gh-pages branch then the beta spews an error when trying to load the readme,_
+
+ 
 ## Project Links
 
 You have two ways of viewing the FGx files:  
@@ -13,11 +17,20 @@ You have two ways of viewing the FGx files:
 * Source code on GitHub: [github.com/fgx]( https://github.com/fgx/fgx.github.io/ "View the files as source code." ) <scan style=display:none ><< You are now probably here.</scan>
 
 
+## Updates 2013-11-19
+
+See: [FGx Globe Read Me]( https://github.com/fgx/fgx-globe )
+
+
 ## Copyright Notice and License
 
 [FGx copyright notice and license](https://github.com/fgx/fgx.github.com/blob/master/FGx%20copyright%20notice%20and%20license.md)
 
 ## Change Log
+
+2013-11-19 ~ Theo
+
+* Added note regardng gh-pages branch
 
 2013-11-18 ~ Theo
 
