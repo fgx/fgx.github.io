@@ -1,23 +1,31 @@
-FGx Open Source Projects
+![FGx Logo]( http://fgx.github.io/fgx-cap-40x30.png) FGx Open Source Projects
 ========================
 
 
 ## Project Links
 
-You have two ways of viewing the FGx files:  
+You have two ways of viewing the FGx files:
 
 * Code hosted on GitHub: [fgx.github.io]( http://fgx.github.io/ "view the files as apps." ) <input value="<< You are now probably here." size=28 style="font:bold 12pt monospace;border-width:0;" >  
 * Source code on GitHub: [github.com/fgx]( https://github.com/fgx/fgx.github.io/ "View the files as source code." ) <scan style=display:none ><< You are now probably here.</scan>
 
 Home page: [fgx.ch]( http://www.fgx.ch )
 
+## Issues
+
+* 'Edit this page' button does not work on all pages
 
 ## Copyright Notice and License
 
-[FGx copyright notice and license](https://github.com/fgx/fgx.github.com/blob/master/FGx%20copyright%20notice%20and%20license.md)
+[FGx copyright notice and license]( https://github.com/fgx/fgx.github.io/blob/master/fgx-copyright-notice-and-license.md )
 
 
 ## Change Log
+
+2013-12-04 ~ Theo
+
+* Edits to this read me and styles in docBrowser.js.
+
 
 2013-12-03 ~ Theo
 

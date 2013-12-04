@@ -2,9 +2,10 @@
 
 	DS.css = document.body.appendChild( document.createElement('style') );
 	DS.css.innerHTML = 'body { font: bold 12pt monospace; margin: 0; overflow: hidden; }' +
-		'h1, h2, h3, p { margin: 0px 0px; padding: 0px 25px;  }' +
+		'h1 { margin: 0 0 0 0; padding: 0px 25px; }' +
+		'h2, h3 { margin: 20px 0 0 0; padding: 0px 25px; }' +
 		'h1 a {text-decoration: none; }' +
-		'p {padding: 5px 20px 5px 25px; }' +
+		'p { margin: 0; padding: 5px 20px 5px 25px; }' +
 		'#githubio { display: block important!; }' +
 	'';	
 
@@ -66,7 +67,6 @@
 	};
 
 	DS.clearMenuHighlights = function( element ) {
-	
 		var tit = DS.menu.getElementsByTagName('h1');
 		DS.title.innerHTML = tit[0].innerHTML;
 		DS.menu.children[0].style.cssText= 'display:none;'

@@ -13,7 +13,7 @@ Create something that screams: 'tweak me till I twerkle.' 'Open up the hood, pic
 
 
 ### Lots of interactive 3D
-If this is 'your 3D happy-place' then it better be dripping with luscious interactive 3D
+If this is 'a 3D happy-place' then it better be dripping with luscious interactive 3D
 
 
 ### Lots of images and videos
