@@ -1,14 +1,7 @@
 FGx Open Source Projects
 ========================
 
-Home page: [fgx.ch]( http://www.fgx.ch )
 
-FGx GitHub Pages beta: [fgx.github.io/index-beta.html]( http://fgx.github.io/index-beta.html )
-
-_Here's the issue with the beta: the GitHub Pages feature only works with data saved in a `gh-pages` branch of the repository. 
-If there is not a 'readme.md' in the gh-pages branch then the beta spews an error when trying to load the readme,_
-
- 
 ## Project Links
 
 You have two ways of viewing the FGx files:  
@@ -16,17 +9,23 @@ You have two ways of viewing the FGx files:
 * Code hosted on GitHub: [fgx.github.io]( http://fgx.github.io/ "view the files as apps." ) <input value="<< You are now probably here." size=28 style="font:bold 12pt monospace;border-width:0;" >  
 * Source code on GitHub: [github.com/fgx]( https://github.com/fgx/fgx.github.io/ "View the files as source code." ) <scan style=display:none ><< You are now probably here.</scan>
 
-
-## Updates 2013-11-19
-
-See: [FGx Globe Read Me]( https://github.com/fgx/fgx-globe )
+Home page: [fgx.ch]( http://www.fgx.ch )
 
 
 ## Copyright Notice and License
 
 [FGx copyright notice and license](https://github.com/fgx/fgx.github.com/blob/master/FGx%20copyright%20notice%20and%20license.md)
 
+
 ## Change Log
+
+2013-12-03 ~ Theo
+
+* Started adding and editing gh-pges in various repos
+* Updated index-beta.html: added flight cap, more links and text
+* Archived previous index page. Made beta live.
+* Edits to fgx.github.io/readme.md
+
 
 2013-11-19 ~ Theo
 
