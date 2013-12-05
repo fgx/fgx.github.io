@@ -59,10 +59,15 @@ If the repo is collaborative - people besides yourself have committed to the rep
 
 Forks of other projects that are no longer useful should be deleted.
 
-## Repository Standard Items
+## Repository Read Me File 
+
+Here's a boilerplate file with some standard items to include in the read me file.
+
 See: [FGx New Repository Boilerplate]( fgx-new-repository-boilerplate.md )
 
+Nead Help with Mardown?
 
+See: [Showdown ~ Markdown to HTML]( http://fgx.github.io/sd/showdown-test.html )
 
 ## Copyright Notice and License
 
