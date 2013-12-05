@@ -1,5 +1,5 @@
 ![FGx Logo]( http://fgx.github.io/fgx-cap-40x30.png) FGx Open Source Projects
-========================
+=============================================================================
 
 
 ## Project Links
@@ -22,14 +22,17 @@ Home page: [fgx.ch]( http://www.fgx.ch )
 
 ## Change Log
 
+2013-12-05 ~ Theo
+* Added 'FGx New Repository Boilerplate' file
+
+
 2013-12-04 ~ Theo
 
 * Edits to this read me and styles in docBrowser.js.
 
-
 2013-12-03 ~ Theo
 
-* Started adding and editing gh-pges in various repos
+* Started adding and editing gh-pages in various repos
 * Updated index-beta.html: added flight cap, more links and text
 * Archived previous index page. Made beta live.
 * Edits to fgx.github.io/readme.md
@@ -37,7 +40,7 @@ Home page: [fgx.ch]( http://www.fgx.ch )
 
 2013-11-19 ~ Theo
 
-* Added note regardng gh-pages branch
+* Added note regarding gh-pages branch
 
 2013-11-18 ~ Theo
 
@@ -102,7 +105,7 @@ Home page: [fgx.ch]( http://www.fgx.ch )
 
 2013-03-02 ~ Theo
 
-* Added FGx cap coorporate identity as png and ico
+* Added FGx cap corporate identity as png and ico
 * updated the home page text a bit
 
 2013-03-01 ~ Pete, Theo
