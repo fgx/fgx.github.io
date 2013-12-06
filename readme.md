@@ -14,6 +14,7 @@ Home page: [fgx.ch]( http://www.fgx.ch )
 ## Issues
 
 * 'Edit this page' button does not work on all pages
+* Menu items do not highlight appropiately 
 
 ## Copyright Notice and License
 
@@ -26,7 +27,10 @@ Home page: [fgx.ch]( http://www.fgx.ch )
 
 * Added 'FGx New Repository Boilerplate' file
 * Added 'FGX New Rpository Guidelines' file
-* Added builerplate index.htnl file that auntomaicaly reads any adjacent 'readme.md' and turns it into HTML.
+* Added builerplate index.htnl file that auntomagicly reads any adjacent 'readme.md' and turns it into HTML.
+* Worked on menu. Commented out a lot of the less significant repos
+* Started implementing index/readme structure and fiddled with the CSS
+
 
 
 2013-12-04 ~ Theo
