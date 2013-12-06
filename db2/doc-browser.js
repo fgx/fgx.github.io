@@ -85,3 +85,7 @@
 		xmlHttp.send( null );
 		return xmlHttp.responseText;
 	};
+	
+	DS.displayIframe = function( fname, element ) {
+		DS.readme.innerHTML = '<iframe src=' + fname + ' height=100% width=100% ><iframe>';
+	};

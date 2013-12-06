@@ -23,7 +23,10 @@ Home page: [fgx.ch]( http://www.fgx.ch )
 ## Change Log
 
 2013-12-05 ~ Theo
+
 * Added 'FGx New Repository Boilerplate' file
+* Added 'FGX New Rpository Guidelines' file
+* Added builerplate index.htnl file that auntomaicaly reads any adjacent 'readme.md' and turns it into HTML.
 
 
 2013-12-04 ~ Theo
