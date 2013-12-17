@@ -1,6 +1,8 @@
 ![FGx Logo]( http://fgx.github.io/fgx-cap-40x30.png) FGx Open Source Projects
 =============================================================================
 
+## Concept
+FGx creates open source projects for [FlightGear]( http://flightgear.org ). FlightGear is an open-source, multi-platform, cooperative flight simulator development project.
 
 ## Project Links
 
@@ -14,7 +16,7 @@ Home page: [fgx.ch]( http://www.fgx.ch )
 ## Issues
 
 * 'Edit this page' button does not work on all pages
-* Menu items do not highlight appropiately 
+* Menu items do not highlight appropriately 
 
 ## Copyright Notice and License
 
@@ -23,14 +25,18 @@ Home page: [fgx.ch]( http://www.fgx.ch )
 
 ## Change Log
 
+2013-12-17 ~ Theo
+
+* May have fixed some of the menu highlighting issues
+* Add FGx Plane Spotter menu item
+
 2013-12-05 ~ Theo
 
 * Added 'FGx New Repository Boilerplate' file
-* Added 'FGX New Rpository Guidelines' file
-* Added builerplate index.htnl file that auntomagicly reads any adjacent 'readme.md' and turns it into HTML.
+* Added 'FGX New Repository Guidelines' file
+* Added boilerplate index.html file that automagicly reads any adjacent 'readme.md' and turns it into HTML.
 * Worked on menu. Commented out a lot of the less significant repos
 * Started implementing index/readme structure and fiddled with the CSS
-
 
 
 2013-12-04 ~ Theo
