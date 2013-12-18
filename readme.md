@@ -28,6 +28,7 @@ Home page: [fgx.ch]( http://www.fgx.ch )
 2013-12-17 ~ Theo
 
 * May have fixed some of the menu highlighting issues
+* Added more new tab links
 * Add FGx Plane Spotter menu item
 
 2013-12-05 ~ Theo
