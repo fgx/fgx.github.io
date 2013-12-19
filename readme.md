@@ -1,22 +1,23 @@
-![FGx Logo]( http://fgx.github.io/fgx-cap-40x30.png) FGx Open Source Projects
-=============================================================================
+![FGx Logo]( http://fgx.github.io/images/fgx-cap-40x30.png) FGx Open Source Projects
+====================================================================================
 
 ## Concept
-FGx creates open source projects for [FlightGear]( http://flightgear.org ). FlightGear is an open-source, multi-platform, cooperative flight simulator development project.
+FGx creates open source projects for [FlightGear]( http://flightgear.org ) - the open-source, multi-platform, cooperative flight simulator development project.
 
 ## Project Links
 
-You have two ways of viewing the FGx files:
+You have two ways of viewing the FGx files via GitHub:
 
 * Code hosted on GitHub: [fgx.github.io]( http://fgx.github.io/ "view the files as apps." ) <input value="<< You are now probably here." size=28 style="font:bold 12pt monospace;border-width:0;" >  
 * Source code on GitHub: [github.com/fgx]( https://github.com/fgx/fgx.github.io/ "View the files as source code." ) <scan style=display:none ><< You are now probably here.</scan>
 
-Home page: [fgx.ch]( http://www.fgx.ch )
+FGx web site home page: [fgx.ch]( http://www.fgx.ch )
 
-## Issues
+
+## Issues with FGx App Browser
 
 * 'Edit this page' button does not work on all pages
-* Menu items do not highlight appropriately 
+* Menu items do not highlight highlight appropriately 
 
 ## Copyright Notice and License
 
