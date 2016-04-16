@@ -24,7 +24,7 @@ FGx FlightPath Read Me
 
 ### 2016-04-16
 
-* [R3.1]( fgx-flightpath-r1.html )
+* [R3.1]( fgx-flightpath-r3.html )
 * Removes delay after landing
 
 * R3 
