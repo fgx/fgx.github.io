@@ -14,6 +14,7 @@ FGx FlightPath Read Me
 * Reads flightpath data from a CSV file
 * Creates a spline from the data
 * Simulates the motion of an aircraft following the spline path
+* Velocity is controlled by the distance between control points
 
 ### Issues
 
