@@ -214,7 +214,9 @@
 		renderer.render( scene, camera );
 
 		delta += 0.001;
-		delta = delta > 1 ? 0 : delta;
+
+// comment out for a pause between finish and restart
+//		delta = delta > 1 ? 0 : delta;
 
 // http://mrdoob.github.io/three.js/docs/#Reference/Extras.Core/Curve
 		aircraft.position.copy( spline.getPoint( delta ) );

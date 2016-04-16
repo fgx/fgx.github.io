@@ -16,9 +16,19 @@ FGx FlightPath Read Me
 * Simulates the motion of an aircraft following the spline path
 * Velocity is controlled by the distance between control points
 
-### Issues
+### Issues 
 
 * LookAt next point has gimbal lock issues
+
+### Road Map - in probable order of appearance
+
+* The model aircraft to be the c172p
+* A follow view mode where the camera is out the front of the model
+* The display to include the 3D generated terrain
+
+### Notes
+
+* CSV must not end in a newline - protect against a v(0,0,0) last point
 
 ## Change Log
 
