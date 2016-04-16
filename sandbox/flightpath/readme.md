@@ -22,11 +22,20 @@ FGx FlightPath Read Me
 
 ## Change Log
 
+### 2016-04-16
+
+* [R3.1]( fgx-flightpath-r1.html )
+* Removes delay after landing
+
+* R3 
+* Take off and land on same runway
+
+
 ### 2016-04-15
 
-* R2
+* [R2]( fgx-flightpath-r2.html )
 * Read CSV file
 
 ### 2016-04-14
 
-* R1
+* [R1]( fgx-flightpath-r1.html )
