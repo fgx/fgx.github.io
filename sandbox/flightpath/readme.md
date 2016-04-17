@@ -38,7 +38,7 @@ These and the other movement issues should no longer occur or be much improved o
 
 ### 2016-04-17
 
-* [R5]( fgx-flightpath-r5.html )
+* [FGx FlightPath R5]( fgx-flightpath-r5.html ) ~ 277 lines of code
 * Add 'Camera Follow' and 'Camera World' buttons and associated code
 	* Satisfies wish list item: A follow view mode where the camera is out the front of the model
 * Add 'Camera Angle' button
@@ -47,19 +47,19 @@ These and the other movement issues should no longer occur or be much improved o
 
 ### 2016-04-16
 
-* [R4]( fgx-flightpath-r4.html )
+* [FGx FlightPath R4]( fgx-flightpath-r4.html )
 * Add FGx Aircraft c172p
-* [R3.1]( fgx-flightpath-r3.html )
+* [FGx FlightPath R3.1]( fgx-flightpath-r3.html )
 * Removes delay after landing
-* R3 
+* [FGx FlightPath R3]( fgx-flightpath-r3.html )
 * Take off and land on same runway
 
 
 ### 2016-04-15
 
-* [R2]( fgx-flightpath-r2.html )
+* [FGx FlightPath R2]( fgx-flightpath-r2.html )
 * Read CSV file
 
 ### 2016-04-14
 
-* [R1]( fgx-flightpath-r1.html )
+* [FGx FlightPath R1]( fgx-flightpath-r1.html )
