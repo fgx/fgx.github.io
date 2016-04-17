@@ -18,13 +18,14 @@ value='You are now in the home page view - Click this button to view the read me
 
 ### Issues 
 
-* LookAt next point has gimbal lock issues
+* LookAt next point has gimbal lock issues. 
+These and the other movement issues should no longer occur or be much improved once we have 'real' data.
 
 ### Road Map - in probable order of appearance
 
 * A follow view mode where the camera is out the front of the model
 * The display to include the 3D generated terrain
-* Updrade c172p aircraft to have colors and textures
+* Upgrade c172p aircraft to have colors and textures
 
 ### Notes
 
