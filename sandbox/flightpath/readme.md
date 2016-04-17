@@ -15,6 +15,8 @@ value='You are now in the home page view - Click this button to view the read me
 * Creates a spline from the data
 * Simulates the motion of an aircraft following the spline path
 * Velocity is controlled by the distance between control points
+* Buttons allow toggling between camera following aircraft and world camera
+* All the normal rotate, zoom and pan features
 
 ### Issues 
 
@@ -23,15 +25,25 @@ These and the other movement issues should no longer occur or be much improved o
 
 ### Road Map - in probable order of appearance
 
-* A follow view mode where the camera is out the front of the model
 * The display to include the 3D generated terrain
 * Upgrade c172p aircraft to have colors and textures
+* More controls over camera placement
+
 
 ### Notes
 
 * CSV must not end in a newline - protect against a v(0,0,0) last point
 
 ## Change Log
+
+### 2016-04-17
+
+* [R5]( fgx-flightpath-r5.html )
+* Add 'Camera Follow' and 'Camera World' buttons and associated code
+	* Satisfies wish list item: A follow view mode where the camera is out the front of the model
+* Add 'Camera Angle' button
+	* Limited to horizontal motion only
+
 
 ### 2016-04-16
 
