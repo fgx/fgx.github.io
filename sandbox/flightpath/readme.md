@@ -4,7 +4,7 @@
 <input type=button onclick=window.location.href='https://github.com/fgx/fgx.github.io/tree/master/sandbox/flightpath'; 
 value='You are now in the home page view - Click this button to view the read me file and the source code' >
 
-FGx FlightPath Read Me
+[FGx FlightPath Read Me]( index.html#readme.md )
 ===
 
 ## &#128279; [FGx FlightPath]( http://fgx.github.io/sandbox/flightpath/ )
@@ -22,9 +22,9 @@ FGx FlightPath Read Me
 
 ### Road Map - in probable order of appearance
 
-* The model aircraft to be the c172p
 * A follow view mode where the camera is out the front of the model
 * The display to include the 3D generated terrain
+* Updrade c172p aircraft to have colors and textures
 
 ### Notes
 
@@ -34,9 +34,10 @@ FGx FlightPath Read Me
 
 ### 2016-04-16
 
+* [R4]( fgx-flightpath-r4.html )
+* Add FGx Aircraft c172p
 * [R3.1]( fgx-flightpath-r3.html )
 * Removes delay after landing
-
 * R3 
 * Take off and land on same runway
 
