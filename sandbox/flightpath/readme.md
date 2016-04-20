@@ -20,9 +20,12 @@ value='You are now in the home page view - Click this button to view the read me
 ### Issues 
 
 * Camera Follow is mostly broken
+* Display of aircraft has issues because model scaled down too much.
+	* May need to consider scaling up the whole exercise
 
 ### Road Map - in probable order of appearance
 
+* Add 3D points of interest placards/indications, like castle, and freeway intersection, visual turn clues and more to make this a real sim PPL circuit view...
 * The display to include the 3D generated terrain
 * Upgrade c172p aircraft to have colors and textures
 * More controls over camera placement
@@ -37,13 +40,15 @@ value='You are now in the home page view - Click this button to view the read me
 
 ### 2016-04-19
 
-* [FGx FlightPath R6]( fgx-flightpath-r6.html ) ~ 256 lines of code
-
-* Reads <LEIG-L1500-cooked-01.csv>
+* [FGx FlightPath R6]( fgx-flightpath-r6.html ) 256 lines of code
+* Reads <LEIG-L1500-cooked-01.csv> flight path data
 	* Draws the 3D flightpath as a red line
 * Loads the C172P aircraft model
 	* Creates playback from positions and rotations
 * Updates camera, target and axes to position of first point in flightpath
+
+Also
+* Geoff adds data, utilities and <README-LEIG.md> read me file
 
 
 ### 2016-04-17
