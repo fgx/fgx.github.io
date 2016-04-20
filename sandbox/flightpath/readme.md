@@ -12,16 +12,14 @@ value='You are now in the home page view - Click this button to view the read me
 ### Features 
 
 * Reads flightpath data from a CSV file
-* Creates a spline from the data
-* Simulates the motion of an aircraft following the spline path
-* Velocity is controlled by the distance between control points
+* Draws a 3D line from the data
+* Simulates the motion of an aircraft following the path
 * Buttons allow toggling between camera following aircraft and world camera
-* All the normal rotate, zoom and pan features
+* Supports the normal rotate, zoom and pan features
 
 ### Issues 
 
-* LookAt next point has gimbal lock issues. 
-These and the other movement issues should no longer occur or be much improved once we have 'real' data.
+* Camera Follow is mostly broken
 
 ### Road Map - in probable order of appearance
 
@@ -34,7 +32,19 @@ These and the other movement issues should no longer occur or be much improved o
 
 * CSV must not end in a newline - protect against a v(0,0,0) last point
 
+
 ## Change Log
+
+### 2016-04-19
+
+* [FGx FlightPath R6]( fgx-flightpath-r6.html ) ~ 256 lines of code
+
+* Reads <LEIG-L1500-cooked-01.csv>
+	* Draws the 3D flightpath as a red line
+* Loads the C172P aircraft model
+	* Creates playback from positions and rotations
+* Updates camera, target and axes to position of first point in flightpath
+
 
 ### 2016-04-17
 
