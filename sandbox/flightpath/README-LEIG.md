@@ -31,7 +31,7 @@ The definition of these fields comes from `playback.xml`. That gives the full li
 56: airspeed-kt             /velocities/airspeed-kt
 ````
 
-Using a perl script, extracted this set, and wrote a - `LEIG-L1500-cooked-01.csv` - changing the order a little to `lon,lat,alt,hdg,ias,roll,pitch,slip`... **Note**: The altitude-ft is AMSL...
+Using a perl script, [fg-play.pl](F:\FGx\fgx.github.io\sandbox\flightpath\LEIG-L1500-cooked-01.csv), extracted this set, and wrote a - `LEIG-L1500-cooked-01.csv` - changing the order a little to `lon,lat,alt,hdg,ias,roll,pitch,slip`... **Note**: The altitude-ft is AMSL...
 
 Also the output begins even before the scenery is loaded, so commences with a few hundred records with a **no altitude** of -9999, and these records have been excluded...
 
@@ -42,6 +42,12 @@ However, this gap is only 16 m, 52 feet, hdg 249, 0.58 sec, at 27.3 mps, 89.5 fp
 Do not have anyway to avoid this at present, but you can now see it is a plane starting at 53 Kts, taking off, landing, slowing to 53 Kts, then off on the next curcuit... hopefully **smoothly**...
 
 This `cooked` csv could be the basis for a model, flying the circuit, over the hilly terrain... should look quite spectacular... with 3D DEM terrain...
+
+And just to check the circuit in Google Earth, wrote a csv/xg to KML script, [xg2kml.pl](https://github.com/geoffmcl/scripts/blob/master/xg2kml.pl), and thus added `LEIG-L1500-01.kml` to here. Loading this in Google Earth, and turning off the too big `Waypoits` display, I can see my circuit follows mostly the terrain I was expecting... And, as seen before, there is a small difference of 20-30 feet on the runway **shown**, and the runway **flown**... seems Goggle does not accurately place wgs-84 coordinates!
+
+But it is great to go down to a street view, and see my ciruit in the sky ;=)) Accordingly added a small `LEIG-L1500-01.png` of the flight...
+
+And note, such an XML file of the FGFS flight can also be downloaded from FG Tracker xml if the flight is flown in Multiplayer mode, connected to an MP server that is `tracked`... Just use your **callsign** to find the [flight](http://mpserver15.flightgear.org/modules/fgtracker/)
 
 The next challenge is to add POI. Well, in this case they would be visual turning points, other visual clues to follow this circuit... I will try to attach my LEIG-L1500-01.png 2D representational image, with I think `placards`?
 
