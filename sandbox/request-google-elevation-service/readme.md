@@ -1,5 +1,5 @@
 ﻿<span style=display:none; >
-[You are now in a GitHub source code view - click this link to view the home page]( http://fgx.github.io/sandbox/request-google-elevation-service "View file as a web page." )
+[You are now in a GitHub source code view - click this link to view the home page]( http://fgx.github.io/sandbox/request-google-elevation-service/#readme.md "View file as a web page." )
 </span>
 <input type=button onclick=window.location.href='https://github.com/fgx/fgx.github.io/tree/master/sandbox/request-google-elevation-service'; 
 value='You are now in the home page view - Click this button to view the read me file and the source code' >
@@ -11,10 +11,20 @@ Request Google Elevation Service Read me
 ## [Request Google Elevation Service R1]( request-google-elevation-service-r1.html )
 
 To display data see: [Read Elevations Update Plane R1]( http://fgx.github.io/sandbox/read-elevations-update-plane/read-elevations-update-plane-r1.html )
+
+## Concept
+
+* The idea is to get the data once from Google Maps, save it and be able to display it ever after
+* Because data is from Google it is likely to be the latest and most accurate data that is readily available
+* Gathering the data can take a number of minutes, so still not feasible to gather data at run-time
+
+
+
 ### Features
 
 * Work-in-progress. Still very hard-wired. Not flexible
 * Given min and max lat and long, requests data from [Google Maps Elevation Service]( https://developers.google.com/maps/documentation/javascript/elevation )
+* Parses returned JSON
 * Displays the elevations found
 	* Draws bar on screen 
 * Allows you to save elevation data to file

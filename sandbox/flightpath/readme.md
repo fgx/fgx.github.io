@@ -7,6 +7,9 @@ value='You are now in the home page view - Click this button to view the read me
 [FGx FlightPath Read Me]( index.html#readme.md )
 ===
 
+### See also [README-LEIG]( index.html#README-LEIG.md )
+
+
 ## &#128279; [FGx FlightPath]( http://fgx.github.io/sandbox/flightpath/ )
 
 ### Features 
