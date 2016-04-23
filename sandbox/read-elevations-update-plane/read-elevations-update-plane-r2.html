@@ -2,7 +2,7 @@
 <html lang=en >
 <head>
 <meta charset=utf-8 >
-<title>Read Elevations Update Plane R1</title>
+<title>Read Elevations Update Plane R2</title>
 <meta name=viewport content='width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,minimal-ui' >
 <meta name=description content='' >
 <meta name=keywords content='WebGL,Three.js,Tween.js,JavaScript,GitHub,FOSS,3D,STEM' >
@@ -20,11 +20,25 @@
 
 <script>
 
-	var fileName512 = '../elevations/elevations-512x512.txt'; // broken data
-	var fileName256 = '../elevations/elevations-256x256.txt';
-	var fileName100 = '../elevations/elevations-100x100.txt';
+	var fileName512 = '../elevations/elevations-512x512-r3.txt'; // broken data
+//	var fileName256 = '../elevations/elevations-256x256.txt';
+//	var fileName100 = '../elevations/elevations-100x100.txt';
 
 	var ground;
+
+	var lat = 41.5861554761;
+	var lon = 1.6519343471;
+
+// gathered from another script:
+	var latMin = 41.5558446627;
+	var latMax = 41.603583114;
+	var lonMin = 1.6481309452;
+	var lonMax = 1.7103687843;
+
+	var zoom = 12;
+
+	var width = 512;
+	var height = 512;
 
 	var stats, renderer, scene, camera, controls;
 
@@ -66,11 +80,6 @@
 			'</h2>' +
 			'<p><input type=checkbox onchange=ground.material.wireframe=!ground.material.wireframe; > Wireframe</p>' +
 
-			'<p><button onclick=requestFile(fileName100); >Ground 100x100</button></p>' +
-			'<p><button onclick=requestFile(fileName256); >Ground 256x256</button></p>' +
-			'<p><button onclick=requestFile(fileName512); >Ground 512x512</button></p>' +
-			'<div id=info >Zoom in close to inspect the differences between the two resolutions</div>' +
-
 		'';
 
 		stats = new Stats();
@@ -86,23 +95,20 @@
 		document.body.appendChild( renderer.domElement );
 
 		camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 1000 );
-		camera.position.set( 100, 100, 100 );
+		camera.position.set( -50, 50, 50 );
 
 		controls = new THREE.OrbitControls( camera, renderer.domElement );
 		controls.maxDistance = 800;
 
 		scene = new THREE.Scene();
 
-//		var light = new THREE.DirectionalLight();
-//		scene.add( light );
-
-		var light = new THREE.HemisphereLight( 0xffbbbb, 0x444488 );
-		light.position.set( 100, 100, 100 );
+// ambientLight
+		var light = new THREE.AmbientLight( 0xaaaaaa );
 		scene.add( light );
 
-// ambientLight
-//		var light = new THREE.AmbientLight( 0x404040 ); // soft white light
-//		scene.add( light );
+		var light = new THREE.DirectionalLight( 0xcccccc, 0.65 );
+		light.position.set( -200, 200, 200 );
+		scene.add( light );
 
 // helpers
 
@@ -114,9 +120,17 @@
 		scene.add( axisHelper );
 
 // assets
-		var fileName = '../google-elevations/elevations-256x256.txt';
 
-		requestFile( fileName256 );
+		geometry = new THREE.PlaneGeometry( 100, 100, 511, 511 );
+		geometry.applyMatrix( new THREE.Matrix4().makeRotationX( -0.5 * Math.PI ) );
+		geometry.applyMatrix( new THREE.Matrix4().makeScale( 1, 1, 1 ) );
+		material = new THREE.MeshPhongMaterial( { color: 0xdddddd, specular: 0x009900, shininess: 30, shading: THREE.FlatShading, side: 2 } );
+
+		ground = new THREE.Mesh( geometry, material );
+
+		scene.add( ground );
+
+		requestFile( fileName512 );
 
 	}
 
@@ -129,39 +143,54 @@
 
 		function callback() {
 
-			scene.remove( ground );
-
 			text = xhr.responseText;
 			elevations = text.split( ',' );
 
 //console.log( elevations );
 
-			segments = Math.sqrt( elevations.length ) - 1;
-			geometry = new THREE.PlaneGeometry( 100, 100, segments, segments );
-			geometry.applyMatrix( new THREE.Matrix4().makeRotationX( -0.5 * Math.PI ) );
-			material = new THREE.MeshPhongMaterial( { color: 0xff0000, side: 2 } );
-
 			correction = fileName === fileName512 ? -512 : 0;
 
-			for ( var i = 0; i < elevations.length + correction; i++ ) {
+			verts = ground.geometry.vertices;
 
-				geometry.vertices[ i ].y = 0.03 * elevations[ i ];
+			for ( var i = 0; i < elevations.length; i++ ) {
+
+				verts[ i ].y = 0.05 * elevations[ i ];
 
 			}
 
-			geometry.computeFaceNormals();
-			geometry.computeVertexNormals();
+			ground.geometry.computeFaceNormals();
+			ground.geometry.computeVertexNormals();
 
-			geometry.verticesNeedUpdate = true;
-			geometry.normalsNeedUpdate = true;
+			ground.geometry.verticesNeedUpdate = true;
+			ground.geometry.normalsNeedUpdate = true;
 
-			ground = new THREE.Mesh( geometry, material );
-			scene.add( ground );
-
+		requestOverlay();
 		}
 
 	}
 
+	function requestOverlay() {
+
+		path = latMin + ',' + lonMin + '|' + latMax + ',' + lonMin + '|' + latMax + ',' + lonMax + '|' + latMin + ',' + lonMax + '|' + latMin + ',' + lonMin;
+
+		source = 'https://maps.googleapis.com/maps/api/staticmap?size=512x512&scale=2&zoom=13&maptype=roadmap&path=color:0xff000066|weight:10|' + path;
+
+		var loader = new THREE.TextureLoader();
+		loader.crossOrigin = 'anonymous';
+		loader.load(
+			source,
+			function ( texture ) {
+
+				texture.minFilter = texture.magFilter = THREE.NearestFilter;
+				texture.needsUpdate = true;
+				material = new THREE.MeshPhongMaterial( { color: 0xffffff, map: texture, side: 2 } );
+				ground.material = material;
+
+			}
+
+		);
+
+	}
 
 	function onWindowResize() {
 

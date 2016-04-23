@@ -1,0 +1,102 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<title>get-map-area-scale-dimemsions-r1.html</title>
+<meta charset=utf-8>
+</head>
+<body>
+<script>
+
+// https://developers.google.com/maps/documentation/static-maps/intro#URL_Parameters
+
+// this file: C:\Users\Theo\Dropbox\Public\code-cookbook\0-cookbook-general\canvas\google-maps-api\google-maps-api-r1.html
+
+
+//	var lat = 37.796;
+//	var lon = -122.398;
+
+
+	var lat = 41.5861554761;
+	var lon = 1.6519343471;
+
+	var latMin = 41.5558446627;
+	var latMax = 41.603583114;
+	var lonMin = 1.6481309452;
+	var lonMax = 1.7103687843;
+
+	var deltaLat = latMax - latMin;
+	var deltaLon = lonMax - lonMin;
+
+	var centerLat = latMin + 0.5 * deltaLat;
+	var centerLon = lonMin + 0.5 * deltaLon;
+
+	var d2r = Math.PI / 180;
+	var zoom = 13;
+
+	var widthMeters = 111132.954 * Math.cos ( centerLat * d2r ) * deltaLon; // 111000 * deltaLon;
+	var heightMeters = ( 111132.954 - 559.822 * Math.cos( 2 * centerLat * d2r ) + 1.175 * Math.cos( 4 * centerLat * d2r ) ) * deltaLat; // 111000 * deltaLat;
+
+	var metersPerPixel = ( 156543.03392 * Math.cos( centerLat * d2r ) / Math.pow( zoom - 1, 2 ) ) / 28;
+
+//	var metersPerPixel = 591657550.500000 / Math.pow( zoom, 2 );
+
+console.log( 'metersPerPixel', metersPerPixel );
+
+	var widthPixels = 2 * widthMeters / metersPerPixel; // 38.219;
+	var heightPixels = 2 * heightMeters /  metersPerPixel; // 38.219;
+
+//	var widthPixels = widthMeters / 19.10925;
+//	var heightPixels = heightMeters / 19.10925;
+
+
+	var width = 1024
+	var height = 1024;
+
+	init()
+
+	function init() {
+
+		document.body.style.font = 'bold 12pt monospace';
+
+		var info = document.createElement( 'div' );
+		document.body.appendChild( info );
+			info.innerHTML = '<a href="" ><h1>' + document.title + '</h1></a>' +
+
+			'<p id=messages1 ></p>' +
+			'<p id=messages2 ></p>' +
+			'<img id=image1 > ' + 
+			'<img id=image2 >' + 
+		'';
+
+		updateMap();
+
+	}
+
+	function updateMap() {
+
+
+		path = latMin + ',' + lonMin + '|' + latMax + ',' + lonMin + '|' + latMax + ',' + lonMax + '|' + latMin + ',' + lonMax + '|' + latMin + ',' + lonMin;
+
+		source = 'https://maps.googleapis.com/maps/api/staticmap?size=512x512&scale=1&zoom=' + zoom + '&path=color:0xff000066|weight:5|' + path;
+
+		image1.src = source;
+
+		messages1.innerHTML = 'latMin: ' + latMin.toFixed( 3 ) + ' latMax: ' + latMax.toFixed( 3 ) + ' - lonMin: ' + lonMin.toFixed( 3 ) + ' lonMax: ' + lonMax.toFixed( 3 ) + '<br>' +
+			'deltaLat: ' + deltaLat.toFixed( 3 ) + ' - deltaLon: ' + deltaLon.toFixed( 3 ) + '<br>' +
+			'centerLat: ' + centerLat.toFixed( 3 ) + ' - centerLon: ' + centerLon.toFixed( 3 ) + '<br>' +
+			'meters > width: ' + widthMeters.toFixed( 1 ) + ' height: ' + heightMeters.toFixed( 1 ) + '<br>' +
+			'pixels > width: ' + widthPixels.toFixed( 1 ) + ' height: ' + heightPixels.toFixed( 1 ) + '<br>' +
+			'zoom: ' + zoom + ' - width: ' + width + ' - height: ' + height 
+
+		'';
+
+//		source = 'https://maps.googleapis.com/maps/api/staticmap?size=' + widthPixels.toFixed() + 'x' + heightPixels.toFixed() + '&scale=1&zoom=' + zoom + '&path=color:0xff000066|weight:1|' + path;
+		source = 'https://maps.googleapis.com/maps/api/staticmap?size=512x512&scale=2&zoom=' + zoom + '&maptype=hybrid&path=color:0xff000066|weight:5|' + path;
+
+		image2.src = source;
+
+	}
+
+</script>
+</body>
+</html>
