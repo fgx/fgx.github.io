@@ -61,7 +61,7 @@
 
 		function callback() {
 
-//			var response, files, file;
+			var response, files, file;
 
 			response = JSON.parse( xhr.response );
 			files = [];
@@ -73,6 +73,8 @@
 				if ( file.indexOf( 'sandbox' ) === -1 ) { continue; }
 
 				if ( file.indexOf( 'readme.md' ) === -1 ) { continue; }
+
+				if ( file.indexOf( 'sandbox\/readme.md' ) !== -1 ) { continue; }
 
 				files.push( file );
 
