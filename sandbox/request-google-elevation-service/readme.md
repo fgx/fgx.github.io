@@ -4,11 +4,13 @@
 <input type=button onclick=window.location.href='https://github.com/fgx/fgx.github.io/tree/master/sandbox/request-google-elevation-service'; 
 value='You are now in the home page view - Click this button to view the read me file and the source code' >
 
+[Fgx]( http://fgx.github.io ) &raquo; [Sandbox]( http://fgx.github.io/sandbox/ ) &raquo;
+
 Request Google Elevation Service Read me
 ===
 
 
-## &#128279; [Request Google Elevation Service R1]( http://fgx.github.io/sandbox/request-google-elevation-service/index.html )
+## &#128279; [Request Google Elevation Service]( http://fgx.github.io/sandbox/request-google-elevation-service/index.html )
 
 To display data see: [Read Elevations Update Plane R1]( http://fgx.github.io/sandbox/read-elevations-update-plane/read-elevations-update-plane-r1.html )
 
@@ -54,7 +56,8 @@ To display data see: [Read Elevations Update Plane R1]( http://fgx.github.io/san
 ### 2016-04-22
 
 * [Request Google Elevation Service R3]( http://fgx.github.io/sandbox/request-google-elevation-service/request-google-elevation-service-r3.html )
-* Reads up to 512 x 512 elevations
+* Reads up to 512 x 512 elevations from Google Maps Elevation Service
+* Saves data to hard disk
 * Slows down if there are usage limit issues
 * Displays helpful info during process
 
