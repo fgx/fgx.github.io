@@ -8,9 +8,12 @@ Request Google Elevation Service Read me
 ===
 
 
-## [Request Google Elevation Service R1]( request-google-elevation-service-r1.html )
+## &#128279; [Request Google Elevation Service R1]( http://fgx.github.io/sandbox/request-google-elevation-service/index.html )
 
 To display data see: [Read Elevations Update Plane R1]( http://fgx.github.io/sandbox/read-elevations-update-plane/read-elevations-update-plane-r1.html )
+
+
+<iframe src=http://fgx.github.io/sandbox/request-google-elevation-service/index.html width=100% height=500px ></iframe>
 
 ## Concept
 
@@ -29,19 +32,34 @@ To display data see: [Read Elevations Update Plane R1]( http://fgx.github.io/san
 	* Draws bar on screen 
 * Allows you to save elevation data to file
 * Number of segments per side is a variable you can edit in the source code
+* Indicates typical resolution of the data
+	* Appears to be ~19 meters for the current map
 
 ## Issues
 
-* Still working on the minimum delay between requests in order to comply with Google usage limits
-* Much to learn in general 
+* UI needs streamlining
+
 
 ## Road Map
 
-* Identify the scale of the map
-* Indicate typical resolution of the data
-	* Appears to be ~19 meters for the current map
 * Add settings for any latitude and longitude
 	* As well as length and width of area to be covered
 * Get up to ~1024 sample points per path
 	* Aim toward suppling data for 1024x1024 segments in a Three.js Plane - about the maximum that display at an OK FPS using current technology
 * Save to binary data 
+
+
+## Change Log
+
+### 2016-04-22
+
+* [Request Google Elevation Service R3]( http://fgx.github.io/sandbox/request-google-elevation-service/request-google-elevation-service-r3.html )
+* Reads up to 512 x 512 elevations
+* Slows down if there are usage limit issues
+* Displays helpful info during process
+
+
+
+### 2016-04-21
+
+* [Request Google Elevation Service R1]( http://fgx.github.io/sandbox/request-google-elevation-service/request-google-elevation-service-r1.html )

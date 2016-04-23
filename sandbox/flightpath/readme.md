@@ -4,13 +4,15 @@
 <input type=button onclick=window.location.href='https://github.com/fgx/fgx.github.io/tree/master/sandbox/flightpath'; 
 value='You are now in the home page view - Click this button to view the read me file and the source code' >
 
-[FGx FlightPath Read Me]( index.html#readme.md )
+[FGx FlightPath Read Me]( index.html#flightpath/readme.md )
 ===
 
 ### See also [README-LEIG]( index.html#README-LEIG.md )
 
 
 ## &#128279; [FGx FlightPath]( http://fgx.github.io/sandbox/flightpath/ )
+
+<iframe src=http://fgx.github.io/sandbox/flightpath//index.html width=100% height=500px ></iframe>
 
 ### Features 
 
