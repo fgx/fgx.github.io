@@ -1,3 +1,10 @@
+<span style=display:none; >
+[You are now in a GitHub source code view - click this link to view the home page]( http://fgx.github.io/sandbox/flightpath-to-2d-map-texture/#readme.md "View file as a web page." )
+</span>
+<input type=button onclick=window.location.href='https://github.com/fgx/fgx.github.io/tree/master/sandbox/flightpath-to-2d-map-texture'; 
+value='You are now in the home page view - Click this button to view the read me file and the source code' >
+
+
 Flight Path to 2D Map Texture Read Me
 ===
 
