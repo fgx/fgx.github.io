@@ -2,11 +2,11 @@
 <html lang=en >
 <head>
 <meta charset=utf-8 >
-<title>Read Elevations Update Plane R2</title>
+<title>Read Elevations Update Plane R3</title>
 <meta name=viewport content='width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,minimal-ui' >
 <meta name=description content='' >
-<meta name=keywords content='WebGL,Three.js,Tween.js,JavaScript,GitHub,FOSS,3D,STEM' >
-<meta name=date content='' >
+<meta name=keywords content='Google Maps API,WebGL,Three.js,JavaScript,GitHub,FOSS,3D,STEM' >
+<meta name=date content='2016-04-24' >
 </head>
 <body>
 <!--
@@ -20,14 +20,13 @@
 
 <script>
 
+	var startTime = Date.now();
+
 	var fileName512 = '../elevations/elevations-512x512-r3.txt'; // broken data
 //	var fileName256 = '../elevations/elevations-256x256.txt';
 //	var fileName100 = '../elevations/elevations-100x100.txt';
 
 	var ground;
-
-	var lat = 41.5861554761;
-	var lon = 1.6519343471;
 
 // gathered from another script:
 	var latMin = 41.5558446627;
@@ -35,7 +34,10 @@
 	var lonMin = 1.6481309452;
 	var lonMax = 1.7103687843;
 
-	var zoom = 12;
+	var centerLat = latMin + 0.5 * ( latMax - latMin );
+	var centerLon = lonMin + 0.5 * ( lonMax - lonMin );
+
+	var zoom = 13;
 
 	var width = 512;
 	var height = 512;
@@ -59,7 +61,7 @@
 
 			'button { background-color: #ccc; border: 2px #ccc solid; color: #555; }' +
 
-			'#bars { color: pink; cursor: pointer; font-size: 24pt; text-decoration: none; }' +
+			'#bars { color: crimson; cursor: pointer; font-size: 24pt; text-decoration: none; }' +
 			'#hamburger { left: 325px; position: absolute; top: 20px; transition: left 1s; }' +
 			'#menu { background-color: #eee; border: 1px #ccc solid; left: -324px; max-height: ' + ( window.innerHeight - 10 ) + 'px; ' +
 				'opacity: 0.85; overflow: auto; padding: 0 10px; position: absolute; top: -20px; transition: left 1s; width: 300px; }' +
@@ -88,7 +90,7 @@
 
 		window.addEventListener( 'resize', onWindowResize, false );
 
-		renderer = new THREE.WebGLRenderer( {  alpha: 1, antialias: true }  );
+		renderer = new THREE.WebGLRenderer( { alpha: 1, antialias: true }  );
 //		renderer.setClearColor( 0xf0f0f0 );
 //		renderer.setPixelRatio( window.devicePixelRatio );
 		renderer.setSize( window.innerWidth, window.innerHeight );
@@ -102,7 +104,6 @@
 
 		scene = new THREE.Scene();
 
-// ambientLight
 		var light = new THREE.AmbientLight( 0xaaaaaa );
 		scene.add( light );
 
@@ -127,7 +128,6 @@
 		material = new THREE.MeshPhongMaterial( { color: 0xdddddd, specular: 0x009900, shininess: 30, shading: THREE.FlatShading, side: 2 } );
 
 		ground = new THREE.Mesh( geometry, material );
-
 		scene.add( ground );
 
 		requestFile( fileName512 );
@@ -136,25 +136,23 @@
 
 	function requestFile( fileName ) {
 
-		var xhr = new XMLHttpRequest();
+		var xhr, response, vertices;
+
+		xhr = new XMLHttpRequest();
 		xhr.open( 'GET', fileName, true );
 		xhr.onload = callback;
 		xhr.send( null );
 
 		function callback() {
 
-			text = xhr.responseText;
-			elevations = text.split( ',' );
+			response = xhr.responseText;
+			elevations = response.split( ',' );
 
-//console.log( elevations );
-
-			correction = fileName === fileName512 ? -512 : 0;
-
-			verts = ground.geometry.vertices;
+			vertices = ground.geometry.vertices;
 
 			for ( var i = 0; i < elevations.length; i++ ) {
 
-				verts[ i ].y = 0.05 * elevations[ i ];
+				vertices[ i ].y = 0.05 * elevations[ i ];
 
 			}
 
@@ -164,30 +162,45 @@
 			ground.geometry.verticesNeedUpdate = true;
 			ground.geometry.normalsNeedUpdate = true;
 
-			requestOverlay();
+			requestTexture();
+
+console.log( 'load elevations', Date.now() - startTime );
 
 		}
 
 	}
 
-	function requestOverlay() {
+	function requestTexture() {
 
 		path = latMin + ',' + lonMin + '|' + latMax + ',' + lonMin + '|' + latMax + ',' + lonMax + '|' + latMin + ',' + lonMax + '|' + latMin + ',' + lonMin;
 
-		source = 'https://maps.googleapis.com/maps/api/staticmap?size=512x512&scale=2&zoom=13&maptype=roadmap&path=color:0xff000066|weight:10|' + path;
+		source = 'https://maps.googleapis.com/maps/api/staticmap?center=' + centerLat + ',' + centerLon + '&size=' + width + 'x' + height + '&scale=2&zoom=' + zoom + 
+			'&maptype=roadmap&path=color:0xff000066|weight:10|' + path;
 
 		var loader = new THREE.TextureLoader();
 		loader.crossOrigin = 'anonymous';
 		loader.load(
+
 			source,
 			function ( texture ) {
 
-				texture.minFilter = texture.magFilter = THREE.NearestFilter;
+//				texture.minFilter = texture.magFilter = THREE.NearestFilter;
 				texture.needsUpdate = true;
-				material = new THREE.MeshPhongMaterial( { color: 0xffffff, map: texture, side: 2 } );
-				ground.material = material;
 
-			}
+				ground.material.map = texture;
+				ground.material.needsUpdate = true;
+
+console.log( 'load texture', Date.now() - startTime );
+
+			},
+
+			function ( xhr ) {
+
+				console.log( (xhr.loaded / xhr.total * 100) + '% loaded' );
+
+			},
+
+			function( xhr ) { console.log( 'oops', xhr ) }
 
 		);
 
@@ -205,7 +218,7 @@
 	function animate() {
 
 		requestAnimationFrame( animate );
-//		controls.update();
+		controls.update();
 		stats.update();
 		renderer.render( scene, camera );
 
