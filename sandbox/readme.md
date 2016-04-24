@@ -12,5 +12,5 @@ Sandbox Read Me
 
 The [home page]( http://fgx.github.io/sandbox/ ) menu on the left provides links to all directories in this sandbox directory that have 'read me' files.
 
-The important script is the 'flightpath' script.
+The important script is the 'flightpath' script. This script may take a while to load. If the terrain appears white, you should reload the page.
 
