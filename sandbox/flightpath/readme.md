@@ -4,7 +4,7 @@
 <input type=button onclick=window.location.href='https://github.com/fgx/fgx.github.io/tree/master/sandbox/flightpath'; 
 value='You are now in the home page view - Click this button to view the read me file and the source code' >
 
-[FGx FlightPath Read Me]( index.html#flightpath/readme.md )
+[FGx FlightPath Read Me]( index.html#readme.md )
 ===
 
 ### See also [README-LEIG]( index.html#README-LEIG.md )
@@ -16,11 +16,13 @@ value='You are now in the home page view - Click this button to view the read me
 
 ### Features 
 
+* Reads 3D terrain data from a file and displays a 3D mesh
+* Requests a Google map static bitmap and displays the result as a texture on the mesh
 * Reads flightpath data from a CSV file
-* Draws a 3D line from the data
-* Simulates the motion of an aircraft following the path
-* Buttons allow toggling between camera following aircraft and world camera
-* Supports the normal rotate, zoom and pan features
+* Draws a green 3D flightpath from the data
+* Simulates the motion of an aircraft following the path << not in r7
+* Buttons allow toggling between camera following aircraft and world camera << not in r7
+* Supports the normal Three.js rotate, zoom and pan features
 
 ### Issues 
 
@@ -31,7 +33,6 @@ value='You are now in the home page view - Click this button to view the read me
 ### Road Map - in probable order of appearance
 
 * Add 3D points of interest placards/indications, like castle, and freeway intersection, visual turn clues and more to make this a real sim PPL circuit view...
-* The display to include the 3D generated terrain
 * Upgrade c172p aircraft to have colors and textures
 * More controls over camera placement
 
@@ -42,6 +43,14 @@ value='You are now in the home page view - Click this button to view the read me
 
 
 ## Change Log
+
+### 2016-04-24
+
+* [FGx FlightPath R7]( fgx-flightpath-r7.html ) 297 lines of code
+* Reads 3D terrain data and displays a 3D mesh
+* Requests a Google map static bitmap and displays the result as a texture on the mesh
+* Draws the 3D flight path as a green 'ribbon'
+ 
 
 ### 2016-04-19
 
@@ -63,7 +72,6 @@ Also
 	* Satisfies wish list item: A follow view mode where the camera is out the front of the model
 * Add 'Camera Angle' button
 	* Limited to horizontal motion only
-
 
 ### 2016-04-16
 
