@@ -17,6 +17,7 @@
 	var urlAPIContents = 'https://api.github.com/repos/fgx/fgx.github.io/git/trees/master?recursive=1';
 
 	var defaultFile = './readme.md';
+	var files;
 
 	init();
 
@@ -61,7 +62,7 @@
 
 		function callback() {
 
-			var response, files, file;
+			var response, file;
 
 			response = JSON.parse( xhr.response );
 			files = [];

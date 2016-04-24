@@ -10,4 +10,7 @@ Sandbox Read Me
 ===
 
 
-The [home page]( http://fgx.github.io/sandbox/ ) menu provides links to all directories in sandbox that have read me files
+The [home page]( http://fgx.github.io/sandbox/ ) menu on the left provides links to all directories in this sandbox directory that have 'read me' files.
+
+The important script is the 'flightpath' script.
+
