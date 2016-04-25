@@ -26,7 +26,9 @@ value='You are now in the home page view - Click this button to view the read me
 
 ### Issues 
 
-* Camera Follow is mostly broken
+* Placement of flightpath - by algorithm - is bizarre
+* Flightmap scaling is still by eye
+* Camera Follow is mostly broken  << not even r7
 * Display of aircraft has issues because model scaled down too much.
 	* May need to consider scaling up the whole exercise
 
