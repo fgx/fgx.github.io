@@ -56,7 +56,7 @@ Display path and aircraft in motion.' >
 
 	var flightpath = [ v( 0, 0, 0 ) ];  // dummy value so does not cause error in animate() upon start
 	var flightRotations = [ v( 0, 0, 0 ) ];
-
+	var lines = [ '' ];
 	var cameraChase, cameraWorld, cameraHelper;
 
 	var stats, renderer, scene, camera, controls;
@@ -113,6 +113,7 @@ Display path and aircraft in motion.' >
 			'<p><input type=checkbox onchange=ground.material.wireframe=!ground.material.wireframe; > Wireframe</p>' +
 			'<p><input type=checkbox onchange=controls.autoRotate=controls.autoRotate===true?false:true; checked > Auto-rotate</p>' +
 			'<p><input type=checkbox onchange=aircraft.flying=aircraft.flying===true?false:true; checked >Flying</p>' +
+			'<p id=flightData ></p>' +
 		'';
 
 		stats = new Stats();
@@ -122,17 +123,17 @@ Display path and aircraft in motion.' >
 		window.addEventListener( 'resize', onWindowResize, false );
 
 		renderer = new THREE.WebGLRenderer( { alpha: 1, antialias: true }  );
-//		renderer.setClearColor( 0xf0f0f0 );
+		renderer.setClearColor( 0x7ec0ee );
 //		renderer.setPixelRatio( window.devicePixelRatio );
 		renderer.setSize( window.innerWidth, window.innerHeight );
 		document.body.appendChild( renderer.domElement );
 
 		camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 1000 );
-		camera.position.set( -70, 50, 80 );
+		camera.position.set( 0, 50, 100 );
 
 		controls = new THREE.OrbitControls( camera, renderer.domElement );
 		controls.maxDistance = 800;
-//		controls.target.set( 0, 20, 0 );
+		controls.target.set( 0, 20, 0 );
 
 		scene = new THREE.Scene();
 //		scene.add( camera );
@@ -145,22 +146,29 @@ Display path and aircraft in motion.' >
 		scene.add( light );
 
 		aircraft = new THREE.Object3D();
-		aircraft.flying = true;
+		aircraft.flying = false;
 		scene.add( aircraft );
+
+		scene.fog = new THREE.Fog( 0x7ec0ee, 50, 600 );
 
 // helpers
 
-		var gridHelper = new THREE.GridHelper( 50, 10 );
-		scene.add( gridHelper );
-
-		var axisHelper = new THREE.AxisHelper( 50 );
+		axisHelper = new THREE.AxisHelper( 50 );
 		scene.add( axisHelper );
+
+		geometry = new THREE.PlaneGeometry( 10000, 10000 );
+		geometry.applyMatrix( new THREE.Matrix4().makeRotationX( -0.5 * Math.PI ) );
+		material = new THREE.MeshPhongMaterial( { color: 0x223322, specular: 0x222222, shininess: 0.5, side: 2 } );
+
+		mesh = new THREE.Mesh( geometry, material );
+		mesh.position.y = 10;
+		scene.add( mesh );
 
 // assets
 
 		geometry = new THREE.PlaneGeometry( 100, 100, 511, 511 );
 		geometry.applyMatrix( new THREE.Matrix4().makeRotationX( -0.5 * Math.PI ) );
-		geometry.applyMatrix( new THREE.Matrix4().makeScale( 1, 1, 1 ) );
+//		geometry.applyMatrix( new THREE.Matrix4().makeScale( 1, 1, 1 ) );
 		material = new THREE.MeshPhongMaterial( { color: 0xdddddd, specular: 0x555555, shininess: 3, shading: THREE.FlatShading, side: 2 } );
 
 		ground = new THREE.Mesh( geometry, material );
@@ -254,7 +262,7 @@ console.log( 'load texture', Date.now() - startTime );
 
 	function requestFlightPathFile( fileName ) {
 
-		var xhr, text, lines, txtline;
+		var xhr, text, txtline;
 		var geometry, material, line;
 
 		xhr = new XMLHttpRequest();
@@ -288,6 +296,7 @@ console.log( 'load texture', Date.now() - startTime );
 			line = new THREE.Line( geometry, material );
 			scene.add( line );
 
+		aircraft.flying = true;
 		}
 
 	}
@@ -378,6 +387,16 @@ console.log( 'load texture', Date.now() - startTime );
 		aircraft.rotation.set( rot.y, rot.z, rot.x );
 		aircraft.position.set( pos.x, pos.y, pos.z );
 
+		line = lines[ delta ].split( ',');
+
+		flightData.innerHTML = 'lat:' + line[ 0 ].slice( 0, -7 ) + ' lon:' + line[ 1 ].slice( 0, -7 ) + ' alt:' + line[ 2 ] + '<br>' +
+
+			'hdg:' + line[ 3 ] + ' ias:' + line[ 4 ] + ' roll:' + line[ 5 ].slice( 0, -7 ) + '<br>' +
+
+			'pitch:' + line[ 6 ].slice( 0, -7 ) + ' slip:' + line[ 7 ].slice( 0, -7 ) +
+
+		'';
+// hdg,ias,roll,pitch,slip
 	}
 
 </script>

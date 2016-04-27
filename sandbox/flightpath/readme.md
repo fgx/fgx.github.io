@@ -31,10 +31,11 @@ value='You are now in the home page view - Click this button to view the read me
 
 ### Issues 
 
+* Aircraft rotations point to incorrect CSV fields 
+	* Also need to readjust intitial aircraft settings to make the above easier to figure out which are the correct fields to use
 * Flightpath scaling and positioning is still by eye
 * Too long a wait before things start appearing on screen
-* Chase camera rotation has many gimbal lock / where is up? issues
-	* Try changing to cylindrical view
+
 
 
 ### Road Map - in probable order of appearance
@@ -51,6 +52,7 @@ value='You are now in the home page view - Click this button to view the read me
 * Permalinks?
 * Speed control
 * Reorganize code and content files
+* Change aircraft scale when switching from world to chase camera = stop going underground 
 
 ### Notes
 
@@ -58,6 +60,14 @@ value='You are now in the home page view - Click this button to view the read me
 
 
 ## Change Log
+
+### 2016-04-27
+
+* [FGx FlightPath R10]( fgx-flightpath-r10.html ) 386 lines of code
+* Start to split chase camera into two parts: camera position and camera angle
+* Add simple flight data display
+* Add large green ground plane
+* Add blue fog
 
 ### 2016-04-26
 
