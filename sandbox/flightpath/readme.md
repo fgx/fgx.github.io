@@ -4,15 +4,15 @@
 <input type=button onclick=window.location.href='https://github.com/fgx/fgx.github.io/tree/master/sandbox/flightpath/'; 
 value='You are now in the home page view - Click this button to view the read me file and the source code' >
 
-[FGx FlightPath Read Me]( index.html#readme.md )
+[FGx FlightPath Read Me]( http://fgx.github.io/sandbox/flightpath/index.html#readme.md )
 ===
 
-### See also [README-LEIG]( index.html#README-LEIG.md )
+### See also [README-LEIG]( http://fgx.github.io/sandbox/flightpath/index.html#README-LEIG.md )
 
 
 ## &#128279; [FGx FlightPath]( http://fgx.github.io/sandbox/flightpath/ )
 
-<iframe src=http://fgx.github.io/sandbox/flightpath//index.html width=100% height=500px ></iframe>
+<iframe src=http://fgx.github.io/sandbox/flightpath/index.html width=100% height=500px ></iframe>
 
 ### Features 
 
@@ -23,31 +23,33 @@ value='You are now in the home page view - Click this button to view the read me
 * Draws a red 3D flightpath from the data
 * Simulates the motion of an aircraft following the path
 * Buttons allow toggling between camera following aircraft and world camera
+	* Sliders control camera placement
 * Supports the normal Three.js rotate, zoom and pan features
+* AutoRotate with toggle
+* Stop and start motion
 
 ### Issues 
 
 * Flightmap scaling and positioning is still by eye
 * Too long a wait before things start appearing on screen
+* Chase camera rotation has many gimbal lock / where is up? issues
+	* Try changing to cylindrical view
 
 
 ### Road Map - in probable order of appearance
 
 * Add 3D points of interest placards/indications, like castle, and freeway intersection, visual turn clues and more to make this a real sim PPL circuit view...
 * Upgrade c172p aircraft to have colors and textures
-* More controls over camera placement
-* Stop and start motion
 * Skybox
 * User-defined height scales
 * Read alternate data files
-* AutoRotate with toggle
 * Sun position? Fog? Night flying
 * Increase size of texture map - to show more detail
 * Increase size of ground mesh from 512x512 to 1024x1024
 	* Once we get elevation data file size smaller
 * Permalinks?
 * Speed control
-
+* Reorganize code and content files
 
 ### Notes
 
@@ -56,6 +58,15 @@ value='You are now in the home page view - Click this button to view the read me
 
 ## Change Log
 
+### 2016-04-26
+
+* [FGx FlightPath R8]( fgx-flightpath-r8.html ) 386 lines of code
+* Rename camera follow to camera chase
+* Add camera chase latitude and longitude sliders
+* Add code to update camera position upon slider updates
+* Code to update camera rotation has many issues ;-(
+* Add Auto-rotate check box and code
+* Add Flying check box and code
 
 ### 2016-04-25
 
