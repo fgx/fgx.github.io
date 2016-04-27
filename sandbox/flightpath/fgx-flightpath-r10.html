@@ -168,8 +168,7 @@ Display path and aircraft in motion.' >
 
 		geometry = new THREE.PlaneGeometry( 100, 100, 511, 511 );
 		geometry.applyMatrix( new THREE.Matrix4().makeRotationX( -0.5 * Math.PI ) );
-//		geometry.applyMatrix( new THREE.Matrix4().makeScale( 1, 1, 1 ) );
-		material = new THREE.MeshPhongMaterial( { color: 0xdddddd, specular: 0x555555, shininess: 3, shading: THREE.FlatShading, side: 2 } );
+		material = new THREE.MeshPhongMaterial( { color: 0xdddddd, specular: 0x555555, shininess: 3, /* shading: THREE.FlatShading, */ side: 2 } );
 
 		ground = new THREE.Mesh( geometry, material );
 		scene.add( ground );
@@ -396,7 +395,7 @@ console.log( 'load texture', Date.now() - startTime );
 			'pitch:' + line[ 6 ].slice( 0, -7 ) + ' slip:' + line[ 7 ].slice( 0, -7 ) +
 
 		'';
-// hdg,ias,roll,pitch,slip
+
 	}
 
 </script>

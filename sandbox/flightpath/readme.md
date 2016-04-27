@@ -45,7 +45,7 @@ value='You are now in the home page view - Click this button to view the read me
 * Skybox
 * User-defined height scales
 * Read alternate data files
-* Sun position? Fog? Night flying
+* Sun position? Shadows? Night flying?
 * Increase size of texture map - to show more detail
 * Increase size of ground mesh from 512x512 to 1024x1024
 	* Once we get elevation data file size smaller
@@ -53,6 +53,7 @@ value='You are now in the home page view - Click this button to view the read me
 * Speed control
 * Reorganize code and content files
 * Change aircraft scale when switching from world to chase camera = stop going underground 
+* Add sound
 
 ### Notes
 
@@ -63,7 +64,7 @@ value='You are now in the home page view - Click this button to view the read me
 
 ### 2016-04-27
 
-* [FGx FlightPath R10]( fgx-flightpath-r10.html ) 386 lines of code
+* [FGx FlightPath R10]( fgx-flightpath-r10.html ) 403 lines of code
 * Start to split chase camera into two parts: camera position and camera angle
 * Add simple flight data display
 * Add large green ground plane
