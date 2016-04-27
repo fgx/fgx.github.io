@@ -27,10 +27,11 @@ value='You are now in the home page view - Click this button to view the read me
 * Supports the normal Three.js rotate, zoom and pan features
 * AutoRotate with toggle
 * Stop and start motion
+* Display current position, heading, roll, yaw etc in a dashboard
 
 ### Issues 
 
-* Flightmap scaling and positioning is still by eye
+* Flightpath scaling and positioning is still by eye
 * Too long a wait before things start appearing on screen
 * Chase camera rotation has many gimbal lock / where is up? issues
 	* Try changing to cylindrical view
@@ -60,7 +61,7 @@ value='You are now in the home page view - Click this button to view the read me
 
 ### 2016-04-26
 
-* [FGx FlightPath R8]( fgx-flightpath-r8.html ) 386 lines of code
+* [FGx FlightPath R9]( fgx-flightpath-r9.html ) 386 lines of code
 * Rename camera follow to camera chase
 * Add camera chase latitude and longitude sliders
 * Add code to update camera position upon slider updates
