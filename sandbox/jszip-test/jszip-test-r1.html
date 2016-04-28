@@ -62,7 +62,7 @@
 
 			'<div id=msg1 ></div>' +
 			'<div id=msg2 ></div>' +
-
+			'<div id=msg3 ></div>' +
 		'';
 
 	}
@@ -183,7 +183,9 @@ console.log( zip );
 				})
 				.then( function ( text ) {
 
-					msg2.innerText = text;
+					msg2.innerText = 'Data: ' + text;
+
+					msg3.innerHTML += 'zip time ' + ( Date.now() - startTime ) + '<br>'; 
 
 console.log( 'zip time', Date.now() - startTime );
 
@@ -213,7 +215,9 @@ console.log( 'zip time', Date.now() - startTime );
 // console.log( 'response', response.length );
 
 
-			msg2.innerText = response;
+			msg2.innerText = 'Data: ' + response;
+
+			msg3.innerHTML += 'text time ' + ( Date.now() - startTime ) + '<br>'; 
 
 console.log( 'text time', Date.now() - startTime );
 
