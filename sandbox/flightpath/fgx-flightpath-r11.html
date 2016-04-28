@@ -1,0 +1,418 @@
+﻿<!doctype html>
+<html lang=en >
+<head>
+<meta charset=utf-8 >
+<title>FGx FlightPath R11</title>
+<meta name=viewport content='width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,minimal-ui' >
+<meta name=description content='Read flightpath data from CSV file. Calculate boundaries, create 3D mesh. 
+Overlay with bitmap. 
+Display path and aircraft in motion.' >
+<meta name=keywords content='FGx,flightpath,Google Maps API,WebGL,Three.js,JavaScript,GitHub,FOSS,3D,STEM' >
+<meta name=date content='2016-04-28' >
+</head>
+<body>
+
+<script src=http://mrdoob.github.io/three.js/build/three.min.js ></script>
+<script src=http://mrdoob.github.io/three.js/examples/js/controls/OrbitControls.js ></script>
+<script src=http://mrdoob.github.io/three.js/examples/js/libs/stats.min.js ></script>
+<!--
+<script src=http://rawgit.com/mrdoob/three.js/dev/build/three.min.js ></script>
+<script src=http://rawgit.com/mrdoob/three.js/dev/examples/js/controls/OrbitControls.js ></script>
+<script src=http://rawgit.com/mrdoob/three.js/dev/examples/js/libs/stats.min.js ></script>
+-->
+<script>
+
+	var startTime = Date.now();
+
+	var aircraftDataURL = 'http://fgx.github.io/fgx-aircraft/data/c172p/c172p.js';
+	var aircraft;
+	var delta = 0;
+
+	var fileName512 = 'http://fgx.github.io/sandbox/elevations/elevations-512x512-r3.txt';
+
+	var ground;
+
+// gathered from another script:
+	var latMin = 41.5558446627;
+	var latMax = 41.603583114;
+	var lonMin = 1.6481309452;
+	var lonMax = 1.7103687843;
+
+	var centerLat = latMin + 0.5 * ( latMax - latMin );
+	var centerLon = lonMin + 0.5 * ( lonMax - lonMin );
+
+	var zoom = 13;
+
+	var width = 512;
+	var height = 512;
+
+	var flightPathFileDefault = 'LEIG-L1500-cooked-01.csv';
+	var flightPathFile;
+
+	var pi = Math.PI, pi05 = pi * 0.5, pi2 = pi + pi;
+	var d2r = pi / 180, r2d = 180 / pi;  // degrees / radians
+
+	var v = function( x, y, z ){ return new THREE.Vector3( x, y, z ); };
+
+	var flightpath = [ v( 0, 0, 0 ) ];  // dummy value so does not cause error in animate() upon start
+	var flightRotations = [ v( 0, 0, 0 ) ];
+	var lines = [ '' ];
+	var cameraChase, cameraWorld, cameraHelper;
+
+	var stats, renderer, scene, camera, controls;
+
+	init();
+
+//	animate(); // see below;
+
+	function init() {
+
+
+		var css, hamburger, menu;
+		var geometry, material, mesh, light;
+		var gridHelper, axisHelper;
+
+		css = document.head.appendChild( document.createElement( 'style' ) );
+		css.innerHTML =
+
+			'body { font: 12pt monospace; margin: 0; overflow: hidden; }' +
+			'a {color: mediumblue; text-decoration: none; }' +
+			'h2 { margin: 0 }' +
+
+			'button { background-color: #ccc; border: 2px #ccc solid; color: #555; }' +
+
+
+			'input[type=range] { -webkit-appearance: none; -moz-appearance: none; background-color: silver; width: 200px; }' +
+			'input[type=range]::-moz-range-thumb { background-color: #888; border-radius: 0; width: 10px; }' +
+			'input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; background-color: #888; height: 20px; width: 10px; }' +
+
+
+			'#bars { color: crimson; cursor: pointer; font-size: 24pt; text-decoration: none; }' +
+			'#hamburger { left: 325px; position: absolute; top: 20px; transition: left 1s; }' +
+			'#menu { background-color: #eee; border: 1px #ccc solid; left: -324px; max-height: ' + ( window.innerHeight - 10 ) + 'px; ' +
+				'opacity: 0.85; overflow: auto; padding: 0 10px; position: absolute; top: -20px; transition: left 1s; width: 300px; }' +
+
+		'';
+		hamburger = document.body.appendChild( document.createElement( 'div' ) );
+		hamburger.id = 'hamburger';
+		hamburger.innerHTML = '<div id=bars > &#9776; </div>';
+		bars.onclick = function() { hamburger.style.left = hamburger.style.left === "0px" ? "325px" : 0; };
+
+		menu = hamburger.appendChild( document.createElement( 'div' ) );
+		menu.id = 'menu';
+		menu.innerHTML = 
+
+			'<h2>' +
+				'<a href="" >' + document.title + '</a>' +
+				'<a href=http://fgx.github.io/sandbox/flightpath#readme.md > &#x24D8; </a>' +
+			'</h2>' +
+			'<p id=info >Flying the <a href=https://en.wikipedia.org/wiki/Cessna_172 >Cessna C172P </a></p>' +
+			'<p>' +
+				'<button onclick=setCameraChase(); >Camera Chase</a></button> ' +
+				'<button onclick=setCameraWorld(); >Camera World</button>' +
+			'</p>' +
+			'<p>' +
+				'Chase camera position<br>' +
+				'X <input type=range id=inpPosX min=-10 max=10 value=0 step=0.05 oninput=setCameraChase(); ><output id=outPosX ></output><br>' +
+				'Y <input type=range id=inpPosY min=-10 max=10 value=1.5 step=0.05 oninput=setCameraChase(); ><output id=outPosY ></output><br>' +
+				'Z <input type=range id=inpPosZ min=-10 max=10 value=0.4 step=0.05 oninput=setCameraChase(); ><output id=outPosZ ></output>' +
+
+			'</p>' +
+
+			'<p>' +
+				'Chase camera rotation<br>' +
+				'X <input type=range id=inpRotX min=-90 max=90 value=0 step=1 oninput=setCameraChase(); ><output id=outRotX ></output><br>' +
+				'Y <input type=range id=inpRotY min=-180 max=180 value=0 step=1 oninput=setCameraChase(); ><output id=outRotY ></output><br>' +
+				'Z <input type=range id=inpRotZ min=-180 max=180 value=0 step=1 oninput=setCameraChase(); ><output id=outRotZ ></output>' +
+
+			'</p>' +
+
+			'<p><input type=checkbox onchange=ground.material.wireframe=!ground.material.wireframe; > Wireframe</p>' +
+			'<p><input type=checkbox onchange=controls.autoRotate=controls.autoRotate===true?false:true; checked > Auto-rotate</p>' +
+			'<p><input type=checkbox onchange=aircraft.flying=aircraft.flying===true?false:true; checked >Flying</p>' +
+			'<p id=flightData ></p>' +
+		'';
+
+		stats = new Stats();
+		stats.domElement.style.cssText = 'position: absolute; right: 0; top: 0; z-index: 100;' ;
+		document.body.appendChild( stats.domElement );
+
+		window.addEventListener( 'resize', onWindowResize, false );
+
+		renderer = new THREE.WebGLRenderer( { alpha: 1, antialias: true }  );
+		renderer.setClearColor( 0x7ec0ee );
+//		renderer.setPixelRatio( window.devicePixelRatio );
+		renderer.setSize( window.innerWidth, window.innerHeight );
+		document.body.appendChild( renderer.domElement );
+
+		camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 0.1, 1000 );
+		camera.position.set( 0, 50, 100 );
+
+		controls = new THREE.OrbitControls( camera, renderer.domElement );
+		controls.maxDistance = 800;
+		controls.target.set( 0, 20, 0 );
+
+		scene = new THREE.Scene();
+		scene.add( camera );
+
+		light = new THREE.AmbientLight( 0xcccccc );
+		scene.add( light );
+
+		light = new THREE.DirectionalLight( 0xffffff, 0.85 );
+		light.position.set( -200, 200, 200 );
+		scene.add( light );
+
+		aircraft = new THREE.Object3D();
+		aircraft.flying = false;
+		scene.add( aircraft );
+
+		scene.fog = new THREE.Fog( 0x7ec0ee, 50, 600 );
+
+// helpers
+
+		axisHelper = new THREE.AxisHelper( 50 );
+		scene.add( axisHelper );
+
+		geometry = new THREE.PlaneGeometry( 10000, 10000 );
+		geometry.applyMatrix( new THREE.Matrix4().makeRotationX( -0.5 * Math.PI ) );
+		material = new THREE.MeshPhongMaterial( { color: 0x223322, specular: 0x222222, shininess: 0.5, side: 2 } );
+
+		mesh = new THREE.Mesh( geometry, material );
+		mesh.position.y = 10;
+		scene.add( mesh );
+
+// assets
+
+		geometry = new THREE.PlaneGeometry( 100, 100, 511, 511 );
+		geometry.applyMatrix( new THREE.Matrix4().makeRotationX( -0.5 * Math.PI ) );
+		material = new THREE.MeshPhongMaterial( { color: 0xdddddd, specular: 0x555555, shininess: 3, /* shading: THREE.FlatShading, */ side: 2 } );
+
+		ground = new THREE.Mesh( geometry, material );
+		scene.add( ground );
+
+		requestElevationsFile( fileName512 );
+
+		var flightPathFile = flightPathFileDefault;
+		requestFlightPathFile( flightPathFile );
+
+		loadAircraft( aircraftDataURL );
+
+		animate();
+
+		cameraWorld = camera;
+		controlsWorld = controls;
+		controls.autoRotate = true;
+
+	}
+
+	function requestElevationsFile( fileName ) {
+
+		var xhr, response, vertices;
+
+		xhr = new XMLHttpRequest();
+		xhr.open( 'GET', fileName, true );
+		xhr.onload = callback;
+		xhr.send( null );
+
+		function callback() {
+
+			response = xhr.responseText;
+			elevations = response.split( ',' );
+
+			vertices = ground.geometry.vertices;
+
+			for ( var i = 0; i < elevations.length; i++ ) {
+
+				vertices[ i ].y = 0.04 * elevations[ i ];
+
+			}
+
+			ground.geometry.computeFaceNormals();
+			ground.geometry.computeVertexNormals();
+
+			ground.geometry.verticesNeedUpdate = true;
+			ground.geometry.normalsNeedUpdate = true;
+
+			requestTexture();
+
+console.log( 'load elevations', Date.now() - startTime );
+
+		}
+
+	}
+
+	function requestTexture() {
+
+		var path, source, loader, texture;
+
+		path = latMin + ',' + lonMin + '|' + latMax + ',' + lonMin + '|' + latMax + ',' + lonMax + '|' + latMin + ',' + lonMax + '|' + latMin + ',' + lonMin;
+
+		source = 'https://maps.googleapis.com/maps/api/staticmap?center=' + centerLat + ',' + centerLon + '&maptype=satellite&size=' + width + 'x' + height + '&scale=2&zoom=' + zoom + 
+			'&maptype=roadmap&path=color:0xff000066|weight:10|' + path;
+
+		loader = new THREE.TextureLoader();
+		loader.crossOrigin = 'anonymous';
+		loader.load(
+
+			source,
+			function ( texture ) {
+
+//				texture.minFilter = texture.magFilter = THREE.NearestFilter;
+				texture.needsUpdate = true;
+
+				ground.material.map = texture;
+				ground.material.needsUpdate = true;
+
+console.log( 'load texture', Date.now() - startTime );
+
+			},
+
+			function ( xhr ) { console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' ); },
+			function ( xhr ) { console.log( 'oops', xhr ) }
+
+		);
+
+	}
+
+// I think this function really slows things down...
+
+	function requestFlightPathFile( fileName ) {
+
+		var xhr, text, txtline;
+		var geometry, material, line;
+
+		xhr = new XMLHttpRequest();
+		xhr.open( 'GET', fileName, true );
+		xhr.onload = callback;
+		xhr.send( null );
+
+		function callback() {
+
+			text = xhr.responseText;
+			lines = text.split(/\r\n|\n/);
+			flightpath = [];
+			flightRotations = [];
+
+			for ( var i = 1; i < lines.length; i++ ) {
+
+				txtline = lines[ i ].split( ',' );
+
+				flightpath.push( v( parseFloat( txtline[ 1 ] ), parseFloat( txtline[ 2 ] ), parseFloat( txtline[ 0 ] ) ) ); 
+				flightRotations.push( v( parseFloat( txtline[ 3 ] ) * d2r, parseFloat( txtline[ 4 ] ) * d2r, parseFloat( txtline[ 5 ] ) * d2r ) );
+
+			}
+
+			geometry = new THREE.Geometry();
+			geometry.vertices = flightpath;
+			geometry.applyMatrix( new THREE.Matrix4().makeScale( 1400, 0.01, 1150 ) );
+			geometry.applyMatrix( new THREE.Matrix4().makeRotationY( 0.5 * Math.PI ) );
+			geometry.center();
+			geometry.applyMatrix( new THREE.Matrix4().makeTranslation( 0, 22, 0 ) );
+			material = new THREE.LineBasicMaterial( { color: 0xff0000 } );
+			line = new THREE.Line( geometry, material );
+			scene.add( line );
+
+		aircraft.flying = true;
+		}
+
+	}
+
+	function loadAircraft( url ) {
+
+		var loader, geometry, material, mesh;
+
+		loader = new THREE.JSONLoader();
+		loader.crossOrigin = 'anonymous';
+		loader.load( url, function ( geometry, materials ) {
+
+			geometry.applyMatrix( new THREE.Matrix4().makeRotationY( -pi05 ) );
+			geometry.applyMatrix( new THREE.Matrix4().makeRotationX( -pi05 ) );
+			geometry.center();
+			material = new THREE.MeshNormalMaterial( { side: 0 } );
+			mesh = new THREE.Mesh( geometry, material );
+			aircraft.add( mesh );
+
+		} );
+
+	}
+
+	function setCameraChase() {
+
+		var radius, latitude, longitude, x, y, z ;
+
+		outPosX.value = posX = inpPosX.valueAsNumber;
+		outPosY.value = posY = inpPosY.valueAsNumber;
+		outPosZ.value = posZ = inpPosZ.valueAsNumber;
+
+		outRotX.value = rotX = inpRotX.valueAsNumber;
+		outRotY.value = rotY = inpRotY.valueAsNumber;
+		outRotZ.value = rotZ = inpRotZ.valueAsNumber;
+
+		aircraft.remove( cameraChase );
+		scene.remove( cameraHelper );
+
+		cameraChase = new THREE.PerspectiveCamera( 120, window.innerWidth / window.innerHeight, 0.01, 1000 );
+
+		cameraChase.position.set( posX, - posY, - posZ );
+		cameraChase.rotation.set( rotX * d2r - pi05, rotY * d2r, rotZ * d2r );
+
+		aircraft.add( cameraChase );
+
+		cameraHelper = new THREE.CameraHelper( cameraChase );
+		scene.add( cameraHelper );
+
+		camera = cameraChase;
+
+	}
+
+	function setCameraWorld() {
+
+		camera = cameraWorld;
+
+	}
+
+	function onWindowResize() {
+
+		camera.aspect = window.innerWidth / window.innerHeight;
+		camera.updateProjectionMatrix();
+
+		renderer.setSize( window.innerWidth, window.innerHeight );
+
+	}
+
+	function animate() {
+
+		var rot, pos;
+
+		requestAnimationFrame( animate );
+		controls.update();
+		stats.update();
+		renderer.render( scene, camera );
+
+		if ( !aircraft.flying ) { return; }
+
+		delta = ++delta >= flightpath.length ? 0 : delta;
+
+		rot = flightRotations[ delta ];
+		pos = flightpath[ delta ];
+
+		aircraft.rotation.set( rot.y, rot.z, rot.x );
+		aircraft.position.set( pos.x, pos.y, pos.z );
+
+		line = lines[ delta ].split( ',');
+
+		flightData.innerHTML = 'lat:' + line[ 0 ].slice( 0, -7 ) + ' lon:' + line[ 1 ].slice( 0, -7 ) + ' alt:' + line[ 2 ] + '<br>' +
+
+			'hdg:' + line[ 3 ] + ' ias:' + line[ 4 ] + ' roll:' + line[ 5 ].slice( 0, -7 ) + '<br>' +
+
+			'pitch:' + line[ 6 ].slice( 0, -7 ) + ' slip:' + line[ 7 ].slice( 0, -7 ) + '<br>' +
+
+			'vertex:' + delta +
+
+		'';
+
+	}
+
+</script>
+</body>
+</html>

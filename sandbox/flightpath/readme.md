@@ -23,7 +23,7 @@ value='You are now in the home page view - Click this button to view the read me
 * Draws a red 3D flightpath from the data
 * Simulates the motion of an aircraft following the path
 * Buttons allow toggling between camera following aircraft and world camera
-	* Sliders control camera placement
+	* Sliders control camera placement and rotation
 * Supports the normal Three.js rotate, zoom and pan features
 * AutoRotate with toggle
 * Stop and start motion
@@ -32,7 +32,7 @@ value='You are now in the home page view - Click this button to view the read me
 ### Issues 
 
 * Aircraft rotations point to incorrect CSV fields 
-	* Also need to readjust intitial aircraft settings to make the above easier to figure out which are the correct fields to use
+	* Also need to readjust initial aircraft settings to make the above easier to figure out which are the correct fields to use
 * Flightpath scaling and positioning is still by eye
 * Too long a wait before things start appearing on screen
 
@@ -61,6 +61,16 @@ value='You are now in the home page view - Click this button to view the read me
 
 
 ## Change Log
+
+### 2016-04-28
+
+* [FGx FlightPath R11]( fgx-flightpath-r11.html ) 403 lines of code
+* Chase camera now has two sets of sliders - giving six degrees of freedom
+	* One set for XYZ position
+	* One set for XYZ rotation
+	* Default set to inside cabin
+* Add vertex to data display
+
 
 ### 2016-04-27
 
