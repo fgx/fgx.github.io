@@ -15,8 +15,8 @@ value='You are now in a GitHub web page view - Click this button to view this re
 * Opens, reads and displays text files
 * Saves opened to to a zip file
 * Opens zip file using file dialog, unzips and displays text
-* Opens zip file from an URL and displays results
-* Opens text file from an URL and displays results
+* Opens zip file from an URL and displays results and times
+* Opens text file from an URL and displays results and times
 
 ## Observations
 
