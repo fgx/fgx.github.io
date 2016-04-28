@@ -46,15 +46,19 @@
 
 			'<h2>' +
 				'<a href="" >' + document.title + '</a>' +
-				'<a href=http://fgx.github.io/sandbox/jszip-test/ > &#x24D8; </a>' +
+				'<a href=http://fgx.github.io/sandbox/jszip-test/#readme.md > &#x24D8; </a>' +
 			'</h2>' +
 
 			'<div id=info ></div>' +
 
 			'<p>Read text: <input type=file id=inpText onchange=readText(); /></p>' +
-			'<p><a href="" id=download onclick=saveAs(); >Save As Zip File</a></p> ***' +
+			'<p><a href="" id=download onclick=saveAs(); >Save As Zip File</a></p>' +
 
-			'<p>Open, read and display a zip file that contains a file named "Hello.txt": <input type=file id=inpFile onchange=readZip(); /></p>' +
+			'*** <p>Open, read and display a zip file that contains a file named "Hello.txt": <input type=file id=inpFile onchange=readZip(); /></p>' +
+
+			'*** <p><button onclick=readZipFromURL(); >Open Zip from URL</button></p>' +
+
+			'<p><button onclick=readTextFromURL(); >Open Text from URL</button></p>' +
 
 			'<div id=msg1 ></div>' +
 			'<div id=msg2 ></div>' +
@@ -148,7 +152,72 @@ console.log( zip );
 
 	function readZipFromURL() {
 
+		var xhr, fileName, startTime;
 
+		startTime = Date.now();
+
+		fileName = 'http://fgx.github.io/sandbox/elevations/elevations-512x512-r3.zip';
+
+		xhr = new XMLHttpRequest();
+		xhr.responseType = 'arraybuffer';
+		xhr.open( 'GET', fileName, true );
+		xhr.onload = callback;
+		xhr.send( null );
+
+		function callback() {
+
+			response = xhr.response;
+
+// console.log( 'response', response.length );
+
+//			console.log( response );
+
+			JSZip.loadAsync( response )
+
+				.then( function ( zip ) {
+
+//console.log( 'zip', zip );
+
+					return zip.file( 'test.txt' ).async( 'string' );
+
+				})
+				.then( function ( text ) {
+
+					msg2.innerText = text;
+
+console.log( 'zip time', Date.now() - startTime );
+
+				});
+
+		}
+
+	}
+
+	function readTextFromURL() {
+
+		var xhr, fileName, startTime;
+
+		startTime = Date.now();
+
+		fileName = 'http://fgx.github.io/sandbox/elevations/elevations-512x512-r3.txt';
+
+		xhr = new XMLHttpRequest();
+		xhr.open( 'GET', fileName, true );
+		xhr.onload = callback;
+		xhr.send( null );
+
+		function callback() {
+
+			response = xhr.response;
+
+// console.log( 'response', response.length );
+
+
+			msg2.innerText = response;
+
+console.log( 'text time', Date.now() - startTime );
+
+		}
 
 
 	}
