@@ -1,0 +1,158 @@
+﻿<!doctype html>
+<html lang=en >
+<head>
+<meta charset=utf-8 >
+<title>jsZip Test</title>
+<meta name=viewport content='width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,minimal-ui' >
+<meta name=description content='' >
+<meta name=keywords content='WebGL,Three.js,Tween.js,JavaScript,GitHub,FOSS,3D,STEM' >
+<meta name=date content='' >
+</head>
+<body>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/jszip/3.0.0/jszip.min.js ></script>
+<script>
+
+// https://github.com/Stuk/jszip
+
+	var txt = 'lorem ipsum, quia dolor sit, amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt, ut labore et dolore magnam aliquam quaerat voluptatem. ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? quis autem vel eum iure reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem eum fugiat, quo voluptas nulla pariatur?';
+
+	var imgData = "R0lGODdhBQAFAIACAAAAAP/eACwAAAAABQAFAAACCIwPkWerClIBADs=";
+
+	for ( var i = 0; i < 10; i++ ) {
+
+		txt += txt;
+
+	}
+
+	var text;
+
+	init();
+
+	function init() {
+
+		var css, contents;
+
+		css = document.body.appendChild( document.createElement( 'style' ) );
+		css.innerHTML =
+
+			'body { font: 12pt monospace; }' +
+			'a { color: crimson; text-decoration: none; }' +
+
+		'';
+
+		contents = document.body.appendChild( document.createElement( 'div' ) );
+		contents.id = 'contents';
+		contents.innerHTML =
+
+			'<h2>' +
+				'<a href="" >' + document.title + '</a>' +
+				'<a href=http://fgx.github.io/sandbox/jszip-test/ > &#x24D8; </a>' +
+			'</h2>' +
+
+			'<div id=info ></div>' +
+
+			'<p>Read text: <input type=file id=inpText onchange=readText(); /></p>' +
+			'<p><a href="" id=download onclick=saveAs(); >Save As Zip File</a></p> ***' +
+
+			'<p>Open, read and display a zip file that contains a file named "Hello.txt": <input type=file id=inpFile onchange=readZip(); /></p>' +
+
+			'<div id=msg1 ></div>' +
+			'<div id=msg2 ></div>' +
+
+		'';
+
+	}
+
+	function readText() {
+
+			var reader = new FileReader();
+
+			reader.onload = function ( event ) {
+
+				var result = reader.result;
+
+				text = result;
+
+				msg1.innerHTML = 'Name: ' + inpText.files[0].name + ' Size: ' + inpText.files[0].size + 
+				' Type: ' + inpText.files[0].type +
+				' Modified: ' + inpText.files[0].lastModifiedDate;
+
+				msg2.innerHTML = 'Data:<br>' + text;
+
+			};
+
+			reader.readAsText( inpText.files[ 0 ] );
+
+	}
+
+	function saveAs() {
+
+		var zip = new JSZip();
+
+		zip.file( 'test.txt', text );
+
+//		var img = zip.folder("images");
+//		img.file("smile.gif", imgData, {base64: true});
+
+//		zip.generateAsync({type:'blob', compression: 'STORE' })
+		zip.generateAsync({type:'blob', compression: 'DEFLATE' })
+
+			.then(function(content) {
+
+			download.href = window.URL.createObjectURL( content );
+
+			download.download = 'test2.zip';
+
+		});
+
+	}
+
+	function readZip() {
+
+			var reader = new FileReader();
+
+			reader.onload = function ( event ) {
+
+				result = reader.result;
+
+				msg1.innerHTML = 
+
+					'Name: ' + inpFile.files[0].name + ' Size: ' + inpFile.files[0].size + 
+					' Type: ' + inpFile.files[0].type + ' Modified: ' + inpFile.files[0].lastModifiedDate +
+				'';
+
+				JSZip.loadAsync( result )
+
+					.then( function ( zip ) {
+
+console.log( zip );
+
+						return zip.file( 'Hello.txt' ).async( 'string' );
+
+					})
+
+					.then( function ( text ) {
+
+
+
+					msg2.innerText = text;
+
+					});
+
+			};
+
+			reader.readAsArrayBuffer( inpFile.files[ 0 ] );
+
+	}
+
+
+	function readZipFromURL() {
+
+
+
+
+	}
+
+</script>
+</body>
+</html>

@@ -64,7 +64,7 @@ value='You are now in the home page view - Click this button to view the read me
 
 ### 2016-04-28
 
-* [FGx FlightPath R11]( fgx-flightpath-r11.html ) 403 lines of code
+* [FGx FlightPath R11]( fgx-flightpath-r11.html ) 419 lines of code
 * Chase camera now has two sets of sliders - giving six degrees of freedom
 	* One set for XYZ position
 	* One set for XYZ rotation
