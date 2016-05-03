@@ -8,7 +8,7 @@
 Overlay with bitmap. 
 Display path and aircraft in motion.' >
 <meta name=keywords content='FGx,flightpath,Google Maps API,WebGL,Three.js,JavaScript,GitHub,FOSS,3D,STEM' >
-<meta name=date content='2016-05-02' >
+<meta name=date content='2016-04-28' >
 </head>
 <body>
 
@@ -29,6 +29,7 @@ Display path and aircraft in motion.' >
 	var delta = 0;
 
 	var fileName512 = 'http://fgx.github.io/sandbox/elevations/elevations-512x512-r3.txt';
+
 	var ground;
 
 // gathered from another script. Igualada-Odena Airport stop-and-go flight circuit
@@ -36,6 +37,7 @@ Display path and aircraft in motion.' >
 	var latMax = 41.603583114;
 	var lonMin = 1.6481309452;
 	var lonMax = 1.7103687843;
+
 
 // from here: google-maps-api-set-boundary-get-tiles-r1.html
 	tileCenters = [
@@ -54,6 +56,13 @@ Display path and aircraft in motion.' >
 	var scale = 2;
 
 	var count = 0;
+
+	var centerLat = latMin + 0.5 * ( latMax - latMin );
+	var centerLon = lonMin + 0.5 * ( lonMax - lonMin );
+
+
+	var width = 512;
+	var height = 512;
 
 	var flightPathFileDefault = 'LEIG-L1500-cooked-01.csv';
 	var flightPathFile;
@@ -76,6 +85,7 @@ Display path and aircraft in motion.' >
 
 	function init() {
 
+
 		var css, hamburger, menu;
 		var geometry, material, mesh, light;
 		var gridHelper, axisHelper;
@@ -88,6 +98,7 @@ Display path and aircraft in motion.' >
 			'h2 { margin: 0 }' +
 
 			'button { background-color: #ccc; border: 2px #ccc solid; color: #555; }' +
+
 
 			'input[type=range] { -webkit-appearance: none; -moz-appearance: none; background-color: silver; width: 200px; }' +
 			'input[type=range]::-moz-range-thumb { background-color: #888; border-radius: 0; width: 10px; }' +
@@ -240,6 +251,7 @@ Display path and aircraft in motion.' >
 			ground.geometry.verticesNeedUpdate = true;
 			ground.geometry.normalsNeedUpdate = true;
 
+//			requestTexture();
 			setMapOverlay();
 
 console.log( 'load elevations', Date.now() - startTime );
@@ -248,12 +260,13 @@ console.log( 'load elevations', Date.now() - startTime );
 
 	}
 
+
 	function setMapOverlay() {
 
 		mapOverlay = document.createElement( 'canvas' );
 		mapOverlay.width = mapOverlay.height = pixelsPerTile * tilesPerSide * scale;
-//		document.body.appendChild( mapOverlay );
-//		mapOverlay.style.cssText = 'border: 1px solid gray; left: 0; margin: 10px auto; position: absolute; right: 0; z-index:-10;';
+		document.body.appendChild( mapOverlay );
+		mapOverlay.style.cssText = 'border: 1px solid gray; left: 0; margin: 10px auto; position: absolute; right: 0; z-index:-10;';
 		contextMapOverlay = mapOverlay.getContext( '2d' );
 
 		mapTypes = [
@@ -317,6 +330,41 @@ console.log( 'load elevations', Date.now() - startTime );
 		}
 
 	}
+
+/*
+	function requestTexture( latitude, longitude, x, y ) {
+
+		var path, source, loader, texture;
+
+		path = latMin + ',' + lonMin + '|' + latMax + ',' + lonMin + '|' + latMax + ',' + lonMax + '|' + latMin + ',' + lonMax + '|' + latMin + ',' + lonMin;
+
+		source = 'https://maps.googleapis.com/maps/api/staticmap?center=' + centerLat + ',' + centerLon + '&maptype=satellite&size=' + width + 'x' + height + '&scale=2&zoom=' + zoom + 
+			'&maptype=roadmap&path=color:0xff000066|weight:10|' + path;
+
+		loader = new THREE.TextureLoader();
+		loader.crossOrigin = 'anonymous';
+		loader.load(
+
+			source,
+			function ( texture ) {
+
+//				texture.minFilter = texture.magFilter = THREE.NearestFilter;
+				texture.needsUpdate = true;
+
+				ground.material.map = texture;
+				ground.material.needsUpdate = true;
+
+console.log( 'load texture', Date.now() - startTime );
+
+			},
+
+			function ( xhr ) { console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' ); },
+			function ( xhr ) { console.log( 'oops', xhr ) }
+
+		);
+
+	}
+*/
 
 // I think this function really slows things down...
 

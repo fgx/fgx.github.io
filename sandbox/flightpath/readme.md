@@ -19,6 +19,7 @@ value='You are now in the home page view - Click this button to view the read me
 * Loads and displays a 3D model of a Cessna C172P
 * Reads 3D terrain data from a file and displays a 3D mesh
 * Requests a Google map static bitmap and displays the result as a texture on the mesh
+	* reoltion of the bitmap is programatically adjustable
 * Reads flightpath data from a CSV file
 * Draws a red 3D flightpath from the data
 * Simulates the motion of an aircraft following the path
@@ -35,7 +36,6 @@ value='You are now in the home page view - Click this button to view the read me
 	* Also need to readjust initial aircraft settings to make the above easier to figure out which are the correct fields to use
 * Flightpath scaling and positioning is still by eye
 * Too long a wait before things start appearing on screen
-
 
 
 ### Road Map - in probable order of appearance
@@ -61,6 +61,11 @@ value='You are now in the home page view - Click this button to view the read me
 
 
 ## Change Log
+
+### 2016-05-02
+
+* [FGx FlightPath R12]( fgx-flightpath-r12.html ) 463 lines of code
+* Increases resolution of terrain bitmap from 1024x1024 to 2048x2048
 
 ### 2016-04-28
 
