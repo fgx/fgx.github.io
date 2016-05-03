@@ -19,7 +19,7 @@ value='You are now in the home page view - Click this button to view the read me
 * Loads and displays a 3D model of a Cessna C172P
 * Reads 3D terrain data from a file and displays a 3D mesh
 * Requests a Google map static bitmap and displays the result as a texture on the mesh
-	* reoltion of the bitmap is programatically adjustable
+	* Resolution of the bitmap is programmatically adjustable
 * Reads flightpath data from a CSV file
 * Draws a red 3D flightpath from the data
 * Simulates the motion of an aircraft following the path
