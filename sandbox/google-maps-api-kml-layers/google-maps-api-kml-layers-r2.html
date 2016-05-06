@@ -1,0 +1,42 @@
+﻿<!doctype html>
+<html>
+<head>
+<meta name=viewport content='width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,minimal-ui' >
+<meta charset=utf-8 >
+<title>Googgle Maps API KML Layers R2</title>
+</head>
+<body>
+<script src=https://maps.googleapis.com/maps/api/js ></script>
+<script>
+
+	initMap();
+
+	function initMap() {
+
+		var css, contents, map, layer;
+
+		css = document.body.appendChild( document.createElement( 'style' ) );
+		css.innerHTML =
+
+			'html, body { height: 100%; margin: 0; padding: 0; }' +
+			'#contents { height: 100%; }' +
+
+		'';
+
+		contents = document.body.appendChild( document.createElement( 'div' ) );
+		contents.id = 'contents';
+
+		map = new google.maps.Map( contents );
+
+		layer = new google.maps.KmlLayer({
+
+			url: 'http://fgx.github.io/sandbox/flightpath/LEIG-L1500-01.kml',
+			map: map
+
+		});
+
+	}
+
+</script>
+</body>
+</html>

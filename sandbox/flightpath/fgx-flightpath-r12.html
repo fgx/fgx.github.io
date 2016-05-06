@@ -71,8 +71,7 @@ Display path and aircraft in motion.' >
 	var stats, renderer, scene, camera, controls;
 
 	init();
-
-//	animate(); // see below;
+	animate(); // see below;
 
 	function init() {
 
@@ -92,7 +91,6 @@ Display path and aircraft in motion.' >
 			'input[type=range] { -webkit-appearance: none; -moz-appearance: none; background-color: silver; width: 200px; }' +
 			'input[type=range]::-moz-range-thumb { background-color: #888; border-radius: 0; width: 10px; }' +
 			'input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; background-color: #888; height: 20px; width: 10px; }' +
-
 
 			'#bars { color: crimson; cursor: pointer; font-size: 24pt; text-decoration: none; }' +
 			'#hamburger { left: 325px; position: absolute; top: 20px; transition: left 1s; }' +
@@ -204,7 +202,7 @@ Display path and aircraft in motion.' >
 
 		loadAircraft( aircraftDataURL );
 
-		animate();
+
 
 		cameraWorld = camera;
 		controlsWorld = controls;
