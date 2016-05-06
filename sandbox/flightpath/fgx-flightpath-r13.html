@@ -206,7 +206,8 @@ Display path and aircraft in motion.' >
 
 	function requestElevationsFile( fileName ) {
 
-		var xhr, response, vertices;
+		var xhr, response, vertices, elevations;
+		var geometry, materials;
 
 		xhr = new XMLHttpRequest();
 		xhr.open( 'GET', fileName, true );

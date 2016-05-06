@@ -46,9 +46,6 @@ value='You are now in the home page view - Click this button to view the read me
 * User-defined height scales
 * Read alternate data files
 * Sun position? Shadows? Night flying?
-* Increase size of texture map - to show more detail
-* Increase size of ground mesh from 512x512 to 1024x1024
-	* Once we get elevation data file size smaller
 * Permalinks?
 * Speed control
 * Reorganize code and content files
@@ -61,6 +58,13 @@ value='You are now in the home page view - Click this button to view the read me
 
 
 ## Change Log
+
+### 2016-05-05
+
+* [FGx FlightPath R13]( fgx-flightpath-r13.html ) 458 lines of code ;-)
+* Increases number of vertices in ground mesh from 512x512 to 1024x1024
+* Reduces load time by going from PlaneGepmetry to PlaneBufferGeometry 
+
 
 ### 2016-05-02
 
