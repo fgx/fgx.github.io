@@ -35,8 +35,6 @@ value='You are now in the home page view - Click this button to view the read me
 * Aircraft rotations point to incorrect CSV fields 
 	* Also need to readjust initial aircraft settings to make the above easier to figure out which are the correct fields to use
 * Flightpath scaling and positioning is still by eye
-* Too long a wait before things start appearing on screen
-
 
 ### Road Map - in probable order of appearance
 
@@ -63,7 +61,7 @@ value='You are now in the home page view - Click this button to view the read me
 
 * [FGx FlightPath R13]( fgx-flightpath-r13.html ) 458 lines of code ;-)
 * Increases number of vertices in ground mesh from 512x512 to 1024x1024
-* Reduces load time by going from PlaneGepmetry to PlaneBufferGeometry 
+* Reduces load time by going from PlaneGeometry to PlaneBufferGeometry 
 
 
 ### 2016-05-02
