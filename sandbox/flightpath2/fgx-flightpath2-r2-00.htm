@@ -19,16 +19,13 @@
 <script src=https://rawgit.com/mrdoob/three.js/dev/examples/js/libs/stats.min.js ></script>
 
 <script>
-
-	var flightPath, flightPathBox;
-	var latitude, longitude;
 	var latMin;
 	var latMax;
 	var lonMin;
 	var lonMax;
 
-	var urlAPITreeContents = 'https://api.github.com/repos/fgx/fgx.github.io/git/trees/master?recursive=1';
-//	var urlAPITreeContents = 'https://api.github.com/repos/fgx/fgx.github.io/git/trees/82968813a499e36ef22c08eaf17f920cb609af17'
+//	var urlAPITreeContents = 'https://api.github.com/repos/fgx/fgx.github.io/git/trees/master?recursive=1';
+	var urlAPITreeContents = 'https://api.github.com/repos/fgx/fgx.github.io/git/trees/82968813a499e36ef22c08eaf17f920cb609af17'
 	var urlBase = 'http://fgx.github.io/sandbox/flightpath-data/';
 
 	var mapTypes = [
@@ -49,12 +46,11 @@
 	var googleMap, googleMapCenter, geocoder, infoWindow;
 
 	var pixelsPerTile = 256;
-	var tilesPerSide = 9; // odd number please
+	var tilesPerSide = 7; // odd number please
 	var tilesPerSideSquared = tilesPerSide * tilesPerSide;
 
 	var zoom = 15;
 
-	var b = '<br>';
 	var v = function( x, y, z ){ return new THREE.Vector3( x, y, z ); };
 
 	var stats, renderer, scene, camera, controls;
@@ -100,26 +96,13 @@
 				'<a href=index.html#readme.md > &#x24D8; </a>' +
 			'</h2>' +
 
-			'<p>Flight Path<br>' +
+			'<p>' +
 				'<select id=selFiles onchange=getFlightPathCSV(); size=5 ></select>' +
 			'</p>' +
-			'<p>Map source<br><select id=selMap onchange=drawMapOverlay(); size=9 /></select></p>' +
-			'<p><output id=outZoom >' + zoom + '</output></p>' +
 
-			'<div id=menuFlightPath ></div>' +
-
-			'<div id=menuMap ></div>' +
+			'<div id=info ></div>' +
 
 		'';
-
-		for ( var i = 0; i < mapTypes.length; i++ ) {
-
-			selMap.appendChild( document.createElement( 'option' ) );
-			selMap.children[ i ].text = mapTypes[ i ][ 0 ];
-
-		}
-
-		selMap.selectedIndex = 2;
 
 		stats = new Stats();
 		stats.domElement.style.cssText = 'position: absolute; right: 0; top: 0; z-index: 100;' ;
@@ -154,6 +137,235 @@
 
 	}
 
+
+
+	function getAPITreeContents() {
+
+		var xhr = new XMLHttpRequest();
+		xhr.open( 'GET', urlAPITreeContents, true );
+		xhr.onload = callback;
+		xhr.send( null );
+
+		function callback() {
+
+//			var response, file;
+
+			response = JSON.parse( xhr.response );
+			files = [];
+
+			for ( var i = 0; i < response.tree.length; i++ ) {
+
+				file = response.tree[ i ].path;
+				files.push( file );
+				selFiles.appendChild( document.createElement( 'option' ) );
+				selFiles.children[ i ].text = file;
+
+			}
+
+			selFiles.selectedIndex = 1;
+
+			getFlightPathCSV();
+
+		}
+
+	}
+
+	function getFlightPathCSV() {
+
+//		var xhr, text, waypoints;
+
+		fileName = urlBase + selFiles.value;
+
+		xhr = new XMLHttpRequest();
+		xhr.open( 'GET', fileName, true );
+		xhr.onload = callback;
+		xhr.send( null );
+
+		function callback() {
+
+			text = xhr.responseText;
+			waypoints = text.split( '\n' ).map( function( point ) { 
+
+				return point.split( ',' ).map( function( a ) { return parseFloat( a ); } );
+
+			} );
+
+			waypoints = waypoints.slice( 1, -1 )
+
+			drawLine( waypoints );
+//			updateCamera();
+//			drawMap();
+
+		}
+
+	}
+
+	function drawLine( points ) {
+
+//		var geometry, naterial, line, boxHelper, b;
+		var b = '<br>';
+
+		geometry = new THREE.Geometry();
+		geometry.vertices = points.map( function( p ) { return v( p[ 0 ], 0.00005 * p[ 2 ], p[ 1 ] ); } );
+
+		material = new THREE.LineBasicMaterial( { color: 0x000000 } );
+		line = new THREE.Line( geometry, material);
+		scene.add( line );
+
+		boxHelper = new THREE.BoxHelper( line );
+		boxHelper.geometry.computeBoundingBox();
+
+		scene.add( boxHelper );
+
+		center = boxHelper.geometry.boundingSphere.center;
+
+		latMin = boxHelper.geometry.boundingBox.min.z;
+		latMax = boxHelper.geometry.boundingBox.max.z;
+		lonMin = boxHelper.geometry.boundingBox.min.x;
+		lonMax = boxHelper.geometry.boundingBox.max.x;
+
+		latitude = center.z;
+		longitude = center.x;
+
+		info.innerHTML = 
+			'Latitude: ' + center.z + b +
+			'Longitude: ' + center.x + b + b +
+
+			'latMin: ' + latMin + b +
+			'latMax: ' + latMax + b +
+			'lonMin: ' + lonMin + b +
+			'lonMax: ' + lonMax + b +
+
+		b;
+
+
+		geometry2 = new THREE.Geometry();
+		geometry2.vertices = points.map( function( p ) { return v( p[ 0 ], p[ 2 ], p[ 1 ] ); } );
+		geometry2.applyMatrix( new THREE.Matrix4().makeScale( 1300, 0.01, 1400 ) );
+		geometry2.applyMatrix( new THREE.Matrix4().makeRotationY( -0.64 * Math.PI ) );
+		geometry2.center();
+		material = new THREE.LineBasicMaterial( { color: 0xff00ff } );
+		line = new THREE.Line( geometry2, material);
+		scene.add( line );
+
+		boxHelper = new THREE.BoxHelper( line );
+		boxHelper.geometry.computeBoundingBox();
+
+		scene.add( boxHelper );
+
+		drawMapOverlay();
+
+	}
+
+	function updateCamera() {
+
+		target = line.geometry.vertices[ 0 ];
+		camera.position.copy( target.clone().add( v( 0.5, 0.5, 0.5 ) ) );
+		controls.target.copy( target );
+
+	}
+
+/*
+	function drawMap() {
+
+		geometry = new THREE.PlaneBufferGeometry( 1, 1 );
+		geometry.applyMatrix( new THREE.Matrix4().makeRotationX( -0.5 * Math.PI ) );
+		material = new THREE.MeshNormalMaterial( { side: 2 } );
+		map = new THREE.Mesh( geometry, material );
+		map.position.set( center.x, boxHelper.geometry.boundingBox.min.y, center.z );
+		scene.add( map );
+
+
+		tileX = lon2tile( center.x, zoom );
+		tileY = lat2tile( center.z, zoom );
+
+		tile = 'http://b.tile.openstreetmap.org/' + zoom + '/' + tileX + '/' + tileY + '.png';
+		loader = new THREE.TextureLoader();
+		loader.crossOrigin = 'anonymous';
+		loader.load(
+
+//			'http://b.tile.openstreetmap.org/' + zoom + '/' + tileX + '/' + tileY + '.png',
+			tile,
+
+			function ( texture ) {
+
+				map.material = new THREE.MeshBasicMaterial( { map: texture, side: 2  } );
+
+			}
+
+		);
+
+	}
+
+*/
+
+	function drawMapOverlay() {
+
+//		var baseURL, tileX, tileY, tileOffset, count;
+
+//		if ( placeMap.visible === false ) { return; }
+
+//		baseURL = mapTypes[ selMap.selectedIndex ][ 1 ];
+		baseURL = mapTypes[ 2 ][ 1 ];
+
+		tileOffset = Math.floor( 0.5 * tilesPerSide );
+		tileX = lon2tile( longitude, zoom ) - tileOffset;
+		tileY = lat2tile( latitude, zoom ) - tileOffset;
+
+//		outZoom.value = zoom;
+
+		count = 0;
+
+		for ( var x = 0; x < tilesPerSide; x++ ) {
+
+			for ( var y = 0; y < tilesPerSide; y++ ) {
+
+//				if ( selMap.selectedIndex < 4 ) {
+
+					loadImage( ( x + tileX ) + '&y=' + ( y + tileY ) + '&z=' + zoom, x, y );
+/*
+				} else {
+
+					loadImage( zoom + '/scale=2/' + ( x + tileX ) + '/' + ( y + tileY ) + '.png', x , y );
+
+				}
+*/
+
+			}
+
+		}
+
+		function loadImage( fileName, x, y ) {
+
+			var img = document.createElement( 'img' );
+			img.crossOrigin = 'anonymous';
+			img.src = baseURL + fileName;
+
+			var texture = new THREE.Texture( placeMapCanvas );
+			texture.minFilter = texture.magFilter = THREE.NearestFilter;
+			texture.needsUpdate = true;
+
+			img.onload = function(){
+
+				placeMapContext.drawImage( img, 0, 0, 256, 256, x * pixelsPerTile, y * pixelsPerTile, pixelsPerTile, pixelsPerTile );
+
+				count++;
+
+				if ( count === tilesPerSideSquared ) {
+
+					placeMap.material = new THREE.MeshBasicMaterial( { color: 0xffffff, map: texture, side: 2 } );
+					placeMap.position.y = boxHelper.geometry.boundingBox.min.y;
+					placeMap.material.needsUpdate = true;
+
+				}
+
+			}
+
+		}
+
+	}
+
+
 	function initMapOverlays() {
 
 		var geometry, material, mesh;
@@ -173,188 +385,6 @@
 
 	}
 
-	function getAPITreeContents() {
-
-		var xhr, response, files, file, count;
-
-		xhr = new XMLHttpRequest();
-		xhr.open( 'GET', urlAPITreeContents, true );
-		xhr.onload = callback;
-		xhr.send( null );
-
-		function callback() {
-
-			response = JSON.parse( xhr.response );
-			files = [];
-			count = 0
-			for ( var i = 0; i < response.tree.length; i++ ) {
-
-				file = response.tree[ i ].path;
-
-				if ( file.indexOf( 'flightpath-data\/' ) === -1 ) { continue; }
-				file = file.slice( file.lastIndexOf( '\/' ) + 1 );
-				files.push( file );
-				selFiles.appendChild( document.createElement( 'option' ) );
-				selFiles.children[ count++ ].text = file;
-
-			}
-
-			selFiles.selectedIndex = 1;
-
-			getFlightPathCSV();
-
-		}
-
-	}
-
-	function getFlightPathCSV() {
-
-		var xhr, text, waypoints;
-
-		fileName = urlBase + selFiles.value;
-
-		xhr = new XMLHttpRequest();
-		xhr.open( 'GET', fileName, true );
-		xhr.onload = callback;
-		xhr.send( null );
-
-		function callback() {
-
-			text = xhr.responseText;
-			waypoints = text.split( '\n' ).map( function( point ) { 
-
-				return point.split( ',' ).map( function( a ) { return parseFloat( a ); } );
-
-			} );
-
-			waypoints = waypoints.slice( 1, -1 );
-
-			drawLine( waypoints );
-
-		}
-
-	}
-
-	function drawLine( points ) {
-
-		var geometry, geometry2, material, line, boxHelper;
-
-		scene.remove( flightPath, flightPathBox );
-
-		geometry = new THREE.Geometry();
-		geometry.vertices = points.map( function( p ) { return v( p[ 0 ], 0.00005 * p[ 2 ], p[ 1 ] ); } );
-		geometry.computeBoundingSphere();
-		geometry.computeBoundingBox();
-
-		center = geometry.boundingSphere.center;
-
-		latMin = geometry.boundingBox.min.z;
-		latMax = geometry.boundingBox.max.z;
-		lonMin = geometry.boundingBox.min.x;
-		lonMax = geometry.boundingBox.max.x;
-
-		latitude = center.z;
-		longitude = center.x;
-
-		outZoom.value = 'Zoom: ' + zoom;
-
-		menuFlightPath.innerHTML = 
-			'Center of flight path' + b +
-			'Latitude: ' + center.z + b +
-			'Longitude: ' + center.x + b + b +
-
-			'latMin: ' + latMin + b +
-			'latMax: ' + latMax + b +
-			'lonMin: ' + lonMin + b +
-			'lonMax: ' + lonMax + b +
-		b;
-
-		geometry2 = new THREE.Geometry();
-		geometry2.vertices = points.map( function( p ) { return v( p[ 0 ], p[ 2 ], - p[ 1 ] ); } );
-		geometry2.applyMatrix( new THREE.Matrix4().makeScale( 1000, 0.01, 1000 ) );
-		geometry2.center();
-		material = new THREE.LineBasicMaterial( { color: 0xff00ff } );
-		flightPath = new THREE.Line( geometry2, material);
-		scene.add( flightPath );
-
-		flightPathBox = new THREE.BoxHelper( flightPath );
-		flightPathBox.geometry.computeBoundingBox();
-		scene.add( flightPath, flightPathBox );
-
-		drawMapOverlay();
-
-	}
-
-
-	function drawMapOverlay() {
-
-		var baseURL, tileX, tileY, tileOffset, count;
-
-		baseURL = mapTypes[ selMap.selectedIndex ][ 1 ];
-
-		tileOffset = Math.floor( 0.5 * tilesPerSide );
-		tileX = lon2tile( longitude, zoom ) - tileOffset;
-		tileY = lat2tile( latitude, zoom ) - tileOffset;
-
-		count = 0;
-
-		for ( var x = 0; x < tilesPerSide; x++ ) {
-
-			for ( var y = 0; y < tilesPerSide; y++ ) {
-
-				if ( selMap.selectedIndex < 4 ) {
-
-					loadImage( ( x + tileX ) + '&y=' + ( y + tileY ) + '&z=' + zoom, x, y );
-
-				} else {
-
-					loadImage( zoom + '/scale=2/' + ( x + tileX ) + '/' + ( y + tileY ) + '.png', x , y );
-
-				}
-
-			}
-
-		}
-
-		menuMap.innerHTML =
-
-			'UL TileX: ' + tileX + ' ' + tile2lon( tileX, zoom ) + b +
-			'UL TileY: ' + tileY + ' ' + tile2lat( tileY, zoom )  + b +
-			'LR TileX: ' + ( tileX + tilesPerSide ) + ' ' + tile2lon( tileX + tilesPerSide + 1 , zoom )  + b +
-			'LR TileY: ' + ( tileY + tilesPerSide ) + ' ' + tile2lat( tileY + tilesPerSide + 1 , zoom )  + b +
-		b;
-
-
-			function loadImage( fileName, x, y ) {
-
-				var img = document.createElement( 'img' );
-				img.crossOrigin = 'anonymous';
-				img.src = baseURL + fileName;
-
-				var texture = new THREE.Texture( placeMapCanvas );
-				texture.minFilter = texture.magFilter = THREE.NearestFilter;
-				texture.needsUpdate = true;
-
-				img.onload = function(){
-
-					placeMapContext.drawImage( img, 0, 0, 256, 256, x * pixelsPerTile, y * pixelsPerTile, pixelsPerTile, pixelsPerTile );
-
-					count++;
-
-					if ( count === tilesPerSideSquared ) {
-
-						placeMap.material = new THREE.MeshBasicMaterial( { color: 0xffffff, map: texture, side: 2 } );
-						placeMap.position.y = flightPathBox.geometry.boundingBox.min.y;
-						placeMap.material.needsUpdate = true;
-
-					}
-
-				}
-
-			}
-
-	}
-
 	function lon2tile( lon, zoom ) {
 
 		return Math.floor( ( lon + 180 ) / 360 * Math.pow( 2, zoom ) );
@@ -365,20 +395,6 @@
 
 		var pi = Math.PI
 		return Math.floor(( 1 - Math.log( Math.tan( lat * pi / 180) + 1 / Math.cos( lat * pi / 180)) / pi )/2 * Math.pow(2, zoom) );
-
-	}
-
-	function tile2lon( x, zoom ) {
-
-		return ( x / Math.pow( 2, zoom ) * 360 - 180 );
-
-	}
-
-	function tile2lat( y, zoom ) {
-
-		var pi = Math.PI
-		var n = pi - 2 * pi * y / Math.pow( 2, zoom );
-		return 180 / pi * Math.atan( 0.5 * ( Math.exp( n ) - Math.exp( -n ) ));
 
 	}
 
