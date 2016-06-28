@@ -7,19 +7,17 @@ value='You are now in the home page view - Click this button to view the read me
 [FGx FlightPath2 Read Me]( http://fgx.github.io/sandbox/flightpath2/index.html#readme.md )
 ===
 
-### See also [README-LEIG]( http://fgx.github.io/sandbox/flightpath2/index.html#README-LEIG.md )
-
-
 ## &#128279; [FGx FlightPath]( http://fgx.github.io/sandbox/flightpath2/ )
 
 <iframe src=http://fgx.github.io/sandbox/flightpath2/index.html width=100% height=500px ></iframe>
 
 ### Features
 
-loads and parses csv
-draws flightpath
-adjusts camera
-loads and displays a map in *nearly* the the correct location.
+* Gets and displays names of available flight paths
+* Loads and parses flight path csv
+* Draws flightpath
+* Loads and displays a map in *nearly* the the correct location
+
 WIP
 
 ## Change Log
@@ -27,6 +25,10 @@ WIP
 ### 2016-06-28 ~ R2
 
 * Rename to Flightpath2
+* Add GitHUB API get file names
+* Add multiple tile map
+* Add select map type
+* Add menu info items
 
 
 ### 2016-06-28 ~ R1
