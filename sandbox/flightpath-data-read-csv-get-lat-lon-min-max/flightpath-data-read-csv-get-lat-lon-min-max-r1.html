@@ -20,6 +20,11 @@
 
 <script>
 
+//	var fileName = '../flightpath-data/VNLK-02-cooked.csv';
+	var fileName = '../flightpath-data/YGIL-01-cooked.csv';
+	var fileName = '../flightpath-data/LEIG-L1500-cooked-01.csv';
+
+	var zoom = 10;
 	var v = function( x, y, z ){ return new THREE.Vector3( x, y, z ); };
 
 	var stats, renderer, scene, camera, controls;
@@ -64,12 +69,6 @@
 				'<a href="" >' + document.title + '</a>' +
 				'<a href=index.html#readme.md > &#x24D8; </a>' +
 			'</h2>' +
-//			'<p><input type=checkbox onchange=mesh.material.wireframe=!mesh.material.wireframe; > Wireframe</p>' +
-
-/*			'<p><button onclick=doIt(); >do it</button></p>' +
-			'<p>Zoom: <input type=range id=inp max=10 min=0 step=1 value=5 oninput=out.value=inp.value; title="0 to 10: OK" > <output id=out >value</output></p>' +
-*/
-
 			'<div id=info ></div>' +
 
 		'';
@@ -96,16 +95,6 @@
 
 // helpers
 
-		geometry = new THREE.BoxGeometry( 100, 2, 100 );
-		material = new THREE.MeshNormalMaterial();
-		mesh = new THREE.Mesh( geometry, material );
-		mesh.position.set( 0, -11, 0 );
-		scene.add( mesh );
-
-		var gridHelper = new THREE.GridHelper( 50, 10 );
-		gridHelper.position.set( 0, -10, 0 );
-		scene.add( gridHelper );
-
 		var axisHelper = new THREE.AxisHelper( 50 );
 		scene.add( axisHelper );
 
@@ -118,11 +107,9 @@
 
 	function getFlightPathCSV() {
 
-//		var fileName, text, waypoints;
+//		var xhr, text, waypoints;
 
-		fileName = '../flightpath-data/VNLK-02-cooked.csv';
-
-		var xhr = new XMLHttpRequest();
+		xhr = new XMLHttpRequest();
 		xhr.open( 'GET', fileName, true );
 		xhr.onload = callback;
 		xhr.send( null );
@@ -137,8 +124,6 @@
 			} );
 
 			waypoints = waypoints.slice( 1, -1 )
-
-//			console.log( waypoints[ 0 ] );
 
 			drawLine( waypoints );
 			updateCamera();
@@ -177,7 +162,7 @@
 	function updateCamera() {
 
 		target = line.geometry.vertices[ 0 ];
-		camera.position.copy( target.clone().add( v( 0.1, 0.1, 0.1 ) ) );
+		camera.position.copy( target.clone().add( v( 0.5, 0.5, 0.5 ) ) );
 		controls.target.copy( target );
 
 	}
@@ -190,6 +175,39 @@
 		map = new THREE.Mesh( geometry, material );
 		map.position.set( center.x, boxHelper.geometry.boundingBox.min.y, center.z );
 		scene.add( map );
+
+
+		tileX = lon2tile( center.x, zoom );
+		tileY = lat2tile( center.z, zoom );
+
+		tile = 'http://b.tile.openstreetmap.org/' + zoom + '/' + tileX + '/' + tileY + '.png';
+		loader = new THREE.TextureLoader();
+		loader.crossOrigin = 'anonymous';
+		loader.load(
+
+//			'http://b.tile.openstreetmap.org/' + zoom + '/' + tileX + '/' + tileY + '.png',
+			tile,
+
+			function ( texture ) {
+
+				map.material = new THREE.MeshBasicMaterial( { map: texture, side: 2  } );
+
+			}
+
+		);
+
+	}
+
+	function lon2tile( lon, zoom ) {
+
+		return Math.floor( ( lon + 180 ) / 360 * Math.pow( 2, zoom ) );
+
+	}
+
+	function lat2tile( lat, zoom ) {
+
+		var pi = Math.PI
+		return Math.floor(( 1 - Math.log( Math.tan( lat * pi / 180) + 1 / Math.cos( lat * pi / 180)) / pi )/2 * Math.pow(2, zoom) );
 
 	}
 
