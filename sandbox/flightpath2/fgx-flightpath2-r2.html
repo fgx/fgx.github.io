@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang=en >
+<head>
+<meta charset=utf-8 >
+<title>Flightpath2 R2</title>
+<meta name=viewport content='width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no' >
+<meta name=description content='' >
+<meta name=keywords content='WebGL,Three.js,JavaScript,GitHub,FOSS,3D,STEM' >
+<meta name=date content='' >
+</head>
+<body>
+<!--
+<script src=https://mrdoob.github.io/three.js/build/three.min.js ></script>
+<script src=https://mrdoob.github.io/three.js/examples/js/controls/OrbitControls.js ></script>
+<script src=https://mrdoob.github.io/three.js/examples/js/libs/stats.min.js ></script>
+-->
+<script src=https://rawgit.com/mrdoob/three.js/dev/build/three.min.js ></script>
+<script src=https://rawgit.com/mrdoob/three.js/dev/examples/js/controls/OrbitControls.js ></script>
+<script src=https://rawgit.com/mrdoob/three.js/dev/examples/js/libs/stats.min.js ></script>
+
+<script>
+	var latMin;
+	var latMax;
+	var lonMin;
+	var lonMax;
+
+//	var urlAPITreeContents = 'https://api.github.com/repos/fgx/fgx.github.io/git/trees/master?recursive=1';
+	var urlAPITreeContents = 'https://api.github.com/repos/fgx/fgx.github.io/git/trees/82968813a499e36ef22c08eaf17f920cb609af17'
+	var urlBase = 'http://fgx.github.io/sandbox/flightpath-data/';
+
+	var mapTypes = [
+
+		['Google Maps','https://mt1.google.com/vt/x='],
+		['Google Maps Terrain','https://mt1.google.com/vt/lyrs=t&x='],
+		['Google Maps Satellite','https://mt1.google.com/vt/lyrs=s&x='],
+		['Google Maps Hybrid','https://mt1.google.com/vt/lyrs=y&x='],
+		['Open Street Map','http://tile.openstreetmap.org/'],
+		['Open Cycle Map', 'http://tile.opencyclemap.org/cycle/'],
+		['MapQuest OSM', 'http://otile3.mqcdn.com/tiles/1.0.0/osm/'],
+		['MapQuest Satellite', 'http://otile3.mqcdn.com/tiles/1.0.0/sat/'],
+		['Stamen terrain background','http://tile.stamen.com/terrain-background/']
+
+	];
+
+	var placeMap, placeMapCanvas, placeMapContext;
+	var googleMap, googleMapCenter, geocoder, infoWindow;
+
+	var pixelsPerTile = 256;
+	var tilesPerSide = 7; // odd number please
+	var tilesPerSideSquared = tilesPerSide * tilesPerSide;
+
+	var zoom = 15;
+
+	var v = function( x, y, z ){ return new THREE.Vector3( x, y, z ); };
+
+	var stats, renderer, scene, camera, controls;
+
+	init();
+	animate();
+
+	function init() {
+
+		var geometry, material, mesh;
+		var css, hamburger, menu;
+
+		css = document.head.appendChild( document.createElement( 'style' ) );
+		css.innerHTML =
+
+			'body { font: 12pt monospace; margin: 0; overflow: hidden; }' +
+			'a {text-decoration: none; }' +
+			'h2 { margin: 0 }' +
+
+			'button { background-color: #ccc; border: 2px #ccc solid; color: #555; }' +
+
+/*			'input[type=range] { -webkit-appearance: none; -moz-appearance: none; background-color: silver; height: 20px; width: 180px; }' +
+			'input[type=range]::-moz-range-thumb { -moz-appearance: none; background-color: #888; height: 20px; width: 10px; }' +
+			'input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; background-color: #888; height: 20px; opacity: 0.85; width: 10px; }' +
+*/
+			'#bars { color: pink; cursor: pointer; font-size: 24pt; text-decoration: none; }' +
+			'#hamburger { left: 325px; position: absolute; top: 20px; transition: left 1s; }' +
+			'#menu { background-color: #eee; border: 1px #ccc solid; left: -324px; max-height: ' + ( window.innerHeight - 10 ) + 'px; ' +
+				'opacity: 0.85; overflow: auto; padding: 0 10px; position: absolute; top: -20px; transition: left 1s; width: 300px; }' +
+
+		'';
+		hamburger = document.body.appendChild( document.createElement( 'div' ) );
+		hamburger.id = 'hamburger';
+		hamburger.innerHTML = '<div id=bars > &#9776; </div>';
+		bars.onclick = function() { hamburger.style.left = hamburger.style.left === "0px" ? "325px" : 0; };
+
+		menu = hamburger.appendChild( document.createElement( 'div' ) );
+		menu.id = 'menu';
+		menu.innerHTML =
+
+			'<h2>' +
+				'<a href="" >' + document.title + '</a>' +
+				'<a href=index.html#readme.md > &#x24D8; </a>' +
+			'</h2>' +
+
+			'<p>' +
+				'<select id=selFiles onchange=doSelect(this); size=5 ></select>' +
+			'</p>' +
+
+			'<div id=info ></div>' +
+
+		'';
+
+		stats = new Stats();
+		stats.domElement.style.cssText = 'position: absolute; right: 0; top: 0; z-index: 100;' ;
+		document.body.appendChild( stats.domElement );
+
+		window.addEventListener( 'resize', onWindowResize, false );
+
+		renderer = new THREE.WebGLRenderer( {  alpha: 1, antialias: true }  );
+//		renderer.setClearColor( 0xf0f0f0 );
+//		renderer.setPixelRatio( window.devicePixelRatio );
+		renderer.setSize( window.innerWidth, window.innerHeight );
+		document.body.appendChild( renderer.domElement );
+
+		camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 0.11, 1000 );
+		camera.position.set( 100, 100, 100 );
+
+		controls = new THREE.OrbitControls( camera, renderer.domElement );
+		controls.maxDistance = 800;
+
+		scene = new THREE.Scene();
+
+// helpers
+
+		var axisHelper = new THREE.AxisHelper( 50 );
+		scene.add( axisHelper );
+
+// assets
+
+		initMapOverlays();
+
+		getAPITreeContents();
+
+	}
+
+
+
+	function getAPITreeContents() {
+
+		var xhr = new XMLHttpRequest();
+		xhr.open( 'GET', urlAPITreeContents, true );
+		xhr.onload = callback;
+		xhr.send( null );
+
+		function callback() {
+
+//			var response, file;
+
+			response = JSON.parse( xhr.response );
+			files = [];
+
+			for ( var i = 0; i < response.tree.length; i++ ) {
+
+				file = response.tree[ i ].path;
+				files.push( file );
+				selFiles.appendChild( document.createElement( 'option' ) );
+				selFiles.children[ i ].text = file;
+
+			}
+
+			selFiles.selectedIndex = 1;
+
+			getFlightPathCSV();
+
+		}
+
+	}
+
+	function getFlightPathCSV() {
+
+//		var xhr, text, waypoints;
+
+		fileName = urlBase + selFiles.value;
+
+		xhr = new XMLHttpRequest();
+		xhr.open( 'GET', fileName, true );
+		xhr.onload = callback;
+		xhr.send( null );
+
+		function callback() {
+
+			text = xhr.responseText;
+			waypoints = text.split( '\n' ).map( function( point ) { 
+
+				return point.split( ',' ).map( function( a ) { return parseFloat( a ); } );
+
+			} );
+
+			waypoints = waypoints.slice( 1, -1 )
+
+			drawLine( waypoints );
+			updateCamera();
+//			drawMap();
+
+		}
+
+	}
+
+	function drawLine( points ) {
+
+//		var geometry, naterial, line, boxHelper, b;
+		var b = '<br>';
+
+		geometry = new THREE.Geometry();
+		geometry.vertices = points.map( function( p ) { return v( p[ 0 ], 0.00005 * p[ 2 ], p[ 1 ] ); } );
+
+		material = new THREE.LineBasicMaterial( { color: 0x000000 } );
+		line = new THREE.Line( geometry, material);
+		scene.add( line );
+
+		boxHelper = new THREE.BoxHelper( line );
+		boxHelper.geometry.computeBoundingBox();
+
+		scene.add( boxHelper );
+
+		center = boxHelper.geometry.boundingSphere.center;
+
+		latMin = boxHelper.geometry.boundingBox.min.z;
+		latMax = boxHelper.geometry.boundingBox.max.z;
+		lonMin = boxHelper.geometry.boundingBox.min.x;
+		lonMax = boxHelper.geometry.boundingBox.max.x;
+
+		latitude = center.z;
+		longitude = center.x;
+
+		info.innerHTML = 
+			'Latitude: ' + center.z + b +
+			'Longitude: ' + center.x + b + b +
+
+			'latMin: ' + latMin + b +
+			'latMax: ' + latMax + b +
+			'lonMin: ' + lonMin + b +
+			'lonMax: ' + lonMax + b +
+
+		b;
+
+
+		geometry2 = new THREE.Geometry();
+		geometry2.vertices = points.map( function( p ) { return v( p[ 0 ], p[ 2 ], p[ 1 ] ); } );
+		geometry2.applyMatrix( new THREE.Matrix4().makeScale( 1400, 0.01, 1150 ) );
+		geometry2.center();
+		material = new THREE.LineBasicMaterial( { color: 0x000000 } );
+		line = new THREE.Line( geometry2, material);
+		scene.add( line );
+
+		boxHelper = new THREE.BoxHelper( line );
+		boxHelper.geometry.computeBoundingBox();
+
+		scene.add( boxHelper );
+
+		drawMapOverlay();
+
+	}
+
+	function updateCamera() {
+
+		target = line.geometry.vertices[ 0 ];
+		camera.position.copy( target.clone().add( v( 0.5, 0.5, 0.5 ) ) );
+		controls.target.copy( target );
+
+	}
+
+/*
+	function drawMap() {
+
+		geometry = new THREE.PlaneBufferGeometry( 1, 1 );
+		geometry.applyMatrix( new THREE.Matrix4().makeRotationX( -0.5 * Math.PI ) );
+		material = new THREE.MeshNormalMaterial( { side: 2 } );
+		map = new THREE.Mesh( geometry, material );
+		map.position.set( center.x, boxHelper.geometry.boundingBox.min.y, center.z );
+		scene.add( map );
+
+
+		tileX = lon2tile( center.x, zoom );
+		tileY = lat2tile( center.z, zoom );
+
+		tile = 'http://b.tile.openstreetmap.org/' + zoom + '/' + tileX + '/' + tileY + '.png';
+		loader = new THREE.TextureLoader();
+		loader.crossOrigin = 'anonymous';
+		loader.load(
+
+//			'http://b.tile.openstreetmap.org/' + zoom + '/' + tileX + '/' + tileY + '.png',
+			tile,
+
+			function ( texture ) {
+
+				map.material = new THREE.MeshBasicMaterial( { map: texture, side: 2  } );
+
+			}
+
+		);
+
+	}
+
+*/
+
+	function drawMapOverlay() {
+
+//		var baseURL, tileX, tileY, tileOffset, count;
+
+//		if ( placeMap.visible === false ) { return; }
+
+//		baseURL = mapTypes[ selMap.selectedIndex ][ 1 ];
+		baseURL = mapTypes[ 1 ][ 1 ];
+
+		tileOffset = Math.floor( 0.5 * tilesPerSide );
+		tileX = lon2tile( longitude, zoom ) - tileOffset;
+		tileY = lat2tile( latitude, zoom ) - tileOffset;
+
+//		outZoom.value = zoom;
+
+		count = 0;
+
+		for ( var x = 0; x < tilesPerSide; x++ ) {
+
+			for ( var y = 0; y < tilesPerSide; y++ ) {
+
+//				if ( selMap.selectedIndex < 4 ) {
+
+					loadImage( ( x + tileX ) + '&y=' + ( y + tileY ) + '&z=' + zoom, x, y );
+/*
+				} else {
+
+					loadImage( zoom + '/scale=2/' + ( x + tileX ) + '/' + ( y + tileY ) + '.png', x , y );
+
+				}
+*/
+
+			}
+
+		}
+
+		function loadImage( fileName, x, y ) {
+
+			var img = document.createElement( 'img' );
+			img.crossOrigin = 'anonymous';
+			img.src = baseURL + fileName;
+
+			var texture = new THREE.Texture( placeMapCanvas );
+			texture.minFilter = texture.magFilter = THREE.NearestFilter;
+			texture.needsUpdate = true;
+
+			img.onload = function(){
+
+				placeMapContext.drawImage( img, 0, 0, 256, 256, x * pixelsPerTile, y * pixelsPerTile, pixelsPerTile, pixelsPerTile );
+
+				count++;
+
+				if ( count === tilesPerSideSquared ) {
+
+					placeMap.material = new THREE.MeshBasicMaterial( { color: 0xffffff, map: texture, side: 2 } );
+					placeMap.position.y = boxHelper.geometry.boundingBox.min.y;
+					placeMap.material.needsUpdate = true;
+
+				}
+
+			}
+
+		}
+
+	}
+
+
+	function initMapOverlays() {
+
+		var geometry, material, mesh;
+
+		geometry = new THREE.PlaneBufferGeometry( 150, 150 );
+		geometry.applyMatrix( new THREE.Matrix4().makeRotationX( -0.5 * Math.PI ) );
+		material = new THREE.MeshBasicMaterial();
+		placeMap = new THREE.Mesh( geometry, material );
+		placeMap.receiveShadow = true;
+		scene.add( placeMap );
+
+		placeMapCanvas = document.createElement( 'canvas' );
+		placeMapCanvas.width = placeMapCanvas.height = pixelsPerTile * tilesPerSide;
+//		document.body.appendChild( placeMapCanvas );
+//		placeMapCanvas.style.cssText = 'border: 1px solid gray; left: 0; margin: 10px auto; position: absolute; right: 0; z-index:-10;';
+		placeMapContext = placeMapCanvas.getContext( '2d' );
+
+	}
+
+	function lon2tile( lon, zoom ) {
+
+		return Math.floor( ( lon + 180 ) / 360 * Math.pow( 2, zoom ) );
+
+	}
+
+	function lat2tile( lat, zoom ) {
+
+		var pi = Math.PI
+		return Math.floor(( 1 - Math.log( Math.tan( lat * pi / 180) + 1 / Math.cos( lat * pi / 180)) / pi )/2 * Math.pow(2, zoom) );
+
+	}
+
+	function onWindowResize() {
+
+		camera.aspect = window.innerWidth / window.innerHeight;
+		camera.updateProjectionMatrix();
+
+		renderer.setSize( window.innerWidth, window.innerHeight );
+
+	}
+
+	function animate() {
+
+		requestAnimationFrame( animate );
+		controls.update();
+		stats.update();
+		renderer.render( scene, camera );
+
+	}
+
+</script>
+</body>
+</html>
