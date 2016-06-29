@@ -24,7 +24,7 @@ WIP
 ## To Do List
 
 * But what about a live flight, at the same terrain level as flightpath...
-* > the current model is a tad too big < add a slider that scales the model
+* > the current model is a tad too big. Add a slider that scales the model
 * Plotting Crossfeed flights. **FG Live 3D Tracker**
 
 
