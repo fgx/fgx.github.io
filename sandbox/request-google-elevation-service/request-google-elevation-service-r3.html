@@ -9,7 +9,7 @@
 <meta name=date content='2016-04-22' >
 </head>
 <body>
-<script src=https://maps.googleapis.com/maps/api/js ></script>
+<script src=https://maps.googleapis.com/maps/api/js?key=AIzaSyC9cIAxOhYYPQJEdFRcrtQQ6MTrNUpaPWk ></script>
 <script>
 
 // https://developers.google.com/maps/documentation/javascript/elevation
@@ -26,6 +26,12 @@
 	var lonMin = 1.6481309452;
 	var lonMax = 1.7103687843;
 
+	var latMin = 27.654338106691885;
+	var latMax = 27.751607687549384;
+	var lonMin = 86.66015625;
+	var lonMax = 86.77001953125;
+
+
 	var centerLat = latMin + 0.5 * ( latMax - latMin );
 	var centerLon = lonMin + 0.5 * ( lonMax - lonMin );
 
@@ -37,7 +43,7 @@
 	var elevations;
 	var count = 0;
 	var index = 0;
-	var zoom = 13;
+	var zoom = 15;
 
 	var delay = 2000;
 
@@ -67,7 +73,7 @@
 
 			'<h2>' +
 				'<a href="" >' + document.title + '</a>' +
-				'<a href=http://fgx.github.io/sandbox/request-google-elevation-service/#readme.md > &#x24D8; </a>' +
+				'<a href=index.html#readme.md > &#x24D8; </a>' +
 			'</h2>' +
 
 			'<p><button onclick=getParams(); >get parameters</button> - ' +
@@ -85,8 +91,8 @@
 		map = new google.maps.Map( mapDiv, {
 
 			zoom: zoom,
-			center: { lat: centerLat, lng: centerLon }
-//			mapTypeId: 'terrain'
+			center: { lat: centerLat, lng: centerLon },
+			mapTypeId: 'terrain'
 
 		});
 
