@@ -224,11 +224,12 @@
 
 
 // note negative Z - draws path correctly but:
-// note arbitrary scaling of XYZ
+
 // Need to figure out correct scaling
+// should path be scaled to tile or vice versa?
 
 		geometry2 = new THREE.Geometry();
-		geometry2.vertices = points.map( function( p ) { return new THREE.Vector3( 1.5 * p[ 0 ], 0.00005 * p[ 2 ], -2 *  p[ 1 ] ); } );
+		geometry2.vertices = points.map( function( p ) { return new THREE.Vector3( p[ 0 ], 0.00005 * p[ 2 ], - p[ 1 ] ); } );
 
 		geometry2.center();
 		material = new THREE.LineBasicMaterial( { color: 0xff00ff } );
@@ -247,12 +248,13 @@
 	function getTile( tileX = 20, tileY = 49, zoom = 7 ) {
 
 // note the arbitrary sizing of the tile...
+// need algorithm for specifying correct size
 
-		geometry = new THREE.PlaneBufferGeometry( 0.1, 0.1 );
+		geometry = new THREE.PlaneBufferGeometry( 0.05, 0.05 );
 		geometry.applyMatrix( new THREE.Matrix4().makeRotationX( -0.5 * Math.PI ) );
 		material = new THREE.MeshBasicMaterial( { color: 0x888888, side: 2 } );
 		tile = new THREE.Mesh( geometry, material );
-		tile.position.set( lonTileCenter, flightPathBox.geometry.boundingBox.min.y, latTileCenter );
+		tile.position.set( lonTileCenter, flightPathBox2.geometry.boundingBox.min.y, latTileCenter );
 
 		scene.add( tile );
 
