@@ -2,11 +2,11 @@
 <html lang=en >
 <head>
 <meta charset=utf-8 >
-<title>get-elevations-update-plane-r1</title>
+<title>Get Elevations Update Plane-R1</title>
 <meta name=viewport content='width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no' >
 <meta name=description content='' >
 <meta name=keywords content='WebGL,Three.js,JavaScript,GitHub,FOSS,3D,STEM' >
-<meta name=date content='' >
+<meta name=date content='2016-06-30' >
 </head>
 <body>
 <!--
@@ -21,11 +21,21 @@
 <script>
 
 
-	var fileName1024 = '../elevations/elevations-1024x1024.txt';
-	var fileName128 = '../elevations/elevations-vnlk-02-128x128.txt';
-	var fileName512 = '../elevations/elevations-vnlk-02-512x512.txt';
+//	var fileName = '../elevations/elevations-1024x1024.txt';
+//	var fileName = '../elevations/elevations-vnlk-02-128x128.txt';
+//	var fileName = '../elevations/elevations-vnlk-02-512x512.txt';
+	var fileName = '../elevations/elevations_-34_151-30x30.txt';
+	var fileName = '../elevations/elevations_28_87-10-500x500.txt';
+//	var fileName = location.hash ? location.hash.slice( 1 ) : '../elevations/elevations_38_-122-100x100.txt';
 
 	var pi = Math.PI, pi05 = pi * 0.5, pi2 = pi + pi;
+
+	var ground;
+	var segments;
+	var elevations;
+
+
+	var b = '<br>';
 
 	var stats, renderer, scene, camera, controls;
 
@@ -46,10 +56,10 @@
 
 			'button { background-color: #ccc; border: 2px #ccc solid; color: #555; }' +
 
-/*			'input[type=range] { -webkit-appearance: none; -moz-appearance: none; background-color: silver; height: 20px; width: 180px; }' +
+			'input[type=range] { -webkit-appearance: none; -moz-appearance: none; background-color: silver; height: 20px; width: 280px; }' +
 			'input[type=range]::-moz-range-thumb { -moz-appearance: none; background-color: #888; height: 20px; width: 10px; }' +
 			'input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; background-color: #888; height: 20px; opacity: 0.85; width: 10px; }' +
-*/
+
 			'#bars { color: pink; cursor: pointer; font-size: 24pt; text-decoration: none; }' +
 			'#hamburger { left: 325px; position: absolute; top: 20px; transition: left 1s; }' +
 			'#menu { background-color: #eee; border: 1px #ccc solid; left: -324px; max-height: ' + ( window.innerHeight - 10 ) + 'px; ' +
@@ -69,13 +79,13 @@
 				'<a href="" >' + document.title + '</a>' +
 				'<a href=index.html#readme.md > &#x24D8; </a>' +
 			'</h2>' +
-			'<p><input type=checkbox onchange=mesh.material.wireframe=!mesh.material.wireframe; > Wireframe</p>' +
+			'<p><input type=checkbox onchange=ground.material.wireframe=!ground.material.wireframe; > Wireframe</p>' +
 
-/*			'<p><button onclick=doIt(); >do it</button></p>' +
-			'<p>Zoom: <input type=range id=inp max=10 min=0 step=1 value=5 oninput=out.value=inp.value; title="0 to 10: OK" > <output id=out >value</output></p>' +
-*/
+//			'<p><button onclick=doIt(); >do it</button></p>' +
+			'<p>vertical scale: <input type=range id=inpVertical max=1 min=0.001 step=0.001 value=0.01 oninput=drawGround(); title="0 to 10: OK" ><br>' +
+				'<output id=outVertical >value</output></p>' +
 
-			'<div id=info ></div>' +
+			'<div id=menuInfo ></div>' +
 
 		'';
 
@@ -101,29 +111,18 @@
 
 // helpers
 
-		geometry = new THREE.BoxGeometry( 100, 2, 100 );
-		material = new THREE.MeshNormalMaterial();
-		mesh = new THREE.Mesh( geometry, material );
-		mesh.position.set( 0, -11, 0 );
-		scene.add( mesh );
-
-		var gridHelper = new THREE.GridHelper( 50, 10 );
-		gridHelper.position.set( 0, -10, 0 );
-		scene.add( gridHelper );
-
 		var axisHelper = new THREE.AxisHelper( 50 );
 		scene.add( axisHelper );
 
 // assets
 
-		requestElevationsFile( fileName128 );
+		getElevationsFile( fileName );
 
 	}
 
-	function requestElevationsFile( fileName ) {
+	function getElevationsFile( fileName ) {
 
-//		var xhr, response, vertices, elevations;
-		var geometry, materials;
+		var xhr, response, vertices;
 
 		xhr = new XMLHttpRequest();
 		xhr.open( 'GET', fileName, true );
@@ -135,35 +134,57 @@
 			response = xhr.responseText;
 			elevations = response.split( ',' );
 
-			points = Math.sqrt( elevations.length ) - 1;
+			segments = Math.sqrt( elevations.length ) - 1;
 
-			geometry = new THREE.PlaneBufferGeometry( 100, 100, points, points );
-			geometry.applyMatrix( new THREE.Matrix4().makeRotationX( -pi05 ) );
-
-			vertices = geometry.attributes.position.array;
-
-			for ( var i = 1, j = 0; i < vertices.length; i += 3, j++ ) {
-
-				vertices[ i ] = elevations[ j ];
-
-			}
-
-			geometry.applyMatrix( new THREE.Matrix4().makeScale( 1, 0.02, 1 ) );
-
-			material = new THREE.MeshNormalMaterial( { side: 2 } );
-			ground = new THREE.Mesh( geometry, material );
-			scene.add( ground );
-
-			ground.geometry.computeFaceNormals();
-			ground.geometry.computeVertexNormals();
-
-//			setMapOverlay();
-
-//console.log( 'load elevations', Date.now() - startTime );
+			drawGround();
+			setMenuInfo();
 
 		}
 
 	}
+
+	function setMenuInfo() {
+
+		menuInfo.innerHTML =
+
+			'File: ' + fileName + b +
+			'Segments: ' + ( segments + 1 ) + b +
+			'Max: ' + Math.max( ...elevations ) + b +
+			'Min: ' + Math.min( ...elevations ) + b +
+			b;
+
+	}
+
+	function drawGround() {
+
+		var geometry, materials;
+
+		scene.remove( ground );
+
+		geometry = new THREE.PlaneBufferGeometry( 100, 100, segments, segments );
+		geometry.applyMatrix( new THREE.Matrix4().makeRotationX( -pi05 ) );
+
+		vertices = geometry.attributes.position.array;
+
+		for ( var i = 1, j = 0; i < vertices.length; i += 3, j++ ) {
+
+			vertices[ i ] = elevations[ j ];
+
+		}
+
+		geometry.applyMatrix( new THREE.Matrix4().makeScale( 1, inpVertical.valueAsNumber, 1 ) );
+		geometry.computeFaceNormals();
+		geometry.computeVertexNormals();
+		geometry.center();
+
+		material = new THREE.MeshNormalMaterial( { side: 2 } );
+		ground = new THREE.Mesh( geometry, material );
+		scene.add( ground );
+
+		outVertical.value=inpVertical.value;
+
+	}
+
 
 	function onWindowResize() {
 
@@ -177,7 +198,7 @@
 	function animate() {
 
 		requestAnimationFrame( animate );
-//		controls.update();
+		controls.update();
 		stats.update();
 		renderer.render( scene, camera );
 
