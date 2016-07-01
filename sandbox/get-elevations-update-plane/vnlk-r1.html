@@ -2,7 +2,7 @@
 <html lang=en >
 <head>
 <meta charset=utf-8 >
-<title>Get Elevations Update Plane R1</title>
+<title>VNLK R1</title>
 <meta name=viewport content='width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no' >
 <meta name=description content='' >
 <meta name=keywords content='WebGL,Three.js,JavaScript,GitHub,FOSS,3D,STEM' >
@@ -25,14 +25,39 @@
 
 //	var fileName = '../elevations/elevations-1024x1024.txt';
 //	var fileName = '../elevations/elevations-vnlk-02-128x128.txt';
-//	var fileName = '../elevations/elevations-vnlk-02-512x512.txt';
-	var fileName = '../elevations/elevations_-34_151-30x30.txt';
 	var fileName = '../elevations/elevations_28_87-10-500x500.txt';
+//	var fileName = '../elevations/elevations_-34_151-30x30.txt';
+//	var fileName = '../elevations/elevations_28_87-10-500x500.txt';
 //	var fileName = location.hash ? location.hash.slice( 1 ) : '../elevations/elevations_38_-122-100x100.txt';
+
+// VNLK
+	var latitude = 27.71110193545;
+	var longitude = 86.71228385040001;
+	var zoom = 15;
+	var tiles = 20;
 
 	var ground;
 	var segments;
 	var elevations;
+	var mapTypes = [
+
+		['Google Maps','https://mt1.google.com/vt/x='],
+		['Google Maps Terrain','https://mt1.google.com/vt/lyrs=t&x='],
+		['Google Maps Satellite','https://mt1.google.com/vt/lyrs=s&x='],
+		['Google Maps Hybrid','https://mt1.google.com/vt/lyrs=y&x='],
+		['Open Street Map','http://tile.openstreetmap.org/'],
+		['Open Cycle Map', 'http://tile.opencyclemap.org/cycle/'],
+		['MapQuest OSM', 'http://otile3.mqcdn.com/tiles/1.0.0/osm/'],
+		['MapQuest Satellite', 'http://otile3.mqcdn.com/tiles/1.0.0/sat/'],
+		['Stamen terrain background','http://tile.stamen.com/terrain-background/']
+
+	];
+
+	var placeMapCanvas, placeMapContext;
+
+	var pixelsPerTile = 256;
+	var tilesPerSide = 20; // odd number please
+	var tilesPerSideSquared = tiles * tiles;
 
 	var b = '<br>';
 
@@ -80,7 +105,7 @@
 			'</h2>' +
 
 			'<p>Elevations<br>' +
-				'<select id=selFiles onchange=getElevationsFile(); size=10 ></select>' +
+//				'<select id=selFiles onchange=getElevationsFile(); size=10 ></select>' +
 			'</p>' +
 
 			'<p><input type=checkbox onchange=ground.material.wireframe=!ground.material.wireframe; > Wireframe</p>' +
@@ -89,6 +114,8 @@
 				'<output id=outVertical >value</output></p>' +
 
 			'<div id=menuInfo ></div>' +
+
+			'<div id=menuMap ></div>' +
 
 		'';
 
@@ -119,8 +146,14 @@
 
 // assets
 
-		getAPITreeContents();
+		placeMapCanvas = document.createElement( 'canvas' );
+		placeMapCanvas.width = placeMapCanvas.height = pixelsPerTile * tiles;
+//		document.body.appendChild( placeMapCanvas );
+//		placeMapCanvas.style.cssText = 'border: 1px solid gray; left: 0; margin: 10px auto; position: absolute; right: 0; z-index:-10;';
+		placeMapContext = placeMapCanvas.getContext( '2d' );
 
+//		getAPITreeContents();
+		getElevationsFile();
 	}
 
 	function getAPITreeContents() {
@@ -158,11 +191,11 @@
 
 	}
 
-	function getElevationsFile( fileName ) {
+	function getElevationsFile() {
 
 		var xhr, response, vertices;
 
-		fileName = urlBase + selFiles.value;
+		fileName = urlBase + fileName; // selFiles.value;
 		xhr = new XMLHttpRequest();
 		xhr.open( 'GET', fileName, true );
 		xhr.onload = callback;
@@ -221,8 +254,114 @@
 
 		outVertical.value = inpVertical.value;
 
+		drawMapOverlay()
+
 	}
 
+	function drawMapOverlay() {
+
+		var baseURL, tileX, tileY, tileOffset, count;
+
+		baseURL = mapTypes[ 2 ][ 1 ];
+
+		tileOffset = Math.floor( 0.5 * tiles );
+		tileX = lon2tile( longitude, zoom ) - tileOffset + 1;
+		tileY = lat2tile( latitude, zoom ) - tileOffset + 1;
+
+		count = 0;
+
+		for ( var x = 0; x < tiles; x++ ) {
+
+			for ( var y = 0; y < tiles; y++ ) {
+
+//				if ( selMap.selectedIndex < 4 ) {
+
+					loadImage( ( x + tileX ) + '&y=' + ( y + tileY ) + '&z=' + zoom, x, y );
+
+//				} else {
+
+//					loadImage( zoom + '/scale=2/' + ( x + tileX ) + '/' + ( y + tileY ) + '.png', x , y );
+
+//				}
+
+			}
+
+		}
+
+		menuMap.innerHTML =
+
+			'UL TileX: ' + tileX + ' ' + tile2lon( tileX, zoom ) + b +
+			'UL TileY: ' + tileY + ' ' + tile2lat( tileY, zoom )  + b +
+			'LR TileX: ' + ( tileX + tilesPerSide ) + ' ' + tile2lon( tileX + tilesPerSide + 1 , zoom )  + b +
+			'LR TileY: ' + ( tileY + tilesPerSide ) + ' ' + tile2lat( tileY + tilesPerSide + 1 , zoom )  + b +
+		b;
+
+			function loadImage( fileName, x, y ) {
+
+				var img, texture;
+				img = document.createElement( 'img' );
+				img.crossOrigin = 'anonymous';
+				img.src = baseURL + fileName;
+
+				texture = new THREE.Texture( placeMapCanvas );
+				texture.minFilter = texture.magFilter = THREE.NearestFilter;
+				texture.needsUpdate = true;
+
+				img.onload = function(){
+
+					placeMapContext.drawImage( img, 0, 0, 256, 256, x * pixelsPerTile, y * pixelsPerTile, pixelsPerTile, pixelsPerTile );
+
+					count++;
+
+					if ( count === tilesPerSideSquared ) {
+
+						ground.material = new THREE.MeshBasicMaterial( { color: 0xffffff, map: texture, side: 2 } );
+//						placeMap.position.y = flightPathBox.geometry.boundingBox.min.y;
+						ground.material.needsUpdate = true;
+
+					}
+
+				}
+
+			}
+
+	}
+
+	function lon2tile( lon, zoom ) {
+
+		return Math.floor( ( lon + 180 ) / 360 * Math.pow( 2, zoom ) );
+
+	}
+
+	function lat2tile( lat, zoom ) {
+
+		var pi = Math.PI;
+		return Math.floor(( 1 - Math.log( Math.tan( lat * pi / 180) + 1 / Math.cos( lat * pi / 180)) / pi )/2 * Math.pow(2, zoom) );
+
+	}
+
+	function tile2lon( x, zoom ) {
+
+		return ( x / Math.pow( 2, zoom ) * 360 - 180 );
+
+	}
+
+	function tile2lat( y, zoom ) {
+
+		var pi = Math.PI;
+		var n = pi - 2 * pi * y / Math.pow( 2, zoom );
+		return 180 / pi * Math.atan( 0.5 * ( Math.exp( n ) - Math.exp( -n ) ));
+
+	}
+
+	function onWindowResize() {
+
+		camera.aspect = window.innerWidth / window.innerHeight;
+		camera.updateProjectionMatrix();
+
+		renderer.setSize( window.innerWidth, window.innerHeight );
+
+	}
 
 	function onWindowResize() {
 
