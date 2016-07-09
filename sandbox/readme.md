@@ -77,10 +77,28 @@ The bullet points include:
 ### Elevation Data: old style and new style
 
 In the days of your people would download data files from severs such as USGS and de Ferranti.
-The data did not have to be downloaded, but many people did not understand the internet.
-Then the data had to be massaged and put bavk up on the Internet.
+The data did not have to be downloaded, but many people did not unnderstand the internet.
+Then the data had to be massaged and put back up on the Internet. 
+Now the data is just 'in the cloud'.
 
-Here is an example of that data:
+Here is an example of the differences:
+
+What the demos are about is resolution or accuracy or fineness of detail. The two images show Alcatraz island in San Francisco Bay.
+
+
+![image](https://cloud.githubusercontent.com/assets/547626/16705728/abeef564-4547-11e6-9aaf-9d91084bc6c8.png)
+
+_Screen capture using [PNG USGS 1 Second Viewer 3D unFlatland R1 ]( http://jaanga.github.io/terrain-usgs-viewers/png-usgs-viewer-3d-unflatland/r1/png-usgs-viewer-3d-unflatland.html )_
+
+Note that the model shows only sea level and above and that the rendering is fairly indistinct. It is unlikely that zooming in will show more detail.
+
+![image](https://cloud.githubusercontent.com/assets/547626/16705793/39cf9b34-454a-11e6-8ab7-8e2b6e9aab7a.png)
+
+_Screen capture using data obtained by [ Google Maps API Elevations for Tiles ]( https://jaanga.github.io/cookbook-threejs/examples/google-api/google-maps-api-elevations-for-tiles/ )_
+
+See also [Alcatraz R1]( https://fgx.github.io/sandbox/sample-maps/alcatraz-r1.html )
+
+ Note that full bathymetric data is available and visible. Note that the model shows more detail. It is likely that zooming in and increasing the sampling rate will display more detail.
 
 
 
