@@ -86,13 +86,13 @@ Here is an example of the differences:
 What the demos are about is resolution or accuracy or fineness of detail. The two images show Alcatraz island in San Francisco Bay.
 
 
-![image](https://cloud.githubusercontent.com/assets/547626/16705728/abeef564-4547-11e6-9aaf-9d91084bc6c8.png)
+![image](https://cloud.githubusercontent.com/assets/547626/16705728/abeef564-4547-11e6-9aaf-9d91084bc6c8.png width=800 )
 
 _Screen capture using [PNG USGS 1 Second Viewer 3D unFlatland R1 ]( http://jaanga.github.io/terrain-usgs-viewers/png-usgs-viewer-3d-unflatland/r1/png-usgs-viewer-3d-unflatland.html )_
 
 Note that the model shows only sea level and above and that the rendering is fairly indistinct. It is unlikely that zooming in will show more detail.
 
-![image](https://cloud.githubusercontent.com/assets/547626/16705793/39cf9b34-454a-11e6-8ab7-8e2b6e9aab7a.png)
+![image](https://cloud.githubusercontent.com/assets/547626/16705793/39cf9b34-454a-11e6-8ab7-8e2b6e9aab7a.png  width=800 )
 
 _Screen capture using data obtained by [ Google Maps API Elevations for Tiles ]( https://jaanga.github.io/cookbook-threejs/examples/google-api/google-maps-api-elevations-for-tiles/ )_
 
