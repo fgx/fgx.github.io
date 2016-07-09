@@ -12,12 +12,25 @@ Files here
 
 ## Flightpath Concept
 
-* Open a file of FlightGear data that saved and display that data in 3D.
+* Open a data file of FlightGear flight path data and display that data as a 3D animation
 
 
 ### Mission
 
+* Provide access to 3D maps in a manner that is free, global and easy
+	* Include a variety of terrain overlays
+* Read files with flight path data and translate into 3D polyline
+* Package it all in a easy-to-use 3D game-like environment 
+
+
 ### Elevation data
+
+Terrain elevation data is a complex topic with a voluminous pedigree of studies and data sets. 
+The FGx mission is to help access to digital elavation data be faster, cheaper and smarter
+
+See also: [Digital elevation model]( https://en.wikipedia.org/wiki/Digital_elevation_model ).
+
+The bullet points include:
 
 * Supply elevation data for the entire globe
 	* Including bathymetric (ocean) data
@@ -50,7 +63,24 @@ Files here
 	* May be assimilated by a new user in less than and hour
 	* Fork or download the HTML file and it just runs
 		* No jQuery, Node or any other dependencies apart from Google Maps API
+	* All tools free, open source software
+* Utilize any and all data sources - both public and private, including
+	* Scripps Institute
+	* USGS
+	* de Ferranti
+	* Google
+	* [MaoQuest]( https://open.mapquestapi.com/elevation/ )
+	* Whether it is acceptable to use data from from servers where the server code is not open source is an interesting question
+		* For the moment we ar saying it's OK.
 
+
+### Elevation Data: old style and new style
+
+In the days of your people would download data files from severs such as USGS and de Ferranti.
+The data did not have to be downloaded, but many people did not understand the internet.
+Then the data had to be massaged and put bavk up on the Internet.
+
+Here is an example of that data:
 
 
 
