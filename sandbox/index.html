@@ -73,6 +73,8 @@
 
 				if ( file.indexOf( 'readme.md' ) === -1 ) { continue; }
 
+				if ( file.indexOf( 'archive' ) !== -1 ) { continue; }
+
 				if ( file.indexOf( 'sandbox\/readme.md' ) !== -1 ) { continue; }
 
 				files.push( file );
