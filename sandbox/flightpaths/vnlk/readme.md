@@ -82,7 +82,8 @@ Intended for general use
 
 ## Change Log
 
-### 
+### 2016-07-10 ~ R1
+
 
 * First commit
 * Add Read Me
