@@ -8,7 +8,7 @@
 Display in 3D. Add TMS overlay;
 ' >
 <meta name=keywords content='WebGL,Three.js,JavaScript,GitHub,FOSS,3D,STEM' >
-<meta name=date content='2016-07-07' >
+<meta name=date content='2016-07-10' >
 </head>
 <body>
 <!--
@@ -147,12 +147,14 @@ Display in 3D. Add TMS overlay;
 		document.body.appendChild( renderer.domElement );
 
 		camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 1000 );
-		camera.position.set( 60, 60, 60 );
+		camera.position.set( 0, 50, 50 );
 
 		controls = new THREE.OrbitControls( camera, renderer.domElement );
 		controls.maxDistance = 800;
 
 		scene = new THREE.Scene();
+
+		window.addEventListener( 'mousedown', function() { controls.autoRotate = false; } , false );
 
 // helpers
 
@@ -169,8 +171,15 @@ Display in 3D. Add TMS overlay;
 
 		getFlightPathCSV( flightPathFile )
 
+		controls.autoRotate = true
+
 	}
 
+	function onMouseDown() {
+
+		controls.autoRotate = false;
+
+	}
 
 	function getElevationsFile( fName ) {
 
