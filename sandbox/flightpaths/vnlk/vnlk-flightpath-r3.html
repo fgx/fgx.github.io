@@ -225,9 +225,13 @@ Display in 3D. Add TMS overlay;
 			parameters.location = parametersArray[ 6 ].replace( '.txt', '' );
 
 		menuFileNameDetails.innerHTML =
+
 			'<details open >' +
+
 				'<summary><h3>map file details</h3></summary>' +
+
 				'<small>Data extracted from the file name</small>' + b +
+
 				( parameters.location ? 'Location: ' + parameters.location + b : '' ) +
 				'Samples: ' + parameters.samples + b + b +
 
@@ -238,6 +242,7 @@ Display in 3D. Add TMS overlay;
 				'Zoom: ' + parameters.zoom + b +
 				'Tiles: ' + parameters.tiles + b +
 				'Elevations: ' + elevations.length + b +
+
 			'</details>';
 
 		} else {

@@ -10,7 +10,7 @@ value='You are now in the home page view - Click this button to view the read me
 
 ## Full Screen: [ VNLK FlightPath ]( http://fgx.github.io/sandbox/flightpaths/vnlk/ )
 
-<img src="" style=display:none; width=800 >
+<img src="https://cloud.githubusercontent.com/assets/547626/16784442/b6ab5bac-483d-11e6-8e12-d9ec968eac88.png" style=display:none; width=800 >
 
 <iframe src=http://fgx.github.io/sandbox/flightpaths/vnlk/index.html width=100% height=500px ></iframe>
 
@@ -65,6 +65,7 @@ value='Source code listing' >
 
 ## Issues
 
+* Pixellation at the peaks 
 
 ## To Do / Wish List
 
@@ -82,8 +83,25 @@ Intended for general use
 
 ## Change Log
 
-### 2016-07-10 ~ R1
+### 2016-07-12 ~ R3
 
+Nearly there. Still includes some of my idiosyncrasies.
+
+Could be working more properly in next release 
+
+* Move all objects to their lat/lon and sizes in decimal.degrees ( ie 0.00001 range )
+    * Replaces bringing everything to near the origin with sizes  in the 1 to 100 range ( ie typical CAD/CAM thinking )  
+* Detail the menu
+* Code cleanup
+* Displays three flightpaths
+
+
+
+### 2016-07-11 ~ R2
+
+* Clean up
+
+### 2016-07-10 ~ R1
 
 * First commit
 * Add Read Me
