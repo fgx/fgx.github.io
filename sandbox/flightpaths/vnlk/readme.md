@@ -83,6 +83,21 @@ Intended for general use
 
 ## Change Log
 
+
+### 2016-07-13 ~ R4
+
+What I am learning
+
+* Need to identify center of the elevations in the file name
+* Need to be able to produce elevation files that are not just squares
+* Need ways of adjusting the zoom level of the map overlays
+* Need to work out vertical scaling
+
+Done
+
+* Flight paths are drawn in their correct positions 
+* Landscapes are not
+
 ### 2016-07-12 ~ R3
 
 Nearly there. Still includes some of my idiosyncrasies.

@@ -1,23 +1,29 @@
 <span style=display:none; >[You are now in a GitHub source code view - click this link to view the home page]
-( http://fgx.github.io/sandbox/xxxxxx/#readme.md "View file as a web page." )</span>
-<input type=button onclick=window.location.href='https://github.com/fgx/fgx.github.io/tree/master/sandbox/xxxxxx/'; 
+( http://fgx.github.io/sandbox/flightpaths/ygil/#readme.md "View file as a web page." )</span>
+<input type=button onclick=window.location.href='https://github.com/fgx/fgx.github.io/tree/master/sandbox/flightpaths/ygil/'; 
 value='You are now in the home page view - Click this button to view the read me file and the source code' >
 
 [FGx]( https://fgx.github.io ) &raquo; [Sandbox]( http://fgx.github.io/sandbox/  ) &raquo;
 
-[XXXXX Read Me]( http://fgx.github.io/sandbox/xxxxxx/index.html#readme.md )
+[YGIL Flightpath Read Me]( http://fgx.github.io/sandbox/flightpaths/ygil/ygil-flightpath/index.html#readme.md )
 ===
 
-## Full Screen: [ XXXXX ]( http://fgx.github.io/sandbox/xxxxxx/ )
+2016-07-13 ~ flight path is in correct position - but the landscape is not
+
+
+## Full Screen: [ YGIL Flightpath ]( http://fgx.github.io/sandbox/flightpaths/ygil/ )
 
 <img src="" style=display:none; width=800 >
 
-<iframe src=http://fgx.github.io/sandbox/xxxxxx/index.html width=100% height=500px ></iframe>
+<iframe src=http://fgx.github.io/sandbox/flightpaths/ygil/index.html width=100% height=500px ></iframe>
 
-_XXXXX_
+_YGIL Flightpath_
 
 
 ## Features
+
+* https://en.wikipedia.org/wiki/Gilgandra,_New_South_Wales
+
 
 ## Concept
 
@@ -51,14 +57,14 @@ _XXXXX_
 
 ## Things you can do by editing the code
 
-<iframe sandbox='allow-scripts' src='https://jaanga.github.io/cookbook-html/examples/libraries/ace-editor/ace-view-r1.html#' +
-	'http://fgx.github.io/sandbox/xxxxxx/xxxxxx-r1.html' width=100% height=600 ></iframe>
+<iframe sandbox='allow-scripts' sandbox='allow-script' src='https://jaanga.github.io/cookbook-html/examples/libraries/ace-editor/ace-view-r1.html#' +
+	'http://fgx.github.io/sandbox/flightpaths/ygil/ygil-flightpath-r1.html' width=100% height=600 ></iframe>
 
-<input type=button onclick=window.location.href='https://github.com/fgx/fgx.github.io/tree/master/sandbox/xxxxxx/xxxxxx-r1.html';
+<input type=button onclick=window.location.href='https://github.com/fgx/fgx.github.io/tree/master/sandbox/flightpaths/ygil/ygil-flightpath-r1.html';
 value='Source code listing' >
 
 
-* Open this file: https://github.com/fgx/fgx.github.io/blob/master/xxxxxx/xxxxxx-r1.html
+* Open this file: https://github.com/fgx/fgx.github.io/blob/master/sandbox/flightpaths/ygil/ygil-flightpath-r1.html
 * Click the 'Raw' icon and save the raw file to your computer
 * Once you've downloaded the file, you can click it to run it.
 * Open the file with a text editor
@@ -83,7 +89,7 @@ Intended for general use
 
 ## Change Log
 
-### 
+### 2016-07-13 ~ R1
 
 * First commit
 * Add Read Me
