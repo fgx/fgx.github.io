@@ -96,7 +96,7 @@ What I am learning
 Done
 
 * Flight paths are drawn in their correct positions 
-
+* Landscapes are not
 
 ### 2016-07-12 ~ R3
 
