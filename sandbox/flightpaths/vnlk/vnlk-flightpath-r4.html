@@ -2,7 +2,7 @@
 <html lang=en >
 <head>
 <meta charset=utf-8 >
-<title>VNLK FlightPath R4</title>
+<title>VNLK FlightPath R4.1</title>
 <meta name=viewport content='width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no' >
 <meta name=description content='Read a file of elevations. Create a Three.js 3D Mesh.
 Display in 3D. Add TMS overlay;
@@ -22,7 +22,8 @@ Display in 3D. Add TMS overlay;
 
 <script>
 
-	var elevationsFile = 'elevations_27.6730_86.7171_z12_t5_250x250_vnlk-both-paths.txt';
+//	var elevationsFile = 'elevations_27.7111_86.7123_z12_t4_500x500_vnlk.txt';
+	var elevationsFile = 'elevations_27.7224_86.7041_z12_t3_100x100_vnlk.txt';
 
 	var flightPathFile = 'VNLK-01-cooked.csv';
 	var flightPathFile2 = 'VNLK-02-cooked.csv';
@@ -171,6 +172,12 @@ Display in 3D. Add TMS overlay;
 		scene.add( axisHelper );
 
 // assets
+
+		geometry = new THREE.BoxGeometry( 0.0005, 0.25, 0.0005 );
+		material = new THREE.MeshNormalMaterial();
+		vnlk = new THREE.Mesh( geometry, material );
+		vnlk.position.set( 86.7314, 0, 27.6878 ); // VNLK
+		scene.add( vnlk );
 
 		placeMapCanvas = document.createElement( 'canvas' );
 		placeMapContext = placeMapCanvas.getContext( '2d' );
@@ -346,9 +353,19 @@ Display in 3D. Add TMS overlay;
 
 		}
 
-//		ground.position.set( cenLon, 0, cenLat );
+		delta = ( parameters.latitude - vnlk.position.z )
+		ground.position.set( parameters.longitude, 0, parameters.latitude - 2 * delta );
+
+		geometry = new THREE.BoxGeometry( 0.001, 10, 0.001 );
+		material = new THREE.MeshNormalMaterial();
+		center = new THREE.Mesh( geometry, material );
+		center.position.set( parameters.longitude, 0, parameters.latitude - 2 * delta );
+
+		scene.add( center );
+
+
 //		ground.position.set( 86.7171, 0, 27.6730 );
-		ground.position.set( 86.685, 0, 27.73 );  // by eye
+//		ground.position.set( 86.685, 0, 27.73 );  // by eye
 
 		updateCamera();
 
@@ -511,11 +528,9 @@ Display in 3D. Add TMS overlay;
 		mapBox = new THREE.Line( geometry3, material );
 		scene.add( mapBox );
 
-		geometry = new THREE.BoxGeometry( 0.001, 10, 0.001 );
-		material = new THREE.MeshNormalMaterial();
-		mesh = new THREE.Mesh( geometry, material );
-		mesh.position.set( 86.7314, 0, 27.6878 );
-		scene.add( mesh );
+//		geometry3.computeBoundingSphere();
+//		center3 = geometry3.boundingSphere.center;
+
 
 
 
@@ -585,13 +600,20 @@ Display in 3D. Add TMS overlay;
 
 	}
 
+// http://wiki.openstreetmap.org/wiki/Mercator
+
+	function y2lat( a ) { return 180 / Math.PI * ( 2 * Math.atan( Math.exp( a * Math.PI / 180 ) ) - Math.PI / 2 ); }
+
+	function lat2y( a ) { return 180 / Math.PI * Math.log( Math.tan( Math.PI / 4 + a * ( Math.PI / 180 ) / 2 ) ); }
+
+
 
 // Three.js
 
 	function updateCamera() {
 
 		controls.target.copy( ground.position );
-		camera.position.copy( ground.position ).add( v( 0, 1, 1 ) );
+		camera.position.copy( ground.position ).add( v( 0, 0.2, 0.2 ) );
 
 	}
 
