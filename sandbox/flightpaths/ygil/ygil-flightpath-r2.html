@@ -28,6 +28,9 @@ Display in 3D. Add TMS overlay;
 
 	var flightPath, flightPathBox, mapBox;
 
+	var lat = -31.6992532;
+	var lon = 148.635149;
+
 	var ground;
 	var elevations;
 	var parameters;
@@ -177,7 +180,10 @@ Display in 3D. Add TMS overlay;
 //		geometry = new THREE.BoxGeometry( 1, 1, 25 );
 		material = new THREE.MeshNormalMaterial();
 		ygil = new THREE.Mesh( geometry, material );
-		ygil.position.set( 148.63800049, -31.70330048, 0 ); // VNLK
+//		ygil.position.set( 148.63800049, -31.70330048, 0 );
+		ygil.position.set( lon, lat, 0 );
+
+
 		scene.add( ygil );
 
 		placeMapCanvas = document.createElement( 'canvas' );
@@ -354,10 +360,10 @@ Display in 3D. Add TMS overlay;
 
 		ground.position.set( parameters.longitude, parameters.latitude, 0 );
 
-		geometry = new THREE.BoxGeometry( 0.001, 10, 0.001 );
+		geometry = new THREE.BoxGeometry( 0.001, 0.001, 5 );
 		material = new THREE.MeshNormalMaterial();
 		cent = new THREE.Mesh( geometry, material );
-		cent.position.set( parameters.longitude, 0, parameters.latitude - 90 );
+		cent.position.set( parameters.longitude, parameters.latitude, 0 );
 
 		scene.add( cent );
 
