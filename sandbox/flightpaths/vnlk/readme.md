@@ -5,14 +5,14 @@ value='You are now in the home page view - Click this button to view the read me
 
 [FGx]( https://fgx.github.io ) &raquo; [Sandbox]( http://fgx.github.io/sandbox/  ) &raquo;
 
-[VNLK FlightPath R1 Read Me]( http://fgx.github.io/sandbox/flightpaths/vnlk/index.html#readme.md )
+[VNLK FlightPath Read Me]( http://fgx.github.io/sandbox/flightpaths/vnlk/index.html#readme.md )
 ===
 
 ## Full Screen: [ VNLK FlightPath ]( http://fgx.github.io/sandbox/flightpaths/vnlk/ )
 
 <img src="https://cloud.githubusercontent.com/assets/547626/16784442/b6ab5bac-483d-11e6-8e12-d9ec968eac88.png" style=display:none; width=800 >
 
-<iframe src=http://fgx.github.io/sandbox/flightpaths/vnlk/index.html width=100% height=500px ></iframe>
+<iframe src=http://fgx.github.io/sandbox/flightpaths/vnlk/index.html width=100% height=500px onload=this.contentWindow.controls.enableZoom=false; ></iframe>
 
 _VNLK FlightPath_
 
