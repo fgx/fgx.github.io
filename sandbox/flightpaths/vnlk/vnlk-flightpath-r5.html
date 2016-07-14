@@ -2,7 +2,7 @@
 <html lang=en >
 <head>
 <meta charset=utf-8 >
-<title>VNLK FlightPath R4.1</title>
+<title>VNLK FlightPath R5</title>
 <meta name=viewport content='width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no' >
 <meta name=description content='Read a file of elevations. Create a Three.js 3D Mesh.
 Display in 3D. Add TMS overlay;
@@ -157,6 +157,8 @@ Display in 3D. Add TMS overlay;
 		camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 0.000001, 1000 );
 		camera.position.set( 0, 1, 1 );
 
+		camera.up.set( 0, 0, 1 );
+
 		controls = new THREE.OrbitControls( camera, renderer.domElement );
 		controls.maxDistance = 300;
 
@@ -165,6 +167,7 @@ Display in 3D. Add TMS overlay;
 // helpers
 
 		var gridHelper = new THREE.GridHelper( 180, 36 );
+		gridHelper.geometry.applyMatrix( new THREE.Matrix4().makeRotationX( -0.5 * Math.PI  ) );
 		gridHelper.position.set( 0, -10, 0 );
 		scene.add( gridHelper );
 
@@ -173,10 +176,11 @@ Display in 3D. Add TMS overlay;
 
 // assets
 
-		geometry = new THREE.BoxGeometry( 0.0005, 0.25, 0.0005 );
+		geometry = new THREE.BoxGeometry( 0.0005, 0.0005, 0.25 );
+//		geometry = new THREE.BoxGeometry( 1, 1, 25 );
 		material = new THREE.MeshNormalMaterial();
 		vnlk = new THREE.Mesh( geometry, material );
-		vnlk.position.set( 86.7314, 0, 27.6878 ); // VNLK
+		vnlk.position.set( 86.7314, 27.6878, 0 ); // VNLK
 		scene.add( vnlk );
 
 		placeMapCanvas = document.createElement( 'canvas' );
@@ -335,8 +339,8 @@ Display in 3D. Add TMS overlay;
 
 		}
 
-		geometry.applyMatrix( new THREE.Matrix4().makeRotationX( -0.5 * Math.PI  ) );
-		geometry.applyMatrix( new THREE.Matrix4().makeScale( 1, 0.00002, 1 ) );
+//		geometry.applyMatrix( new THREE.Matrix4().makeRotationX( -0.5 * Math.PI  ) );
+		geometry.applyMatrix( new THREE.Matrix4().makeScale( 1, 1, 0.00002 ) );
 //		geometry.applyMatrix( new THREE.Matrix4().makeScale( 1, inpVertical, 1 ) );
 		geometry.computeFaceNormals();
 		geometry.computeVertexNormals();
@@ -353,19 +357,14 @@ Display in 3D. Add TMS overlay;
 
 		}
 
-		delta = ( parameters.latitude - vnlk.position.z )
-		ground.position.set( parameters.longitude, 0, parameters.latitude - 2 * delta );
+		ground.position.set( parameters.longitude, parameters.latitude, 0 );
 
 		geometry = new THREE.BoxGeometry( 0.001, 10, 0.001 );
 		material = new THREE.MeshNormalMaterial();
-		center = new THREE.Mesh( geometry, material );
-		center.position.set( parameters.longitude, 0, parameters.latitude - 2 * delta );
+		cent = new THREE.Mesh( geometry, material );
+		cent.position.set( parameters.longitude, 0, parameters.latitude - 90 );
 
-		scene.add( center );
-
-
-//		ground.position.set( 86.7171, 0, 27.6730 );
-//		ground.position.set( 86.685, 0, 27.73 );  // by eye
+		scene.add( cent );
 
 		updateCamera();
 
@@ -476,7 +475,7 @@ Display in 3D. Add TMS overlay;
 //		scene.remove( flightPath, flightPathBox, mapBox );
 
 		geometry = new THREE.Geometry();
-		geometry.vertices = points.map( function( p ) { return v( p[ 0 ], scale * p[ 2 ], p[ 1 ] ); } );
+		geometry.vertices = points.map( function( p ) { return v( p[ 0 ], p[ 1 ], scale * p[ 2 ] ); } );
 		material = new THREE.LineBasicMaterial( { color: color } );
 		flightPath = new THREE.Line( geometry, material);
 
@@ -527,12 +526,6 @@ Display in 3D. Add TMS overlay;
 		material = new THREE.LineBasicMaterial( { color: color } );
 		mapBox = new THREE.Line( geometry3, material );
 		scene.add( mapBox );
-
-//		geometry3.computeBoundingSphere();
-//		center3 = geometry3.boundingSphere.center;
-
-
-
 
 	}
 
@@ -600,20 +593,13 @@ Display in 3D. Add TMS overlay;
 
 	}
 
-// http://wiki.openstreetmap.org/wiki/Mercator
-
-	function y2lat( a ) { return 180 / Math.PI * ( 2 * Math.atan( Math.exp( a * Math.PI / 180 ) ) - Math.PI / 2 ); }
-
-	function lat2y( a ) { return 180 / Math.PI * Math.log( Math.tan( Math.PI / 4 + a * ( Math.PI / 180 ) / 2 ) ); }
-
-
 
 // Three.js
 
 	function updateCamera() {
 
 		controls.target.copy( ground.position );
-		camera.position.copy( ground.position ).add( v( 0, 0.2, 0.2 ) );
+		camera.position.copy( ground.position ).add( v( 0, -0.2, 0.2 ) );
 
 	}
 
