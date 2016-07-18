@@ -83,8 +83,9 @@ Intended for general use
 
 ## Change Log
 
-### 
+### 2016-07-17 ~ R1
 
+* Terrain only for today
 * First commit
 * Add Read Me
 
