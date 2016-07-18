@@ -12,7 +12,7 @@ value='You are now in the home page view - Click this button to view the read me
 
 <img src="" style=display:none; width=800 >
 
-<iframe src=http://fgx.github.io/sandbox/flightpaths/vhsk/index.html width=100% height=500px ></iframe>
+<iframe src=http://fgx.github.io/sandbox/flightpaths/vhsk/index.html#elevations_Hong Kong_14_13381_7141_5_4_150_120_.txt width=100% height=500px ></iframe>
 
 _VHSK FlightPath_
 

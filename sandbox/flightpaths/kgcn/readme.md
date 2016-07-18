@@ -12,7 +12,7 @@ value='You are now in the home page view - Click this button to view the read me
 
 <img src="" style=display:none; width=800 >
 
-<iframe src=http://fgx.github.io/sandbox/flightpaths/kgcn/index.html width=100% height=500px ></iframe>
+<iframe src=http://fgx.github.io/sandbox/flightpaths/kgcn/index.html#elevations_Tusayan_12_770_1605_4_5_120_150_.txt width=100% height=500px ></iframe>
 
 _KGCN FlightPath_
 
