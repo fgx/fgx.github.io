@@ -85,6 +85,16 @@ Intended for general use
 
 ## Change Log
 
+
+### 2016-07-18 ~ R1.1
+
+Ignore position discrepancies for the moment. WIP.
+
+* Read flight path data
+* Draw 3D line and bounding box
+* Major code streamline
+ 
+
 ### 2016-07-17 ~ R1
 
 * Terrain only for today
