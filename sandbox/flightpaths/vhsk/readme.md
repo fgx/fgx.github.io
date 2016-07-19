@@ -10,7 +10,7 @@ value='You are now in the home page view - Click this button to view the read me
 
 ## Full Screen: [ VHSK FlightPath ]( http://fgx.github.io/sandbox/flightpaths/vhsk/ )
 
-<img src="" style=display:none; width=800 >
+<img src="https://cloud.githubusercontent.com/assets/547626/16932452/3dac8ef2-4cfb-11e6-8115-0ec0fb9f6d08.png" style=display:none; width=800 >
 
 <iframe src="http://fgx.github.io/sandbox/flightpaths/vhsk/index.html#elevations_Hong Kong_14_13381_7141_5_4_150_120_.txt" width=100% height=500px ></iframe>
 
@@ -20,6 +20,8 @@ _VHSK FlightPath_
 ## Features
 
 Hong Kong
+
+See [Github Isues #30]https://github.com/fgx/fgx.github.io/issues/30 )
 
 ## Concept
 
@@ -85,6 +87,12 @@ Intended for general use
 
 ## Change Log
 
+
+### 2016-07-19 ~ R1.2
+
+Flight path lat & lon now seems to register properly with ground lest lat & lon
+
+* Ground mesh now sized according to deltaLat x deltaLat
 
 ### 2016-07-18 ~ R1.1
 

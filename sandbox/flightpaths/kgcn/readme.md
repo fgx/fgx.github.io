@@ -83,7 +83,13 @@ Intended for general use
 
 ## Change Log
 
-2016-07-18 ~ R1.1
+### 2016-07-19 ~ R1.2
+
+Flight path lat & lon now seems to register properly with ground lest lat & lon
+
+* Ground mesh now sized according to deltaLat x deltaLat
+
+### 2016-07-18 ~ R1.1
 
 * Read flight path data
 * Draw 3D line and bounding box
