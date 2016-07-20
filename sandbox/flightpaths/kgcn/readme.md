@@ -19,6 +19,10 @@ _KGCN FlightPath_
 
 ## Features
 
+Grand Canyon
+
+See [GitHub Issue #31]( https://github.com/fgx/fgx.github.io/issues/31 )
+
 ## Concept
 
 ### Mission

@@ -21,7 +21,7 @@ _VHSK FlightPath_
 
 Hong Kong
 
-See [Github Isues #30]https://github.com/fgx/fgx.github.io/issues/30 )
+See [Github Isues #30]( https://github.com/fgx/fgx.github.io/issues/30 )
 
 ## Concept
 
