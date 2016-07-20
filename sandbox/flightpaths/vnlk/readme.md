@@ -12,7 +12,7 @@ value='You are now in the home page view - Click this button to view the read me
 
 <img src="https://cloud.githubusercontent.com/assets/547626/16784442/b6ab5bac-483d-11e6-8e12-d9ec968eac88.png" style=display:none; width=800 >
 
-<iframe src=http://fgx.github.io/sandbox/flightpaths/vnlk/index.html width=100% height=500px onload=this.contentWindow.controls.enableZoom=false; ></iframe>
+<iframe src="http://fgx.github.io/sandbox/flightpaths/vnlk/index.html#elevations_Tenzing-Hillary Airport, Lukla, Eastern Region, Nepal_12_3033_1718_3_4_150_200_.txt" width=100% height=500px onload=this.contentWindow.controls.enableZoom=false; ></iframe>
 
 _VNLK FlightPath_
 
@@ -51,13 +51,13 @@ _VNLK FlightPath_
 ## Things you can do by editing the code
 
 <iframe sandbox='allow-scripts' src='https://jaanga.github.io/cookbook-html/examples/libraries/ace-editor/ace-view-r1.html#' +
-	'https://github.com/fgx/fgx.github.io/tree/master/sandbox/flightpaths/vnlk/vnlk-flightpath-r1.html' width=100% height=600 ></iframe>
+	'http://fgx.github.io/sandbox/flightpaths/vnlk/vnlk-flightpath-r7.html' width=100% height=600 ></iframe>
 
-<input type=button onclick=window.location.href='https://github.com/fgx/fgx.github.io/tree/master/sandbox/flightpaths/vnlk/vnlk-flightpath-r1.html';
+<input type=button onclick=window.location.href='https://github.com/fgx/fgx.github.io/tree/master/sandbox/flightpaths/vnlk/vnlk-flightpath-r7.html';
 value='Source code listing' >
 
 
-* Open this file: https://github.com/fgx/fgx.github.io/blob/master/sandbox/flightpaths/vnlk/vnlk-flightpath-r1.html
+* Open this file: https://github.com/fgx/fgx.github.io/blob/master/sandbox/flightpaths/vnlk/vnlk-flightpath-r7.html
 * Click the 'Raw' icon and save the raw file to your computer
 * Once you've downloaded the file, you can click it to run it.
 * Open the file with a text editor

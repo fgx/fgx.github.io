@@ -8,14 +8,12 @@ value='You are now in the home page view - Click this button to view the read me
 [YGIL Flightpath Read Me]( http://fgx.github.io/sandbox/flightpaths/ygil/ygil-flightpath/index.html#readme.md )
 ===
 
-2016-07-13 ~ flight path is in correct position - but the landscape is not
-
 
 ## Full Screen: [ YGIL Flightpath ]( http://fgx.github.io/sandbox/flightpaths/ygil/ )
 
 <img src="" style=display:none; width=800 >
 
-<iframe src=http://fgx.github.io/sandbox/flightpaths/ygil/index.html width=100% height=500px ></iframe>
+<iframe src=http://fgx.github.io/sandbox/flightpaths/ygil/index.html#elevations_Gilgandra_12_3738_2427_3_3_150_150_.txt width=100% height=500px ></iframe>
 
 _YGIL Flightpath_
 

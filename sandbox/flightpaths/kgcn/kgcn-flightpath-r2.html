@@ -2,7 +2,7 @@
 <html lang=en >
 <head>
 <meta charset=utf-8 >
-<title>Elevations View 3D Core R1</title>
+<title>KGCN FlightPath R2</title>
 <meta name=viewport content='width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no' >
 <meta name=description content='Read a file of elevations. Create a Three.js 3D Mesh.
 Display in 3D. Add TMS overlay;
@@ -24,6 +24,11 @@ based on: Elevations View 3D Core R1
 <script>
 
 console.time( 'timer0' );
+
+	var flightPath = {};
+
+	flightPath.fileName = 'KGCN-03-GC-cooked.csv';
+	flightPath.color = 0xff0000;
 
 //	var defaultFile = '../elevations-data-02/elevations_Tenzing-Hillary Airport, Lukla, Eastern Region, Nepal_12_3033_1718_3_4_150_200_.txt';
 
@@ -118,9 +123,9 @@ console.time( 'timer0' );
 
 				'<div class=popUp id=popHelp style=display:none; ><p>Hi there!</p>Click the i-in-circle, info icon for latest updates.</div>' +
 
-				'<p><a href="../elevations-get/index.html" >Elevations Get</a></p>' +
+//				'<p><a href="../elevations-get/index.html" >Elevations Get</a></p>' +
 
-				'<p><input type=file id=inpFile onchange=openFile(this); /></p>' +
+//				'<p><input type=file id=inpFile onchange=openFile(this); /></p>' +
 
 				'<p>Map overlay<br><select id=selMap onchange=drawMapOverlay(); size=5 /></select></p>' +
 
@@ -130,6 +135,8 @@ console.time( 'timer0' );
 
 				'<p>vertical scale: <input type=range id=inpVertical max=0.01 min=0.000001 step=0.000001 value=0.015 oninput=setGround();drawMapOverlay(); title="" style=width:100%; >' +
 					'<output id=outVertical >value</output></p>' +
+
+				'<div id=menuDetailsFlightPath ></div>' +
 
 				'<div id=menuDetailsFileName ></div>' +
 
@@ -232,6 +239,8 @@ console.time( 'timer0' );
 			container.style.left = '-325px';
 
 		}
+
+		getFilePathCSV( flightPath );
 
 	}
 
@@ -565,7 +574,83 @@ console.log( 'parameters', parameters );
 
 		if ( updateCamera === true ) setCamera();
 
+		if ( flightPath.path !== undefined ) drawPath( flightPath );
+
 console.timeEnd( 'timer0' );
+
+	}
+
+
+// FlightPath code
+
+	function getFilePathCSV( path ) {
+
+		var xhr, text, waypoints;
+
+		xhr = new XMLHttpRequest();
+		xhr.open( 'GET', path.fileName, true );
+		xhr.onload = callback;
+		xhr.send( null );
+
+		function callback() {
+
+			text = xhr.responseText;
+
+			waypoints = text.split( '\n' ).map( function( point ) { return point.split( ',' ).map( parseFloat ); } );
+
+			path.waypoints = waypoints.slice( 1, -1 );
+
+			drawPath( path );
+
+		}
+
+	}
+
+	function drawPath( path ) {
+
+		var scale, geometry, material;
+
+		scene.remove( path.path, path.box );
+
+		path.points = path.waypoints.map( function( p ) { return v( p[ 0 ], p[ 1 ], inpVertical.valueAsNumber * 0.3048 * p[ 2 ] ); } );
+
+		geometry = new THREE.Geometry();
+		geometry.vertices = path.points;
+
+		material = new THREE.LineBasicMaterial( { color: path.color } );
+		path.path = new THREE.Line( geometry, material);
+
+		path.box = new THREE.BoxHelper( path.path );
+//		path.box.geometry.computeBoundingBox();
+		scene.add( path.path, path.box );
+
+		geometry.computeBoundingSphere();
+		center = geometry.boundingSphere.center;
+		latitude = center.z;
+		longitude = center.x;
+
+		geometry.computeBoundingBox();
+		latMin = geometry.boundingBox.min.y;
+		latMax = geometry.boundingBox.max.y;
+		lonMin = geometry.boundingBox.min.x;
+		lonMax = geometry.boundingBox.max.x;
+
+		menuDetailsFlightPath.innerHTML =
+
+		'<details open >' +
+
+			'<summary><h3>flightpath details</h3></summary>' +
+
+			'UL Lat: ' + latMax.toFixed( 4 ) + '&deg;' + b +
+			'LR Lat: ' + latMin.toFixed( 4 ) + '&deg;' + b + b +
+
+			'UL Lon: ' + lonMin.toFixed( 4 ) + '&deg;' + b +
+			'LR Lon: ' + lonMax.toFixed( 4 ) + '&deg;' + b + b +
+
+			'Center Latitude : ' + center.y.toFixed( 4 ) + '&deg;' + b +
+			'Center Longitude: ' + center.x.toFixed( 4 ) + '&deg;' + b + b +
+
+		'</details>';
 
 	}
 
