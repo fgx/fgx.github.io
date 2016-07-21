@@ -2,7 +2,7 @@
 <html lang=en >
 <head>
 <meta charset=utf-8 >
-<title>VHSK FlightPath R2.1</title>
+<title>LEIG FlightPath R1</title>
 <meta name=viewport content='width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no' >
 <meta name=description content='Read a file of elevations. Create a Three.js 3D Mesh.
 Display in 3D. Add TMS overlay;
@@ -20,25 +20,21 @@ based on: Elevations View 3D Core R1
 <script src=https://rawgit.com/mrdoob/three.js/dev/build/three.min.js ></script>
 <script src=https://rawgit.com/mrdoob/three.js/dev/examples/js/controls/OrbitControls.js ></script>
 <script src=https://rawgit.com/mrdoob/three.js/dev/examples/js/libs/stats.min.js ></script>
-
+<script src=flight-path-r2.js ></script>
+<script src=aircraft-r1.js ></script>
 <script>
 
 console.time( 'timer0' );
 
-	var flightPath = {};
-
-	flightPath.fileName = 'VHSK-22-01-cooked.csv';
-	flightPath.color = 0xff0000;
-
-//	var defaultFile = '../elevations-data-02/elevations_Tenzing-Hillary Airport, Lukla, Eastern Region, Nepal_12_3033_1718_3_4_150_200_.txt';
+	var defaultFile = 'elevations_Igualada_12_2066_1525_3_3_210_210_.txt';
 
 //	var defaultFile = 'http://fgx.github.io/sandbox/flightpaths/vnlk/elevations_Tenzing-Hillary Airport, Lukla, Eastern Region, Nepal_12_3033_1718_3_4_150_200_.txt';
 //	var defaultFile = 'http://fgx.github.io/sandbox/flightpaths/kgcn/elevations_Tusayan_12_770_1605_4_5_120_150_.txt';
-	var defaultFile = 'http://fgx.github.io/sandbox/flightpaths/vhsk/elevations_Hong%20Kong_14_13381_7141_5_4_150_120_.txt';
+//	var defaultFile = 'http://fgx.github.io/sandbox/flightpaths/vhsk/elevations_Hong%20Kong_14_13381_7141_5_4_150_120_.txt';
 //	var defaultFile = 'http://fgx.github.io/sandbox/flightpaths/ygil/elevations_Gilgandra_12_3738_2427_3_3_150_150_.txt'; // why need to zoom out to see?
 
-	var scaleFactor = 0.05;
-	var cameraPosition = 0.1; // need position that adjust by algorithm - allowing for zoom level etc
+	var scaleFactor = 0.1;
+	var cameraPosition = 0.3; // need position that adjust by algorithm - allowing for zoom level etc
 
 	var parameters;
 	var elevations;
@@ -123,9 +119,9 @@ console.time( 'timer0' );
 
 				'<div class=popUp id=popHelp style=display:none; ><p>Hi there!</p>Click the i-in-circle, info icon for latest updates.</div>' +
 
-//				'<p><a href="../elevations-get/index.html" >Elevations Get</a></p>' +
+				'<p><a href="../elevations-get/index.html" >Elevations Get</a></p>' +
 
-//				'<p><input type=file id=inpFile onchange=openFile(this); /></p>' +
+				'<p><input type=file id=inpFile onchange=openFile(this); /></p>' +
 
 				'<p>Map overlay<br><select id=selMap onchange=drawMapOverlay(); size=5 /></select></p>' +
 
@@ -218,7 +214,7 @@ console.time( 'timer0' );
 
 		if ( window.self === window.top && location.hash ) {
 
-			getFileElevations( location.hash.slice( 1 ) );
+//			getFileElevations( location.hash.slice( 1 ) );
 //			container.style.left = '325px';
 
 		} else if ( window.self === window.top ) {
@@ -241,6 +237,8 @@ console.time( 'timer0' );
 		}
 
 		getFilePathCSV( flightPath );
+
+		loadAircraft();
 
 	}
 
@@ -388,7 +386,7 @@ console.log( 'parameters', parameters );
 
 			'<details open>' +
 
-				'<summary><h3>overlay detais</h3></summary>' +
+				'<summary><h3>overlay details</h3></summary>' +
 
 				'Zoom level: ' + parameters.zoomOverlay + b + b +
 
@@ -574,83 +572,7 @@ console.log( 'parameters', parameters );
 
 		if ( updateCamera === true ) setCamera();
 
-		if ( flightPath.path !== undefined ) drawPath( flightPath );
-
 console.timeEnd( 'timer0' );
-
-	}
-
-
-// FlightPath code
-
-	function getFilePathCSV( path ) {
-
-		var xhr, text, waypoints;
-
-		xhr = new XMLHttpRequest();
-		xhr.open( 'GET', path.fileName, true );
-		xhr.onload = callback;
-		xhr.send( null );
-
-		function callback() {
-
-			text = xhr.responseText;
-
-			waypoints = text.split( '\n' ).map( function( point ) { return point.split( ',' ).map( parseFloat ); } );
-
-			path.waypoints = waypoints.slice( 1, -1 );
-
-			drawPath( path );
-
-		}
-
-	}
-
-	function drawPath( path ) {
-
-		var scale, geometry, material;
-
-		scene.remove( path.path, path.box );
-
-		path.points = path.waypoints.map( function( p ) { return v( p[ 0 ], p[ 1 ], inpVertical.valueAsNumber * 0.3048 * p[ 2 ] ); } );
-
-		geometry = new THREE.Geometry();
-		geometry.vertices = path.points;
-
-		material = new THREE.LineBasicMaterial( { color: path.color } );
-		path.path = new THREE.Line( geometry, material);
-
-		path.box = new THREE.BoxHelper( path.path );
-//		path.box.geometry.computeBoundingBox();
-		scene.add( path.path, path.box );
-
-		geometry.computeBoundingSphere();
-		center = geometry.boundingSphere.center;
-		latitude = center.z;
-		longitude = center.x;
-
-		geometry.computeBoundingBox();
-		latMin = geometry.boundingBox.min.y;
-		latMax = geometry.boundingBox.max.y;
-		lonMin = geometry.boundingBox.min.x;
-		lonMax = geometry.boundingBox.max.x;
-
-		menuDetailsFlightPath.innerHTML =
-
-		'<details open >' +
-
-			'<summary><h3>flightpath details</h3></summary>' +
-
-			'UL Lat: ' + latMax.toFixed( 4 ) + '&deg;' + b +
-			'LR Lat: ' + latMin.toFixed( 4 ) + '&deg;' + b + b +
-
-			'UL Lon: ' + lonMin.toFixed( 4 ) + '&deg;' + b +
-			'LR Lon: ' + lonMax.toFixed( 4 ) + '&deg;' + b + b +
-
-			'Center Latitude : ' + center.y.toFixed( 4 ) + '&deg;' + b +
-			'Center Longitude: ' + center.x.toFixed( 4 ) + '&deg;' + b + b +
-
-		'</details>';
 
 	}
 
@@ -744,6 +666,30 @@ console.timeEnd( 'timer0' );
 		controls.update();
 		stats.update();
 		renderer.render( scene, camera );
+
+		if ( !aircraft.flying || !flightPath ) { return; }
+
+		delta = ++delta >= flightPath.points.length ? 0 : delta;
+
+		rot = flightPath.rotations[ delta ];
+		pos = flightPath.points[ delta ];
+
+		aircraft.rotation.set( rot.y, rot.z, rot.x );
+		aircraft.position.set( pos.x, pos.y, pos.z );
+
+/*
+//		line = lines[ delta ].split( ',');
+
+		flightData.innerHTML = 'lat:' + line[ 0 ].slice( 0, -7 ) + ' lon:' + line[ 1 ].slice( 0, -7 ) + ' alt:' + line[ 2 ] + '<br>' +
+
+			'hdg:' + line[ 3 ] + ' ias:' + line[ 4 ] + ' roll:' + line[ 5 ].slice( 0, -7 ) + '<br>' +
+
+			'pitch:' + line[ 6 ].slice( 0, -7 ) + ' slip:' + line[ 7 ].slice( 0, -7 ) + '<br>' +
+
+			'vertex:' + delta +
+
+		'';
+*/
 
 	}
 

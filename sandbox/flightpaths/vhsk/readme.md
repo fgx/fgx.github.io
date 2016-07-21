@@ -14,7 +14,7 @@ value='You are now in the home page view - Click this button to view the read me
 
 <iframe src="http://fgx.github.io/sandbox/flightpaths/vhsk/index.html#elevations_Hong Kong_14_13381_7141_5_4_150_120_.txt" width=100% height=500px ></iframe>
 
-_VHSK FlightPath_
+_VHSK FlightPath - Hong Kong_
 
 
 ## Features
@@ -74,18 +74,19 @@ value='Source code listing' >
 ## To Do / Wish List
 
 
-## Users
 
-Intended for general use
+## Credits
 
-
-## Goals
-
-
-## Links of Interest
+* Flight path from [Geoff McLane]( https://github.com/geoffmcl )
 
 
 ## Change Log
+
+### 2016-07-20 ~ R2
+
+* Flight path and terrain now appear to be aliglined and scaled correctly
+* Based on Elevations View 3D Core R1
+* Objectify flightpath characteristics
 
 
 ### 2016-07-19 ~ R1.2

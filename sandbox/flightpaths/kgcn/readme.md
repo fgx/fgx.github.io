@@ -74,18 +74,19 @@ value='Source code listing' >
 ## To Do / Wish List
 
 
-## Users
+## Credits
 
-Intended for general use
-
-
-## Goals
-
-
-## Links of Interest
+* Flight path from [Geoff McLane]( https://github.com/geoffmcl )
 
 
 ## Change Log
+
+### 2016-07-20 ~ R2
+
+* Flight path and terrain now appear to be aliglined and scaled correctly
+* Based on Elevations View 3D Core R1
+* Objectify flightpath characteristics
+
 
 ### 2016-07-19 ~ R1.2
 

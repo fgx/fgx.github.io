@@ -2,7 +2,7 @@
 <html lang=en >
 <head>
 <meta charset=utf-8 >
-<title>VHSK FlightPath R2.1</title>
+<title>VNLK FlightPath R8</title>
 <meta name=viewport content='width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no' >
 <meta name=description content='Read a file of elevations. Create a Three.js 3D Mesh.
 Display in 3D. Add TMS overlay;
@@ -20,25 +20,32 @@ based on: Elevations View 3D Core R1
 <script src=https://rawgit.com/mrdoob/three.js/dev/build/three.min.js ></script>
 <script src=https://rawgit.com/mrdoob/three.js/dev/examples/js/controls/OrbitControls.js ></script>
 <script src=https://rawgit.com/mrdoob/three.js/dev/examples/js/libs/stats.min.js ></script>
-
+<script src=flight-path-r1a.js ></script>
 <script>
 
 console.time( 'timer0' );
 
-	var flightPath = {};
+	var flightPath1 = {};
+	flightPath1.url = '6-25-2016-1-cooked.csv';
+	flightPath1.color = 0xff0000;
 
-	flightPath.fileName = 'VHSK-22-01-cooked.csv';
-	flightPath.color = 0xff0000;
+	var flightPath2 = {};
+	flightPath2.url = 'VNLK-01-cooked.csv';
+	flightPath2.color = 0x00ff00;
+
+	var flightPath3 = {};
+	flightPath3.url = 'VNLK-02-cooked.csv';
+	flightPath3.color = 0x00ffff;
 
 //	var defaultFile = '../elevations-data-02/elevations_Tenzing-Hillary Airport, Lukla, Eastern Region, Nepal_12_3033_1718_3_4_150_200_.txt';
 
-//	var defaultFile = 'http://fgx.github.io/sandbox/flightpaths/vnlk/elevations_Tenzing-Hillary Airport, Lukla, Eastern Region, Nepal_12_3033_1718_3_4_150_200_.txt';
+	var defaultFile = 'http://fgx.github.io/sandbox/flightpaths/vnlk/elevations_Tenzing-Hillary Airport, Lukla, Eastern Region, Nepal_12_3033_1718_3_4_150_200_.txt';
 //	var defaultFile = 'http://fgx.github.io/sandbox/flightpaths/kgcn/elevations_Tusayan_12_770_1605_4_5_120_150_.txt';
-	var defaultFile = 'http://fgx.github.io/sandbox/flightpaths/vhsk/elevations_Hong%20Kong_14_13381_7141_5_4_150_120_.txt';
+//	var defaultFile = 'http://fgx.github.io/sandbox/flightpaths/vhsk/elevations_Hong%20Kong_14_13381_7141_5_4_150_120_.txt';
 //	var defaultFile = 'http://fgx.github.io/sandbox/flightpaths/ygil/elevations_Gilgandra_12_3738_2427_3_3_150_150_.txt'; // why need to zoom out to see?
 
-	var scaleFactor = 0.05;
-	var cameraPosition = 0.1; // need position that adjust by algorithm - allowing for zoom level etc
+	var scaleFactor = 0.1;
+	var cameraPosition = 0.3; // need position that adjust by algorithm - allowing for zoom level etc
 
 	var parameters;
 	var elevations;
@@ -240,7 +247,9 @@ console.time( 'timer0' );
 
 		}
 
-		getFilePathCSV( flightPath );
+		getFilePathCSV( flightPath1 );
+		getFilePathCSV( flightPath2 );
+		getFilePathCSV( flightPath3 );
 
 	}
 
@@ -574,13 +583,19 @@ console.log( 'parameters', parameters );
 
 		if ( updateCamera === true ) setCamera();
 
-		if ( flightPath.path !== undefined ) drawPath( flightPath );
+		if ( flightPath1.path !== undefined && flightPath2.path !== undefined && flightPath3.path !== undefined ) {
+
+			drawPath( flightPath1 );
+			drawPath( flightPath2 );
+			drawPath( flightPath3 );
+
+		}
 
 console.timeEnd( 'timer0' );
 
 	}
 
-
+/*
 // FlightPath code
 
 	function getFilePathCSV( path ) {
@@ -610,7 +625,7 @@ console.timeEnd( 'timer0' );
 
 		var scale, geometry, material;
 
-		scene.remove( path.path, path.box );
+//		scene.remove( path.path, path.box );
 
 		path.points = path.waypoints.map( function( p ) { return v( p[ 0 ], p[ 1 ], inpVertical.valueAsNumber * 0.3048 * p[ 2 ] ); } );
 
@@ -654,6 +669,7 @@ console.timeEnd( 'timer0' );
 
 	}
 
+*/
 
 // coding utilities
 

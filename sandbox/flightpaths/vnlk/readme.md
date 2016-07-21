@@ -65,23 +65,27 @@ value='Source code listing' >
 
 ## Issues
 
-* Pixellation at the peaks 
 
 ## To Do / Wish List
 
+## Credits
 
-## Users
-
-Intended for general use
-
-
-## Goals
-
-
-## Links of Interest
+* Flight path from [Geoff McLane]( https://github.com/geoffmcl )
 
 
 ## Change Log
+
+### 2016-07-21 ~ R8
+
+* FlightPath now in flight-path-r1a.js
+
+
+
+### 2016-07-20 ~ R7
+
+* Flight path and terrain now appear to be aligined and scaled correctly
+* Based on Elevations View 3D Core R1
+* Objectify flightpath characteristics
 
 
 ### 2016-07-13 ~ R4
