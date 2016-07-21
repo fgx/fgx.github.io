@@ -83,7 +83,7 @@ value='Source code listing' >
 
 ### 2016-07-20 ~ R7
 
-* Flight path and terrain now appear to be aligined and scaled correctly
+* Flight path and terrain now appear to be aligned and scaled correctly
 * Based on Elevations View 3D Core R1
 * Objectify flightpath characteristics
 

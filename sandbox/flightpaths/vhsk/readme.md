@@ -82,9 +82,16 @@ value='Source code listing' >
 
 ## Change Log
 
+### 2016-07-21 ~ R5
+
+* FlightPath now in flight-path-r2.js
+* Aircraft now in aircraft-r1.js
+
+
+
 ### 2016-07-20 ~ R2
 
-* Flight path and terrain now appear to be aliglined and scaled correctly
+* Flight path and terrain now appear to be aligned and scaled correctly
 * Based on Elevations View 3D Core R1
 * Objectify flightpath characteristics
 
