@@ -8,9 +8,9 @@ value='You are now in the home page view - Click this button to view the read me
 [LEIG FlightPath Read Me]( http://fgx.github.io/sandbox/flightpaths/leig/index.html#readme.md )
 ===
 
-## Full Screen: [ LEIG FlightPath ]( http://fgx.github.io/sandbox/flightpaths/leig/ )
+## [ LEIG FlightPath R1]( http://fgx.github.io/sandbox/flightpaths/leig/ )
 
-<img src="" style=display:none; width=800 >
+<img src="https://cloud.githubusercontent.com/assets/547626/17041870/1d68ae5e-4f5e-11e6-9109-46455b125740.png" style=display:none; width=800 >
 
 <iframe src=http://fgx.github.io/sandbox/flightpaths/leig/index.html width=100% height=500px ></iframe>
 
