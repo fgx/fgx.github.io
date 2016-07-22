@@ -55,8 +55,8 @@ See [GitHub Issue #31]( https://github.com/fgx/fgx.github.io/issues/31 )
 
 ## Things you can do by editing the code
 
-<iframe sandbox='allow-scripts' src='https://jaanga.github.io/cookbook-html/examples/libraries/ace-editor/ace-view-r1.html#' +
-	'http://fgx.github.io/sandbox/flightpaths/kgcn/kgcn-flightpath-r1.html' width=100% height=600 ></iframe>
+<iframe sandbox='allow-scripts' src='https://jaanga.github.io/cookbook-html/examples/libraries/ace-editor/ace-view-r1.html#
+	http://fgx.github.io/sandbox/flightpaths/kgcn/kgcn-flightpath-r1.html' width=100% height=600 ></iframe>
 
 <input type=button onclick=window.location.href='https://github.com/fgx/fgx.github.io/tree/master/sandbox/flightpaths/kgcn/kgcn-flightpath-r1.html';
 value='Source code listing' >

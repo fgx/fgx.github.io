@@ -50,8 +50,8 @@ _VNLK FlightPath_
 
 ## Things you can do by editing the code
 
-<iframe sandbox='allow-scripts' src='https://jaanga.github.io/cookbook-html/examples/libraries/ace-editor/ace-view-r1.html#' +
-	'http://fgx.github.io/sandbox/flightpaths/vnlk/vnlk-flightpath-r7.html' width=100% height=600 ></iframe>
+<iframe sandbox='allow-scripts' src='https://jaanga.github.io/cookbook-html/examples/libraries/ace-editor/ace-view-r1.html#
+	http://fgx.github.io/sandbox/flightpaths/vnlk/vnlk-flightpath-r7.html' width=100% height=600 ></iframe>
 
 <input type=button onclick=window.location.href='https://github.com/fgx/fgx.github.io/tree/master/sandbox/flightpaths/vnlk/vnlk-flightpath-r7.html';
 value='Source code listing' >
