@@ -21,7 +21,7 @@ based on: Elevations View 3D Core R1
 <script src=https://rawgit.com/mrdoob/three.js/dev/examples/js/controls/OrbitControls.js ></script>
 <script src=https://rawgit.com/mrdoob/three.js/dev/examples/js/libs/stats.min.js ></script>
 <script src=flight-path-r2.js ></script>
-<script src=aircraft-r1.js ></script>
+<script src=aircraft-r2.js ></script>
 
 <script>
 
@@ -134,6 +134,8 @@ console.time( 'timer0' );
 
 				'<p>vertical scale: <input type=range id=inpVertical max=0.01 min=0.000001 step=0.000001 value=0.015 oninput=setGround();drawMapOverlay(); title="" style=width:100%; >' +
 					'<output id=outVertical >value</output></p>' +
+
+				'<div id=menuDetailsAircraft ></div>' +
 
 				'<div id=menuDetailsFlightPath ></div>' +
 
@@ -756,19 +758,10 @@ console.timeEnd( 'timer0' );
 		aircraft.rotation.set( rot.y, rot.z, rot.x );
 		aircraft.position.set( pos.x, pos.y, pos.z );
 
-/*
-//		line = lines[ delta ].split( ',');
+		setMenuFlightStats( delta );
 
-		flightData.innerHTML = 'lat:' + line[ 0 ].slice( 0, -7 ) + ' lon:' + line[ 1 ].slice( 0, -7 ) + ' alt:' + line[ 2 ] + '<br>' +
+//		camera.position.set( pos.x, pos.y, pos.z + 0.05 );
 
-			'hdg:' + line[ 3 ] + ' ias:' + line[ 4 ] + ' roll:' + line[ 5 ].slice( 0, -7 ) + '<br>' +
-
-			'pitch:' + line[ 6 ].slice( 0, -7 ) + ' slip:' + line[ 7 ].slice( 0, -7 ) + '<br>' +
-
-			'vertex:' + delta +
-
-		'';
-*/
 
 	}
 

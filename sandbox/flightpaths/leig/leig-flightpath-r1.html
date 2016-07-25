@@ -26,7 +26,8 @@ based on: Elevations View 3D Core R1
 
 console.time( 'timer0' );
 
-	var defaultFile = 'elevations_Igualada_12_2066_1525_3_3_210_210_.txt';
+//	var defaultFile = 'elevations_Igualada_12_2066_1525_3_3_210_210_.txt';
+	var defaultFile = 'elevations_Igualada_12_2066_1525_3_3_300_300_.txt';
 
 //	var defaultFile = 'http://fgx.github.io/sandbox/flightpaths/vnlk/elevations_Tenzing-Hillary Airport, Lukla, Eastern Region, Nepal_12_3033_1718_3_4_150_200_.txt';
 //	var defaultFile = 'http://fgx.github.io/sandbox/flightpaths/kgcn/elevations_Tusayan_12_770_1605_4_5_120_150_.txt';
@@ -572,6 +573,8 @@ console.log( 'parameters', parameters );
 		scene.add( groundBoxHelper );
 
 		if ( updateCamera === true ) setCamera();
+
+		if ( flightPath.path !== undefined ) drawPath( flightPath );
 
 console.timeEnd( 'timer0' );
 
