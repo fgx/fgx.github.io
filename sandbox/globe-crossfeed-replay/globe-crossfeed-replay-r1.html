@@ -30,10 +30,13 @@ console.time( 'timer 0' );
 
 	var meshes  = [];
 	var callsigns = [];
+	var trails = [];
 
 	var pi = Math.PI, pi05 = pi * 0.5, pi2 = pi + pi;
 	var d2r = pi / 180, r2d = 180 / pi;  // degrees / radians
+	var v = function ( x, y, z ){ return new THREE.Vector3( x, y, z ); };
 
+	var center = v( 0, 0, 0 );
 	var stats, renderer, scene, camera, controls, mesh;
 	var axisHelper, ambientLight, drawSeaLevel;
 
@@ -188,7 +191,7 @@ console.time( 'timer 0' );
 
 			console.log( lines[ 0 ] );
 			console.log( lines[ 1 ] );
-			console.log( lines.length );
+			console.log( 'lines', lines.length );
 
 			animate();
 
@@ -198,32 +201,54 @@ console.time( 'timer 0' );
 
 	function readLine( i ) {
 
-			line = lines[ i ];
-			callsign = line[ 1 ];
+//		var line, callsign, index;
+		geometry, material, mesh;
+		var position;
 
-			index = callsigns.indexOf( callsign );
+		line = lines[ i ];
+		callsign = line[ 1 ];
 
-			if ( index === -1 ) {
+		index = callsigns.indexOf( callsign );
 
-				callsigns.push( callsign );
+		if ( index === -1 ) {
 
-				geometry = new THREE.BoxGeometry( 100, 100, 100 );
-				material = new THREE.MeshNormalMaterial();
-				mesh = new THREE.Mesh( geometry, material );
-				scene.add( mesh );
+			callsigns.push( callsign );
 
-				index = meshes.length;
-				meshes.push( mesh );
+			geometry = new THREE.BoxGeometry( 100, 100, 100 );
+			material = new THREE.MeshNormalMaterial();
+			mesh = new THREE.Mesh( geometry, material );
+			scene.add( mesh );
 
-			}
+			index = meshes.length;
+			meshes.push( mesh );
 
-			mesh = meshes[ index ];
+			mesh.userData.points = [];
+			mesh.trail = new THREE.Object3D();;
 
-			pos = latLonToXYZ( ( radius + 1000 + 0.05 * parseFloat( line[ 4 ] ) ) , parseFloat( line[ 2 ] ) * d2r, parseFloat( line[ 3 ] ) * d2r );
+		}
 
-			mesh.position.copy( pos );
+		mesh = meshes[ index ];
 
-			menuInfo.innerHTML = i + ' ' + line[ 1 ];
+		position = latLonToXYZ( ( radius + 1000 + 0.05 * parseFloat( line[ 4 ] ) ) , parseFloat( line[ 2 ] ) * d2r, parseFloat( line[ 3 ] ) * d2r );
+
+		mesh.position.copy( position );
+
+		mesh.userData.points.push( position );
+
+		scene.remove( mesh.userData.trail );
+
+		if ( center.distanceTo( position ) < 10000 ) {
+
+			geometry = new THREE.Geometry();
+			geometry.vertices = mesh.userData.points.slice( -500 );
+			material = new THREE.LineBasicMaterial( { color: 0xff0000 } );
+			mesh.userData.trail = new THREE.Line( geometry, material );
+
+			scene.add( mesh.userData.trail );
+
+		}
+
+		menuInfo.innerHTML = i + ' ' + line[ 1 ];
 
 	}
 
@@ -248,24 +273,43 @@ console.time( 'timer 0' );
 
 	}
 
+	function removeAll() {
+
+		for ( var i = 0; i < meshes.length; i++ ) {
+
+			scene.remove( meshes[ 0 ].userData.trail, meshes[ 0 ] );
+			meshes[ 0 ].userData.points = [];
+			meshes[ 0 ].userData.trail = [];
+
+		}
+
+	}
+
 	function animate() {
 
 		requestAnimationFrame( animate );
 		controls.update();
 		stats.update();
 
-		count = count > lines.length - 1 ? 1 : count;
-
 		for ( var i = 0; i < 100; i++ ) {
 
-		readLine( count++ );
+			if ( count > lines.length - 2 ) {
+
+				removeAll();
+				count = 1;
+				meshes = [];
+				callsigns = [];
+
+			}
+
+			readLine( count++ );
 
 		}
-
 
 		renderer.render( scene, camera );
 
 	}
+
 
 </script>
 </body>
