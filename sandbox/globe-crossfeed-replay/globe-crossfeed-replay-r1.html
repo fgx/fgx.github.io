@@ -275,11 +275,11 @@ console.time( 'timer 0' );
 
 	function removeAll() {
 
-		for ( var i = 0; i < meshes.length; i++ ) {
+		for ( var i = 0; i < callsigns.length; i++ ) {
 
-			scene.remove( meshes[ 0 ].userData.trail, meshes[ 0 ] );
-			meshes[ 0 ].userData.points = [];
-			meshes[ 0 ].userData.trail = [];
+			scene.remove( meshes[ i ].userData.trail );
+
+			meshes[ i  ].userData.points = [];
 
 		}
 
@@ -297,8 +297,6 @@ console.time( 'timer 0' );
 
 				removeAll();
 				count = 1;
-				meshes = [];
-				callsigns = [];
 
 			}
 
