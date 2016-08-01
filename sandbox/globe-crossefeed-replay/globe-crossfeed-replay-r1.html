@@ -2,7 +2,7 @@
 <html lang=en >
 <head>
 <meta charset=utf-8 >
-<title>FGx Globe Crossfeed Reply R1</title>
+<title>FGx Globe Crossfeed Dailies Replay R1</title>
 <meta name=viewport content='width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no' >
 <meta name=description content='' >
 <meta name=keywords content='WebGL,Three.js,JavaScript,GitHub,FOSS,3D,STEM' >
@@ -24,7 +24,7 @@
 console.time( 'timer 0' );
 
 	var fileName = 'https://fgx.github.io/crossfeed-dailies/flights-2016-07-30.csv';
-	var count = 0;
+	var count = 1;
 	var lines;
 	var radius = 6371;
 
@@ -254,7 +254,7 @@ console.time( 'timer 0' );
 		controls.update();
 		stats.update();
 
-		count = count > lines.length - 1 ? 0 : count;
+		count = count > lines.length - 1 ? 1 : count;
 
 		for ( var i = 0; i < 100; i++ ) {
 
