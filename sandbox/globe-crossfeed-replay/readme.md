@@ -10,7 +10,7 @@ value='You are now in the home page view - Click this button to view the read me
 
 ## Full Screen: [ FGx Globe Crossfeed Dailies Replay ]( http://fgx.github.io/sandbox/globe-crossfeed-replay/ )
 
-<img src="" style=display:none; width=800 >
+<img src="https://cloud.githubusercontent.com/assets/547626/17286812/ae71758c-5780-11e6-91db-f802ea769ab5.png" style=display:none; width=800 >
 
 <iframe src=http://fgx.github.io/sandbox/globe-crossfeed-replay/index.html width=100% height=500px ></iframe>
 
@@ -97,9 +97,10 @@ Intended for general use
 ### 2016-08-02 ~ R4
 
 Back to creating objects foe each callsigns. Means fewer objects to update 60 times per second. ;-)
-Will need to look at monitoring both callsigns and FIDs
-Still too many zomble trails. A
-And there still appear to be some memory and performance issues tat should be cleaned up prior to adding features
+
+Will need to look at monitoring both callsigns and FIDs.
+Still too many zomble trails.
+And there still appear to be some memory and performance issues tat should be cleaned up prior to adding features.
 
 * Linking meshes and trails to callsigns 
 * Add more metrics
