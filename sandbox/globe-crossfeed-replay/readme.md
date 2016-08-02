@@ -86,10 +86,12 @@ Intended for general use
 ### 2016-08-01 ~ R2/R3
 
 * R3 adds
-* Select file memu item, uses GitHub API to obtain list of files
-* Appear
-
- 
+	* Select file memu item, uses GitHub API to obtain list of files
+	* More detailed flights menu
+	* No longer crashes browser (Or maybe just not as quckly ;-)
+	* Objects appear at correct lat/lon
+	* Better object management
+* BUT trails still causing big slowdown /havimg memory issues? and not working as intended
 * R2 was a dud
 
 ### 2016-08-01 ~ R1
