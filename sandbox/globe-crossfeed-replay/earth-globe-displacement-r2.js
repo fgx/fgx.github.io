@@ -23,7 +23,7 @@
 
 	function drawGlobe() {
 
-		if ( !menuContents.innerHTML ) { setGlobeMenu(); }
+		if ( !menuGlobe.innerHTML ) { setGlobeMenu(); }
 
 		outScale.value = inpScale.value;
 
@@ -49,6 +49,7 @@
 		} );
 
 		globe.meshEarth = new THREE.Mesh( geometry, material );
+//		globe.meshEarth.rotation.y = -pi05;
 
 		geometry = new THREE.SphereBufferGeometry( 6371 + 60 * inpScale.valueAsNumber, 50, 25 );
 		material = new THREE.MeshNormalMaterial( { opacity: 0.5, transparent: true } );
@@ -70,11 +71,11 @@ console.timeEnd( 'timer 0' );
 
 	function setGlobeMenu( target ) {
 
-		target = target || menuContents;
+		target = target || menuGlobe;
 
 		target.innerHTML =
 
-			'<details open>' +
+			'<details>' +
 
 				'<summary><h3>globe details</h3></summary>' +
 
