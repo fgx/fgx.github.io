@@ -21,6 +21,11 @@ _FGx Globe Crossfeed Dailies Replay_
 
 ## Concept
 
+3D Globe that reads and displays historical FGx Crossfeed daily data
+
+[FGx Crossfeed dailies]( https://github.com/fgx/crossfeed-dailies )
+
+
 ### Mission
 
 * TBD
@@ -69,6 +74,12 @@ value='Source code listing' >
 
 ## To Do / Wish List
 
+* Add jump to previous day - once current day is finished?
+	* Or jump to random day?
+* Placards
+* Links to unFlatland 3D maps
+* Stars
+* Etc
 
 ## Users
 
@@ -83,11 +94,24 @@ Intended for general use
 
 ## Change Log
 
+### 2016-08-02 ~ R4
+
+Back to creating objects foe each callsigns. Means fewer objects to update 60 times per second. ;-)
+Will need to look at monitoring both callsigns and FIDs
+Still too many zomble trails. A
+And there still appear to be some memory and performance issues tat should be cleaned up prior to adding features
+
+* Linking meshes and trails to callsigns 
+* Add more metrics
+* Simplify mesh creation and trails tacking
+
+
 ### 2016-08-01 ~ R2/R3
 
 * R3 adds
 	* Select file memu item, uses GitHub API to obtain list of files
 	* More detailed flights menu
+	* Flights based on FID not call sign. Thanks Geoff
 	* No longer crashes browser (Or maybe just not as quckly ;-)
 	* Objects appear at correct lat/lon
 	* Better object management
