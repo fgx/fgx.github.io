@@ -83,6 +83,15 @@ Intended for general use
 
 ## Change Log
 
+### 2016-08-01 ~ R2/R3
+
+* R3 adds
+* Select file memu item, uses GitHub API to obtain list of files
+* Appear
+
+ 
+* R2 was a dud
+
 ### 2016-08-01 ~ R1
 
 * First commit
