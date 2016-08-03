@@ -94,6 +94,18 @@ Intended for general use
 
 ## Change Log
 
+### 2016-08-03 ~ R5
+
+
+Still takes way to long to reload or close the page. This has to do with the trails - Three.ls lines.
+
+
+* Generally being less of a memory hog
+* Updates on `tot_secs`
+* Still working on memory issues
+* Still nort deleting zombie flights
+
+
 ### 2016-08-02 ~ R4
 
 Back to creating objects foe each callsigns. Means fewer objects to update 60 times per second. ;-)

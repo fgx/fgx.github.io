@@ -2,7 +2,7 @@
 <html lang=en >
 <head>
 <meta charset=utf-8 >
-<title>FGx Globe Crossfeed Dailies Replay R4</title>
+<title>FGx Globe Crossfeed Dailies Replay R5</title>
 <meta name=viewport content='width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no' >
 <meta name=description content='3D Globe that reads and displays historical FGx Crossfeed daily data.' >
 <meta name=keywords content='FGx,Crossfeed, WebGL,Three.js,JavaScript,GitHub,FOSS,3D,STEM' >
@@ -31,7 +31,10 @@ console.time( 'timer 0' );
 
 //	var fileName = 'flights-2016-07-30.csv';
 
+	var index = 0;
 	var count = 1;
+	var prev = 0;
+
 	var logFID = 0;
 	var logCallsign = 0;
 
@@ -198,6 +201,7 @@ console.time( 'timer 0' );
 
 		getGitHubAPITreeContents( );
 
+/*
 		geometry = new THREE.BoxGeometry( 300, 300, 300 );
 		material = new THREE.MeshNormalMaterial();
 		mesh = new THREE.Mesh( geometry, material );
@@ -207,7 +211,7 @@ console.time( 'timer 0' );
 
 		scene.add( mesh );
 
-/*
+
 		geometry = new THREE.BoxGeometry( 300, 300, 300 );
 		material = new THREE.MeshNormalMaterial();
 		mesh = new THREE.Mesh( geometry, material );
@@ -218,6 +222,7 @@ console.time( 'timer 0' );
 		scene.add( mesh );
 */
 
+
 		trailMaterial = new THREE.LineBasicMaterial( { color: 0xff0000 } );
 
 	}
@@ -225,7 +230,7 @@ console.time( 'timer 0' );
 
 	function setMenuDetailsSelectFile() {
 
-		menuDetailsSelectFile.innerHTML =
+		menuDetailsSelectFile.innerHTML = 
 
 		'<details open >' +
 			'<summary><h3>Select file to view</h3></summary>' +
@@ -258,8 +263,67 @@ console.time( 'timer 0' );
 			console.log( 'lines', lines.length );
 
 			animate();
+			removeAll();
 
 		}
+
+	}
+
+	function readNextLine() {
+
+		if ( index < lines.length ) {
+
+			line = lines[ index ];
+
+			if ( line[ 10 ] !== prev ) {
+
+				count++;
+				prev = line[ 10 ];
+				progressReport( line );
+
+			} else {
+
+				readLine( index++ );
+				readNextLine();
+
+			}
+
+		} else {
+
+console.timeEnd( 'timer 0' );
+
+			removeAll();
+
+		}
+
+	}
+
+	function progressReport( line ) {
+
+		detailsFlights.innerHTML = 
+
+
+			'Index: ' + index + b +
+			'Count: ' + count + b + b +
+
+			'Update: ' + line[ 9 ] + b + 
+			'Callsigns: ' + callsigns.children.length + b +
+			'Trails: ' + trails.children.length + b + b +
+			'FIDs: ' + flights.length.toLocaleString() + b +
+
+			'renderer.info.render' + b +
+			'- calls: ' + renderer.info.render.calls.toLocaleString() + b +
+			'- vertices: ' + renderer.info.render.vertices.toLocaleString() + b +
+			'- faces: ' + renderer.info.render.faces.toLocaleString() + b + b +
+
+			'Per time slot:' + b +
+			'logFID: ' + logFID.toLocaleString() + b +
+//			'logCallsign: ' + logCallsign.toLocaleString() + b +
+
+		b;
+
+		logFID = 0;
+//		logCallsign = 0;
 
 	}
 
@@ -270,6 +334,7 @@ console.time( 'timer 0' );
 		var position;
 
 		line = lines[ i ];
+
 		fid = line[ 0 ];
 		callsign = line[ 1 ];
 
@@ -287,7 +352,6 @@ console.time( 'timer 0' );
 			mesh.userData.points = [];
 
 			trail = new THREE.Object3D();
-
 			trails.add( trail );
 
 			mesh.userData.trailID = trail.id;
@@ -300,15 +364,15 @@ console.time( 'timer 0' );
 
 		position = convertPosition( parseFloat( line[ 2 ] ), parseFloat( line[ 3 ] ), radius + 1000 + 0.05 * parseFloat( line[ 4 ] ) );
 
-		if ( mesh.position.distanceTo( position ) > 0.0000001 && center.distanceTo( position ) < 10000 ) {
+		if ( mesh.position.distanceTo( position ) > 5 && center.distanceTo( position ) < 10000 ) {
 
 			mesh.position.copy( position );
 
 			mesh.userData.points.push( position )
 
-			mesh.userData.points = mesh.userData.points.slice( -200 );
+			mesh.userData.points = mesh.userData.points.slice( -100 );
 
-			tail = trails.getObjectById( mesh.userData.trailID );
+			trail = trails.getObjectById( mesh.userData.trailID );
 
 			trails.remove( trail );
 
@@ -326,33 +390,6 @@ console.time( 'timer 0' );
 
 	}
 
-	function convertPosition( lat, lon, radius ) {
-
-		var rc = radius * Math.cos( lat * d2r );
-		return v( rc * Math.cos( - lon * d2r ), radius * Math.sin( lat * d2r ), rc * Math.sin( - lon * d2r) );
-
-	}
-
-	function latLonToXYZ( radius, latitude, longitude ) {
-
-		x = radius * Math.sin( latitude ) * Math.cos( longitude )
-		y = radius * Math.sin( latitude ) * Math.sin( longitude )
-		z = radius * Math.cos( latitude )
-
-		return new THREE.Vector3( x, y, z );
-
-	}
-
-	function onWindowResize() {
-
-		camera.aspect = window.innerWidth / window.innerHeight;
-		camera.updateProjectionMatrix();
-
-		renderer.setSize( window.innerWidth, window.innerHeight );
-
-		stats.domElement.style.display = window.innerWidth < 500 ? 'none' : '';
-
-	}
 
 	function removeAll() {
 
@@ -360,15 +397,20 @@ console.time( 'timer 0' );
 
 		callsigns = new THREE.Object3D();
 		trails = new THREE.Object3D();
-//		flights = [];
+		flights = [];
 
 		scene.add( callsigns, trails );
+		count = 0;
+		index = 0;
+
+console.log( 'finished'  );
+console.time( 'timer 0' );
 
 	}
 
 // GitHub API
 
-	function getGitHubAPITreeContents( callback ) {
+	function getGitHubAPITreeContents() {
 
 		var xhr, response, files, file;
 
@@ -398,12 +440,39 @@ console.time( 'timer 0' );
 
 			getCrossfeedData( selFiles.value );
 
-//			callback();
-
 		}
 
 	}
 
+	function convertPosition( lat, lon, radius ) {
+
+		var rc = radius * Math.cos( lat * d2r );
+		return v( rc * Math.cos( - lon * d2r ), radius * Math.sin( lat * d2r ), rc * Math.sin( - lon * d2r) );
+
+	}
+
+
+	function latLonToXYZ( radius, latitude, longitude ) {
+
+		x = radius * Math.sin( latitude ) * Math.cos( longitude )
+		y = radius * Math.sin( latitude ) * Math.sin( longitude )
+		z = radius * Math.cos( latitude )
+
+		return new THREE.Vector3( x, y, z );
+
+	}
+
+
+	function onWindowResize() {
+
+		camera.aspect = window.innerWidth / window.innerHeight;
+		camera.updateProjectionMatrix();
+
+		renderer.setSize( window.innerWidth, window.innerHeight );
+
+		stats.domElement.style.display = window.innerWidth < 500 ? 'none' : '';
+
+	}
 
 	function animate() {
 
@@ -411,44 +480,7 @@ console.time( 'timer 0' );
 		controls.update();
 		stats.update();
 
-		for ( var i = 0; i < 100; i++ ) {
-
-			if ( count > lines.length - 2 ) {
-
-				removeAll();
-				count = 1;
-
-			}
-
-			readLine( count++ );
-
-		}
-
-		if ( count % 101 === 0 ) {
-
-			detailsFlights.innerHTML =
-
-				count + ' ' + line[ 9 ] + b +
-				'Callsigns: ' + callsigns.children.length + b +
-				'Trails: ' + trails.children.length + b +
-				'Scene.children: ' + scene.children.length + b +
-				'renderer.info.render' + b +
-				'- calls: ' + renderer.info.render.calls.toLocaleString() + b +
-				'- vertices: ' + renderer.info.render.vertices.toLocaleString() + b +
-				'- faces: ' + renderer.info.render.faces.toLocaleString() + b + b +
-
-				'Per time slot:' + b +
-				'logFID: ' + logFID.toLocaleString() + b +
-				'FIDs: ' + flights.length.toLocaleString() + b +
-				'logCallsign: ' + logCallsign.toLocaleString() + b +
-
-			b;
-
-			logFID = 0;
-			logCallsign = 0;
-
-		}
-
+		readNextLine();
 
 		renderer.render( scene, camera );
 
