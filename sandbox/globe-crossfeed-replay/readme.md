@@ -103,7 +103,7 @@ Still takes way to long to reload or close the page. This has to do with the tra
 * Generally being less of a memory hog
 * Updates on `tot_secs`
 * Still working on memory issues
-* Still nort deleting zombie flights
+* Still not deleting zombie flights
 
 
 ### 2016-08-02 ~ R4
