@@ -51,8 +51,8 @@ The code herin is:
 	* You need to multiply, say, a 1000x1000 matrix by 0x456789
 	* jQuery, React, Go whatever are of no use at all here - and mostly just get in the way
 * Communucate to the 2D world using iframes
-	* Just aboutt every script here has neen tested in an iframe
-	* Scripts in iframes are heppy having ongoing dialogs with their parents
+	* Just aboutt every script here has been tested in an iframe
+	* 3Dcripts in iframes are happy having ongoing dialogs with their 2D parents
 
 
 ## Links of interest
