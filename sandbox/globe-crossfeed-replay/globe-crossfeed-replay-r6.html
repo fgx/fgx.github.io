@@ -1,0 +1,497 @@
+<!doctype html>
+<html lang=en >
+<head>
+<meta charset=utf-8 >
+<title>FGx Globe Crossfeed Dailies Replay R6</title>
+<meta name=viewport content='width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no' >
+<meta name=description content='3D Globe that reads and displays historical FGx Crossfeed daily data.' >
+<meta name=keywords content='FGx,Crossfeed, WebGL,Three.js,JavaScript,GitHub,FOSS,3D,STEM' >
+<meta name=date content='2016-08-02' >
+</head>
+<body>
+<!--
+<script src=https://mrdoob.github.io/three.js/build/three.min.js ></script>
+<script src=https://mrdoob.github.io/three.js/examples/js/controls/OrbitControls.js ></script>
+<script src=https://mrdoob.github.io/three.js/examples/js/libs/stats.min.js ></script>
+-->
+<script src=https://rawgit.com/mrdoob/three.js/dev/build/three.min.js ></script>
+<script src=https://rawgit.com/mrdoob/three.js/dev/examples/js/controls/OrbitControls.js ></script>
+<script src=https://rawgit.com/mrdoob/three.js/dev/examples/js/libs/stats.min.js ></script>
+<script src=earth-globe-displacement-r2.js ></script>
+
+<script>
+
+console.time( 'timer 0' );
+
+	var urlAPITreeContents = 'https://api.github.com/repos/fgx/crossfeed-dailies/git/trees/gh-pages?recursive=1';
+
+	var baseURL = 'https://fgx.github.io/crossfeed-dailies/';
+
+	var searchInFolder = './';
+
+//	var fileName = 'flights-2016-07-30.csv';
+
+	var index = 0;
+	var count = 1;
+	var prev = 0;
+
+	var logFID = 0;
+	var logCallsign = 0;
+
+	var lines;
+	var callsigns;
+	var flights = [];
+	var trails;
+
+	var radius = 6371;
+
+	var pi = Math.PI, pi05 = pi * 0.5, pi2 = pi + pi;
+	var d2r = pi / 180, r2d = 180 / pi;  // degrees / radians
+	var v = function ( x, y, z ){ return new THREE.Vector3( x, y, z ); };
+	var center = v( 0, 0, 0 );
+
+	var b = '<br>';
+
+	var trailMaterial;
+	var stats, renderer, scene, camera, controls, mesh;
+	var axisHelper, ambientLight, drawSeaLevel;
+
+	init();
+
+	function init() {
+
+		var css, hamburger, menu;
+		var geometry, material;
+		var gridHelper, axisHelper;
+
+		var txt = '<p>lorem ipsum, quia dolor sit, amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt, ut labore et dolore magnam aliquam quaerat voluptatem. ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? quis autem vel eum iure reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem eum fugiat, quo voluptas nulla pariatur?</p>';
+
+		css = document.head.appendChild( document.createElement( 'style' ) );
+		css.innerHTML =
+
+			'body { font: 12pt monospace; margin: 0; overflow: hidden; }' +
+			'a { color: crimson; text-decoration: none; }' +
+
+			'button, input[type=button] { background-color: #ccc; border: 2px #fff solid; color: #322; }' +
+
+			'input[type=range] { -webkit-appearance: none; -moz-appearance: none; background-color: #ddd; width: 160px; }' +
+			'input[type=range]::-moz-range-thumb { background-color: #888; border-radius: 0; width: 10px; }' +
+			'input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; background-color: #888; height: 20px; width: 10px; }' +
+
+			'summary { outline: none; }' +
+			'summary h3 { display:inline; }' +
+
+			'.popUp { background-color: white; left: 150px; border: 1px solid red; opacity: 1.0; padding: 5px; position: absolute; width: 120px; z-index: 10; }' +
+
+			'#bars { color: crimson; cursor: pointer; font-size: 24pt; text-decoration: none; }' +
+
+			'#container { left: 0; position: absolute; transition: left 1s; }' +
+
+			'#hamburger { background-color: #eee; left: 325px; position: absolute; top: 20px; }' +
+
+			'#menu { background-color: #eee; border: 1px #ccc solid; max-height: ' + window.innerHeight + 'px; overflow: auto; padding: 0 10px; position: absolute; width: 300px; }' +
+			'#menu h2 { margin: 0; }' +
+
+		'';
+
+		container = document.body.appendChild( document.createElement( 'div' ) );
+		container.id = 'container';
+		container.innerHTML =
+
+			'<div id=menu >' +
+
+				'<h2>' +
+					'<a href=http://jaanga.github.io title="Jaanga - your 3D happy place" > &#x2766 </a><br>' +
+					'<a href="" title="Click here to refresh this page" >' + document.title + '</a>' +
+					' ~ <a href=index.html#readme.md onmouseover=popHelp.style.display=""; onmouseout=popHelp.style.display="none"; > &#x24D8; </a>' +
+				'</h2>' +
+
+				'<div class=popUp id=popHelp style=display:none; ><p>Hi there!</p>Click the i-in-circle, info icon for latest updates.</div>' +
+
+				'<p>A very basic 3D globe with a displacement map material.</p>' +
+
+//				'<p><input type=checkbox id=onchange=controls.autoRotate=this.checked; checked > Auto-rotation</p>' +
+
+				'<div id=menuDetailsSelectFile ></div>' +
+
+				'<div id=menuGlobe ></div>' +
+
+				'<div id=menuFlights >' +
+					'<details open >' +
+						'<summary><h3>flights</h3></summary>' +
+						'<div id=detailsFlights ></div>' +
+
+					'</details>' + b +
+				'</div>' +
+
+				'<details>' +
+					'<summary><h3>about</h3></summary>' +
+					'<p>Copyright &copy; 2016 Jaanga authors. <a href=http://jaanga.github.io/home/r4/index.html#http://jaanga.github.io/jaanga-copyright-and-mit-license.md >MIT license</a>.</p>' +
+					'<p>Click the \'i in a circle\' icon for more <a href=index.html#readme.md title="Click here for help and information" >help</a>.</p>' +
+					'<p></p>' +
+				'</details>' +
+
+				'<hr>' +
+
+				'<center><a href=javascript:menu.scrollTop=0; style=text-decoration:none; onmouseover=pop2.style.display=""; onmouseout=pop2.style.display="none"; ><h1> &#x2766 <h1></a></center>' +
+				'<div class=popUp id=pop2 style=display:none;bottom:10px; >Jaanga - your 3D happy place.<br>Click here to return to the top of the page</div>' +
+
+//				'<center title="dingbat" ><h1><a href=javascript:window.scrollTo(0,0); style=text-decoration:none; > &#x2766 </a></h1></center>' +
+
+			'</div>' +
+
+			'<div id=hamburger onclick=container.style.left=container.style.left===""?"-325px":""; >' +
+				'<div id=bars title="Click this hamburger to slide the menu" > &#9776 </div>' +
+			'</div>' +
+
+		'';
+
+		if ( window.self !== window.top ) {
+
+			container.style.left = '-325px';
+
+		}
+
+		stats = new Stats();
+		stats.domElement.style.cssText = 'position: absolute; right: 0; top: 0;' ;
+		document.body.appendChild( stats.domElement );
+		stats.domElement.style.display = window.innerWidth < 500 ? 'none' : '';
+
+		window.addEventListener( 'resize', onWindowResize, false );
+		window.addEventListener( 'click', function() { controls.autoRotate = false; }, false );
+
+		renderer = new THREE.WebGLRenderer( {  alpha: 1, antialias: true }  );
+//		renderer.setClearColor( 0xf0f0f0 );
+//		renderer.setPixelRatio( window.devicePixelRatio );
+		renderer.setSize( window.innerWidth, window.innerHeight );
+		document.body.appendChild( renderer.domElement );
+
+		camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 40000 );
+		camera.position.set( 12000, 12000, 12000 );
+
+		controls = new THREE.OrbitControls( camera, renderer.domElement );
+		controls.maxDistance = 30000;
+		controls.autoRotate = true;
+
+		scene = new THREE.Scene();
+
+// helpers
+
+		axisHelper = new THREE.AxisHelper( 10000 );
+		scene.add( axisHelper );
+
+// assets
+
+		ambientLight = new THREE.AmbientLight( 0xffffff );
+		scene.add( ambientLight );
+
+		directionalLight = new THREE.DirectionalLight( 0x888888, 1 );
+		directionalLight.position.set( 1, 1, 1.6 ); // points to US
+		scene.add( directionalLight );
+
+		callsigns = new THREE.Object3D();
+		trails = new THREE.Object3D();
+		flights = [];
+
+		scene.add( callsigns, trails );
+
+		drawGlobe();
+
+		setMenuDetailsSelectFile();
+
+		getGitHubAPITreeContents( );
+
+/*
+		geometry = new THREE.BoxGeometry( 300, 300, 300 );
+		material = new THREE.MeshNormalMaterial();
+		mesh = new THREE.Mesh( geometry, material );
+
+		position = convertPosition(  0, 0, radius + 1500 );
+		mesh.position.copy( position );
+
+		scene.add( mesh );
+
+
+		geometry = new THREE.BoxGeometry( 300, 300, 300 );
+		material = new THREE.MeshNormalMaterial();
+		mesh = new THREE.Mesh( geometry, material );
+
+		position = convertPosition( 37, -122, radius + 1500 );
+		mesh.position.copy( position );
+
+		scene.add( mesh );
+*/
+
+
+		trailMaterial = new THREE.LineBasicMaterial( { color: 0xff0000 } );
+
+	}
+
+
+	function setMenuDetailsSelectFile() {
+
+		menuDetailsSelectFile.innerHTML = 
+
+		'<details open >' +
+			'<summary><h3>Select file to view</h3></summary>' +
+			'<small>Select or open a file to view in 3D</small>' +
+			'<p>' +
+				'<select id=selFiles onchange=file=this.value;getCrossfeedData(file); size=12 style=width:100%;  ></select>' +
+			'</p>' +
+			'<p><input type=file id=inpFile onchange=getElevationsFileReader(this); /></p>' +
+
+		'</details>' + b;
+
+	}
+
+	function getCrossfeedData( fName) {
+
+		var text;
+
+		xhr = new XMLHttpRequest();
+		xhr.open( 'GET', baseURL + fName, true );
+		xhr.onload = callback;
+		xhr.send( null );
+
+		function callback() {
+
+			text = xhr.responseText;
+			lines = text.split( '\n' ).map( function( line ) { return line.split( ',' ); } );
+
+			console.log( lines[ 0 ] );
+			console.log( lines[ 1 ] );
+			console.log( 'lines', lines.length );
+
+			animate();
+			removeAll();
+
+		}
+
+	}
+
+	function readNextLine() {
+
+		if ( index < lines.length ) {
+
+			line = lines[ index ];
+
+			if ( line[ 10 ] !== prev ) {
+
+				count++;
+				prev = line[ 10 ];
+				progressReport( line );
+
+			} else {
+
+				readLine( index++ );
+				readNextLine();
+
+			}
+
+		} else {
+
+console.timeEnd( 'timer 0' );
+
+			removeAll();
+
+		}
+
+	}
+
+	function progressReport( line ) {
+
+		detailsFlights.innerHTML = 
+
+
+			'Index: ' + index + b +
+			'Count: ' + count + b + b +
+
+			'Update: ' + line[ 9 ] + b + 
+			'Callsigns: ' + callsigns.children.length + b +
+			'Trails: ' + trails.children.length + b + b +
+			'FIDs: ' + flights.length.toLocaleString() + b +
+
+			'renderer.info.render' + b +
+			'- calls: ' + renderer.info.render.calls.toLocaleString() + b +
+			'- vertices: ' + renderer.info.render.vertices.toLocaleString() + b +
+			'- faces: ' + renderer.info.render.faces.toLocaleString() + b + b +
+
+			'Per time slot:' + b +
+			'logFID: ' + logFID.toLocaleString() + b +
+//			'logCallsign: ' + logCallsign.toLocaleString() + b +
+
+		b;
+
+		logFID = 0;
+//		logCallsign = 0;
+
+	}
+
+	function readLine( i ) {
+
+		var line, fid, callsign, index;
+//		var geometry, material, mesh;
+		var position;
+
+		line = lines[ i ];
+
+		fid = line[ 0 ];
+		callsign = line[ 1 ];
+
+		mesh = callsigns.getObjectByName( callsign );
+
+		if ( mesh === undefined ) {
+
+			geometry = new THREE.BoxGeometry( 100, 100, 100 );
+			material = new THREE.MeshNormalMaterial();
+			mesh = new THREE.Mesh( geometry, material );
+			mesh.name = callsign;
+
+			callsigns.add( mesh );
+
+			mesh.userData.points = [];
+
+			mesh.userData.points.push( center )
+			trail = new THREE.Object3D();
+			trails.add( trail );
+
+			mesh.userData.trailID = trail.id;
+
+			logCallsign++;
+
+		}
+
+		if ( flights.indexOf( fid ) === -1 ) { flights.push( fid ); }
+
+		position = convertPosition( parseFloat( line[ 2 ] ), parseFloat( line[ 3 ] ), radius + 1000 + 0.05 * parseFloat( line[ 4 ] ) );
+
+//		previousPosition = mesh.userData.points[ mesh.userData.points.length - 1 ];
+
+		previousPosition = mesh.userData.points.slice( -1 )[ 0 ];
+
+		if ( position.distanceTo( previousPosition ) > 30 && center.distanceTo( position ) < 10000 ) {
+
+			mesh.userData.points.push( position )
+
+			mesh.userData.points = mesh.userData.points.slice( -100 );
+
+			trail = trails.getObjectById( mesh.userData.trailID );
+
+			trails.remove( trail );
+
+			geometry = new THREE.Geometry();
+			geometry.vertices = mesh.userData.points;
+			trail = new THREE.Line( geometry, trailMaterial );
+
+			trails.add( trail );
+
+			mesh.userData.trailID = trail.id;
+
+			logFID++;
+
+		}
+
+		mesh.position.copy( position );
+
+	}
+
+
+	function removeAll() {
+
+		scene.remove( callsigns, trails );
+
+		callsigns = new THREE.Object3D();
+		trails = new THREE.Object3D();
+		flights = [];
+
+		scene.add( callsigns, trails );
+		count = 0;
+		index = 0;
+
+console.log( 'finished'  );
+console.time( 'timer 0' );
+
+	}
+
+// GitHub API
+
+	function getGitHubAPITreeContents() {
+
+		var xhr, response, files, file;
+
+		xhr = new XMLHttpRequest();
+		xhr.open( 'GET', urlAPITreeContents, true );
+		xhr.onload = onLoadGitHubTreeContents;
+		xhr.send( null );
+
+		function onLoadGitHubTreeContents() {
+
+			response = JSON.parse( xhr.response );
+			files = [];
+
+			for ( var i = 0; i < response.tree.length; i++ ) {
+
+				file = response.tree[ i ].path;
+
+				if ( file.slice( -4 ) !== '.csv' ) { continue; }
+
+				files.push( file );
+
+				selFiles[ selFiles.length ] = new Option( file, file );
+
+			}
+
+			selFiles.selectedIndex = selFiles.length - 1;
+
+			getCrossfeedData( selFiles.value );
+
+		}
+
+	}
+
+	function convertPosition( lat, lon, radius ) {
+
+		var rc = radius * Math.cos( lat * d2r );
+		return v( rc * Math.cos( - lon * d2r ), radius * Math.sin( lat * d2r ), rc * Math.sin( - lon * d2r) );
+
+	}
+
+
+	function latLonToXYZ( radius, latitude, longitude ) {
+
+		x = radius * Math.sin( latitude ) * Math.cos( longitude )
+		y = radius * Math.sin( latitude ) * Math.sin( longitude )
+		z = radius * Math.cos( latitude )
+
+		return new THREE.Vector3( x, y, z );
+
+	}
+
+
+	function onWindowResize() {
+
+		camera.aspect = window.innerWidth / window.innerHeight;
+		camera.updateProjectionMatrix();
+
+		renderer.setSize( window.innerWidth, window.innerHeight );
+
+		stats.domElement.style.display = window.innerWidth < 500 ? 'none' : '';
+
+	}
+
+	function animate() {
+
+		requestAnimationFrame( animate );
+		controls.update();
+		stats.update();
+
+		readNextLine();
+
+		renderer.render( scene, camera );
+
+	}
+
+
+</script>
+</body>
+</html>
