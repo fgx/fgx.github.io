@@ -57,13 +57,13 @@ _FGx Globe Crossfeed Dailies Replay_
 ## Things you can do by editing the code
 
 <iframe sandbox='allow-scripts' src='https://jaanga.github.io/cookbook-html/examples/libraries/ace-editor/ace-view-r1.html#
-	http://fgx.github.io/sandbox/globe-crossfeed-replay/globe-crossfeed-replay-r1.html' width=100% height=600 ></iframe>
+	http://fgx.github.io/sandbox/globe-crossfeed-replay/globe-crossfeed-replay-r6.html' width=100% height=600 ></iframe>
 
-<input type=button onclick=window.location.href='https://github.com/fgx/fgx.github.io/tree/master/sandbox/globe-crossfeed-replay/globe-crossfeed-replay-r1.html';
+<input type=button onclick=window.location.href='https://github.com/fgx/fgx.github.io/tree/master/sandbox/globe-crossfeed-replay/globe-crossfeed-replay-r6.html';
 value='Source code listing' >
 
 
-* Open this file: https://github.com/fgx/fgx.github.io/blob/master/globe-crossfeed-replay/globe-crossfeed-replay-r1.html
+* Open this file: https://github.com/fgx/fgx.github.io/blob/master/globe-crossfeed-replay/globe-crossfeed-replay-r6.html
 * Click the 'Raw' icon and save the raw file to your computer
 * Once you've downloaded the file, you can click it to run it.
 * Open the file with a text editor
@@ -93,6 +93,15 @@ Intended for general use
 
 
 ## Change Log
+
+### 2016-08-05 ~ R6
+
+
+* No more zombies just about
+* Needs to indicate where callsigns are warp seppeding instead of flying
+* Needs to indicate which callsugns are not currently flying
+ 
+
 
 ### 2016-08-03 ~ R5
 

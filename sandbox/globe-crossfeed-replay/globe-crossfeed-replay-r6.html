@@ -365,8 +365,6 @@ console.timeEnd( 'timer 0' );
 
 		position = convertPosition( parseFloat( line[ 2 ] ), parseFloat( line[ 3 ] ), radius + 1000 + 0.05 * parseFloat( line[ 4 ] ) );
 
-//		previousPosition = mesh.userData.points[ mesh.userData.points.length - 1 ];
-
 		previousPosition = mesh.userData.points.slice( -1 )[ 0 ];
 
 		if ( position.distanceTo( previousPosition ) > 30 && center.distanceTo( position ) < 10000 ) {
