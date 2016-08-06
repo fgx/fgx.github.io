@@ -52,8 +52,11 @@ console.log( 'folder', folders );
 			'a { text-decoration: none; }' +
 			'button, input[type=button] { background-color: #eee; border: 2px #eee solid; color: #888; }' +
 
-			'#menu { box-sizing: border-box; background-color: #ccc; max-width: 300px; padding: 0 10px; position: absolute; }' +
-			'#contents { border: 0px red solid; left: 350px; overflow: auto; position: absolute; top: 0; width: ' + ( window.innerWidth - 370 ) + 'px; }' +
+//			'#menu { box-sizing: border-box; background-color: #ccc; max-width: 300px; padding: 0 10px; position: absolute; }' +
+//			'#contents { border: 0px red solid; left: 350px; overflow: auto; position: absolute; top: 0; width: ' + ( window.innerWidth - 370 ) + 'px; }' +
+
+			'#menu { box-sizing: border-box; background-color: #ccc; height: 100%; padding: 0 0 0 10px; overflow: auto; position: absolute; width: 300px; }' +
+			'#contents { border: 0px red solid; left: 350px; position: absolute; top: 0; max-width: 800px; }' +
 
 		'';
 
