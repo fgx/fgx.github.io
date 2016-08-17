@@ -76,7 +76,7 @@ value='Source code listing' >
 
 * Add jump to previous day - once current day is finished?
 	* Or jump to random day?
-* Placards
+
 * Links to unFlatland 3D maps
 * Stars
 * Etc
@@ -93,6 +93,12 @@ Intended for general use
 
 
 ## Change Log
+
+### 2016-08-16 ~ R7
+
+* Replay and rotate check boxes
+* Placards
+
 
 ### 2016-08-05 ~ R6
 
