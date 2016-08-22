@@ -1,20 +1,20 @@
 <span style=display:none; >[You are now in a GitHub source code view - click this link to view the home page]
-( http://fgx.github.io/sandbox/globe-crossfeed-replay/#readme.md "View file as a web page." )</span>
-<input type=button onclick=window.location.href='https://github.com/fgx/fgx.github.io/tree/master/sandbox/globe-crossfeed-replay/'; 
+( http://fgx.github.io/sandbox/globe-replay-crossfeed-ffs/#readme.md "View file as a web page." )</span>
+<input type=button onclick=window.location.href='https://github.com/fgx/fgx.github.io/tree/master/sandbox/globe-replay-crossfeed-ffs/'; 
 value='You are now in the home page view - Click this button to view the read me file and the source code' >
 
 [FGx]( https://fgx.github.io ) &raquo; [Sandbox]( http://fgx.github.io/sandbox/  ) &raquo;
 
-[FGx Globe Crossfeed Dailies Replay Read Me]( http://fgx.github.io/sandbox/globe-crossfeed-replay/index.html#readme.md )
+[FGx Globe Crossfeed Dailies Replay FFS Read Me]( http://fgx.github.io/sandbox/globe-replay-crossfeed-ffs/index.html#readme.md )
 ===
 
-## Full Screen: [ FGx Globe Crossfeed Dailies Replay ]( http://fgx.github.io/sandbox/globe-crossfeed-replay/ )
+## Full Screen: [ FGx Globe Crossfeed Dailies Replay FFS]( http://fgx.github.io/sandbox/globe-replay-crossfeed-ffs/ )
 
 <img src="https://cloud.githubusercontent.com/assets/547626/17286812/ae71758c-5780-11e6-91db-f802ea769ab5.png" style=display:none; width=800 >
 
-<iframe src=http://fgx.github.io/sandbox/globe-crossfeed-replay/index.html width=100% height=500px ></iframe>
+<iframe src=http://fgx.github.io/sandbox/globe-replay-crossfeed-ffs/index.html width=100% height=500px ></iframe>
 
-_FGx Globe Crossfeed Dailies Replay_
+_FGx Globe Crossfeed Dailies Replay FFS_
 
 
 ## Features
