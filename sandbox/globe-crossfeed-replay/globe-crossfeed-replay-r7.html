@@ -278,10 +278,10 @@ console.time( 'timer 0' );
 
 			line = lines[ index ];
 
-			if ( line[ 10 ] !== prev ) { // tot_secs change
+			if ( line[ 9 ] !== prev ) { // tot_secs change
 
 				count++;
-				prev = line[ 10 ];
+				prev = line[ 9 ];
 				progressReport( line );
 
 			} else {
@@ -332,7 +332,7 @@ console.timeEnd( 'timer 0' );
 	function readLine( i ) {
 
 		var line, fid, callsign, index;
-//		var geometry, material, mesh;
+		var geometry, material, mesh;
 		var position;
 
 		line = lines[ i ];
@@ -398,7 +398,8 @@ console.timeEnd( 'timer 0' );
 		}
 
 		mesh.position.copy( position );
-			mesh.lookAt( v( 0, 0, 0 ) );
+		mesh.lookAt( v( 0, 0, 0 ) );
+
 	}
 
 
@@ -572,7 +573,6 @@ console.time( 'timer 0' );
 		renderer.render( scene, camera );
 
 	}
-
 
 </script>
 </body>
