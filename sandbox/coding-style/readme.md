@@ -1,6 +1,6 @@
 <span style=display:none; >[You are now in a GitHub source code view - click this link to view the home page]
 ( http://fgx.github.io/sandbox/coding-style/#readme.md "View file as a web page." )</span>
-<input type=button onclick=window.location.href='https://github.com/fgx/fgx.github.io/tree/master/sandbox/coding-style/'; 
+<input type=button onclick=window.location.href='https://github.com/fgx/fgx.github.io/tree/master/sandbox/coding-style/';
 value='You are now in the home page view - Click this button to view the read me file and the source code' >
 
 [FGx]( https://fgx.github.io ) &raquo; [Sandbox]( http://fgx.github.io/sandbox/  ) &raquo;
@@ -16,11 +16,11 @@ For some background see also: https://github.com/fgx/fgx.github.io/issues/37#iss
 
 Otherwise known as 'Cut and Paste' coding
 
-The code herin is:
+The code herein is:
 
 * Made up of individual HTML files
 	* Each file contains all the styling and JavaScript it requires
-* Minimal external dependecies
+* Minimal external dependencies
 	* Only Three.js and ShowDown
 	* Can copy and paste code into a file on your computer, hit `enter` and it runs
 * Designed for students and non-programmers
@@ -47,12 +47,12 @@ The code herin is:
 ## 3D is not 2D
 
 * 3D is its own special world
-	* You get, say, 18 milleseconds about 60 times a second
+	* You get, say, 18 milliseconds about 60 times a second
 	* You need to multiply, say, a 1000x1000 matrix by 0x456789
 	* jQuery, React, Go whatever are of no use at all here - and mostly just get in the way
-* Communucate to the 2D world using iframes
+* Communicate to the 2D world using iframes
 	* Just aboutt every script here has been tested in an iframe
-	* 3Dcripts in iframes are happy having ongoing dialogs with their 2D parents
+	* 3D Scripts in iframes are happy having ongoing dialogs with their 2D parents
 
 
 ## Links of interest

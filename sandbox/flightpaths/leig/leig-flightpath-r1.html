@@ -17,9 +17,9 @@ based on: Elevations View 3D Core R1
 <script src=https://mrdoob.github.io/three.js/examples/js/controls/OrbitControls.js ></script>
 <script src=https://mrdoob.github.io/three.js/examples/js/libs/stats.min.js ></script>
 -->
-<script src=https://rawgit.com/mrdoob/three.js/dev/build/three.min.js ></script>
-<script src=https://rawgit.com/mrdoob/three.js/dev/examples/js/controls/OrbitControls.js ></script>
-<script src=https://rawgit.com/mrdoob/three.js/dev/examples/js/libs/stats.min.js ></script>
+<script src=https://rawgit.com/mrdoob/three.js/r85/build/three.min.js ></script>
+<script src=https://rawgit.com/mrdoob/three.js/r85/examples/js/controls/OrbitControls.js ></script>
+<script src=https://rawgit.com/mrdoob/three.js/r85/examples/js/libs/stats.min.js ></script>
 <script src=flight-path-r2.js ></script>
 <script src=aircraft-r1.js ></script>
 <script>
@@ -496,13 +496,13 @@ console.log( 'parameters', parameters );
 		var baseURL, count;
 		var texture;
 
-		if ( selMap.selectedIndex > 8 ) { 
+		if ( selMap.selectedIndex > 8 ) {
 
 			groundMaterial = new THREE.MeshNormalMaterial( { side: 2 } );
 
 			drawGround( updateCamera );
 
-			return; 
+			return;
 
 		}
 
